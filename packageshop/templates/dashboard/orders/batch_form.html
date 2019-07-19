@@ -1,0 +1,38 @@
+{% extends 'dashboard/layout.html' %}
+{% load url from future %}
+{% load i18n %}
+
+{% block title %}
+    {{ title }} | {% trans "Update batch" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            <span class="divider">/</span>
+        </li>
+        <li>
+            <a href="{% url 'dashboard:batch-list' %}">{% trans "Batch management" %}</a>
+            <span class="divider">/</span>
+        </li>
+        <li class="active">{{ title }}</li>
+    </ul>
+{% endblock %}
+
+{% block headertext %}{{ title }}{% endblock %}
+
+{% block dashboard_content %}
+    <div class="table-header">
+        <h2>{{ title }}</h2>
+    </div>
+    <div class="well">
+        <form method="post">
+            {% csrf_token %}
+            {% include 'partials/form_fields_dashboard.html' %}
+            <div class="form-actions">
+                <input class="btn btn-lg btn-primary" type="submit" value="{% trans "Save" %}">
+            </div>
+        </form>
+    </div>
+{% endblock dashboard_content %}

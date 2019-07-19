@@ -1,0 +1,77 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load url from future %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+					<ol class="breadcrumb">
+						<li><a href="{% url 'promotions:home' %}"><i class="fa fa-home"></i>{% trans "Home" %}</a></li>
+						<li><a href="{% url 'customer:profile-view' %}">{% trans "Control Panel" %}</a></li>
+						<li class="active">{{ page_title }}</li>
+					</ol>
+                    <h3 class="heading">{{ page_title }}</h3>
+                </div>
+				<div class="col-md-6">
+					<p>
+						{% blocktrans %}
+							We work hard to streamline your forwarding experience so you could concentrate on
+                            the most important thing which is online shopping in the US.
+						{% endblocktrans %}
+					</p>
+					<p>
+						{% blocktrans %}
+							This is the reason why we don't require any authentication documents upon registration.
+                            However, some orders do require such documents and only then we ask for it.
+                            We've designed an easy process to enable us to verify your identity. Just upload 2 different
+                            documents and we will handle the rest.
+                            It usually takes us 1-2 business days to review your documents and to verify your account.
+						{% endblocktrans %}
+					</p>
+					<p>
+						{% blocktrans %}
+							To make this process go faster make sure you provide high quality scans.
+                            Please note that you won't be able to release any package for delivery until your account is
+                            verified.
+						{% endblocktrans %}
+					</p>
+				</div>
+			</div>
+			<div class="row upload-top">
+                <div class="col-md-6">
+					<div id="progress" class="progress">
+                        <div class="bar progress-bar progress-bar-success"></div>
+                    </div>
+					<div id="files"></div>
+                    <form enctype="multipart/form-data" action="." method="post">
+                        {% include "customer/account/account_verify_form.html" %}
+                    </form>
+                </div>
+			</div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block extrascripts %}
+    {{ block.super }}
+	<script src="{% static "usendhome/assets/jQuery-File-Upload-9.8.1/js/vendor/jquery.ui.widget.js" %}" type="text/javascript" charset="utf-8"></script>
+	<script src="{% static "usendhome/assets/jQuery-File-Upload-9.8.1/js/jquery.iframe-transport.js" %}" type="text/javascript" charset="utf-8"></script>
+	<script src="{% static "usendhome/assets/jQuery-File-Upload-9.8.1/js/jquery.fileupload.js" %}" type="text/javascript" charset="utf-8"></script>
+    <!--[if (gte IE 8)&(lt IE 10)]>
+    <script src="{% static "usendhome/assets/jQuery-File-Upload-9.8.1/js/cors/jquery.xdr-transport.js" %}"></script>
+    <![endif]-->
+{% endblock extrascripts %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "usendhome/assets/jQuery-File-Upload-9.8.1/css/jquery.fileupload.css" %}" type="text/css" />
+{% endblock %}
+
+
+{% block onbodyload %}
+	{{ block.super }}
+	usendhome.fileUpload.init();
+{% endblock %}

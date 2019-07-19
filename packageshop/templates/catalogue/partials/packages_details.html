@@ -1,0 +1,120 @@
+{% load url from future %}
+{% load i18n %}
+{% load staticfiles %}
+{% load catalogue_filters %}
+
+<table class="table table-hover table-bordered packages">
+    <tr class="bg-color">
+        <th id="upc">{% trans '#Package' %}</th>
+        <th>{% trans 'Merchant name' %}</th>
+        <th id="condition">{% trans 'Condition' %}</th>
+        <th id="received_date">{% trans 'Date received' %}</th>
+        <th>&nbsp;</th>
+    </tr>
+    {% for pending_package in pending_packages %}
+    <tr>
+        <td>
+            <a href="{% url 'catalogue:detail' pending_package.slug pending_package.pk %}">{{ pending_package.upc }}</a>
+        </td>
+        <td>
+            {% if pending_package.is_consolidated %}
+                {% trans "Consolidated Package" %}
+            {% else %}
+                {{ pending_package.title|title|truncatechars:30 }}
+            {% endif %}
+            {% if pending_package.is_returned_package %}
+                <span class="label label-info">{% trans "Returned Package" %}</span>
+            {% endif %}
+        </td>
+        <td>{{ pending_package.condition|create_condition_label|safe }}</td>
+        <td>{{ pending_package.date_created|date:"d M Y" }}</td>
+        <td>
+            <div class="btn-group">
+                {% if pending_package.is_single or pending_package.is_consolidated %}
+                    <form style="display:none" method="post" action="{% url 'checkout:index' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="product_id" value="{{ pending_package.id }}" />
+                    </form>
+                    <a class="btn-u {% if pending_package.is_returned_package %}btn-u-lg{% endif %} btn-u-dark-blue submit_form">{% trans "Checkout" %}</a>
+                {% else %}
+                    <a class="btn-u btn-u-dark-blue extra-services-button" data-load-url="{% url "customer:extra-services-handling" package_pk=pending_package.pk %}" data-package-pk="{{ pending_package.pk }}">{% trans "Extra Services" %}</a>
+                {% endif %}
+                {% if not pending_package.is_returned_package %}
+                    <button class="btn-u btn-u-dark-blue btn-u-split-dark dropdown-toggle" data-toggle="dropdown">
+                       <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        {% if pending_package.is_single %}
+                            <li>
+                                <form style="display:none" method="post" action="{% url 'customer:pending-packages' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{ pending_package.id }}" />
+                                    <input type="hidden" name="action" value="consolidation_add" />
+                                </form>
+                                <a class="submit_form" tabindex="-1" href="#"><i class="icon icomoon-plus"></i>{% trans "Consolidate" %}</a>
+                            </li>
+                            <li class="divider"></li>
+                        {% endif %}
+                        {% if pending_package.is_predefined_waiting_for_consolidation %}
+                            <li>
+                                <form style="display:none" method="post" action="{% url 'customer:waiting-for-consolidation-packages' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{ pending_package.id }}" />
+                                    <input type="hidden" name="action" value="take_measures"/>
+                                </form>
+                                <a class="submit_form" tabindex="-1" href="#"><i class="icon icomoon-undo"></i>{% trans "Return to Merchant" %}</a>
+                            </li>
+                        {% endif %}
+                        {% if pending_package.is_waiting_for_consolidation and not pending_package.is_predefined_waiting_for_consolidation %}
+                            <li>
+                                <form style="display:none" method="post" action="{% url 'checkout:index' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{ pending_package.id }}" />
+                                    <input type="hidden" name="action" value="return_to_store" />
+                                </form>
+                                <a class="submit_form" tabindex="-1" href="#"><i class="icon icomoon-undo"></i>{% trans "Return to Merchant" %}</a>
+                            </li>
+                        {% endif %}
+                        {% if not pending_package.is_waiting_for_consolidation and not pending_package.is_predefined_waiting_for_consolidation %}
+                            <li>
+                                <a class="extra-services-button" data-load-url="{% url "customer:extra-services-handling" package_pk=pending_package.pk %}" data-package-pk="{{ pending_package.pk }}"><i class="icon icomoon-file3"></i>{% trans "Extra Services" %}</a>
+                            </li>
+                        {% endif %}
+                        {% if pending_package.is_single %}
+                            <li class="divider"></li>
+                            <li>
+                                <form style="display:none" method="post" action="{% url 'checkout:index' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{ pending_package.id }}" />
+                                    <input type="hidden" name="action" value="return_to_store" />
+                                </form>
+                                <a class="submit_form" tabindex="-1" href="#"><i class="icon icomoon-undo"></i>{% trans "Return to Merchant" %}</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% for pending_package in pending_packages %}
+    <div class="modal fade" id="package-{{ pending_package.pk }}-extra-services-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel{{ pending_package.pk }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{% trans "Order Extra Services" %}</h4>
+                </div>
+                <div class="modal-body" id="package-{{ pending_package.pk }}-extra-services-modal-body">
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal">{% trans "Close" %}</a>
+                    <button class="btn-u btn-u-dark-blue rounded modal-form-submit">{% trans "Order" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+

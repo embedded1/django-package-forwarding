@@ -1,0 +1,33 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+    {% blocktrans %}
+        Every completed Package Consolidation request must be released for delivery within 3 days.
+        Storage fees will be applied to shipments that don't meet this criteria.
+        After 7 days all items will be returned back to the senders.
+    {% endblocktrans %}
+
+    {% if days_left == 0 %}
+        {% blocktrans with id=package.upc %}
+            Your package consolidation delivery duration for package #{{ id }} is about to expire today.
+            Hurry up and release your package to avoid paying extra fees.
+        {% endblocktrans %}
+    {% else %}
+        {% blocktrans with id=package.upc count days=days_left %}
+            Your package consolidation delivery duration for package #{{ id }} is about to expire in 1 day.
+            Hurry up and release your package to avoid paying extra fees.
+        {% plural %}
+            Your package consolidation delivery duration for package #{{ id }} is about to expire in {{ days }} days.
+            Hurry up and release your package to avoid paying extra fees.
+        {% endblocktrans %}
+    {% endif %}
+
+    {% url "customer:pending-packages" as pending_url %}
+    {% blocktrans %}
+        Visit the URL link below to get your package released for delivery today:
+    {% endblocktrans %}
+    {{ site }}{{ pending_url }}
+{% endblock %}
+

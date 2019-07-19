@@ -1,0 +1,25 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+
+    {% blocktrans %}
+        Hello {{ full_name }},
+    {% endblocktrans %}
+
+    {% blocktrans %}
+       Give your friends $5 in shipping credit and get $5 for each one who delivers their first package.
+       The good news is that there is no limit to how many friends you can refer and shipping credit you can earn.
+       Refer more pay less for shipping!
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        Just click on the link below to start sharing:
+    {% endblocktrans %}
+
+    {% url 'customer:referrals-index' as referrals_url %}
+    {{ site }}{{ referrals_url }}
+
+
+{% endblock %}

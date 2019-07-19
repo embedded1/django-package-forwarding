@@ -1,0 +1,5 @@
+{% load i18n %}
+
+{% blocktrans %}
+    Update to USendHome Terms of Service
+{% endblocktrans %}

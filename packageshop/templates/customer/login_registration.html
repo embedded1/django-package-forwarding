@@ -1,0 +1,113 @@
+{% extends "layout.html" %}
+{% load url from future %}
+{% load i18n %}
+{% load honeypot %}
+{% load staticfiles %}
+
+{% block title %}
+	{% trans 'Log in to Your USendHome Control Panel' %}
+{% endblock %}
+
+{% block description %}
+	{% trans "Log in to Your USendHome Control Panel. " %}
+{% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block body_class %}body-dark-blue{% endblock %}
+
+{% block extrastyles %}
+    <link rel="stylesheet" href="{% static "usendhome/assets/bootstrap-social/bootstrap-social.css" %}" type="text/css" />
+{% endblock %}
+
+{% block messages %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+                {% include "partials/alert_messages.html" %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+        <div class="logo-container">
+            <a class="usend-logo" href="{% url 'promotions:home' %}">
+                <img src="{% static "usendhome/images/logo.png" %}" alt="USendHome">
+            </a>
+            <h1>
+                {% blocktrans %}
+                   Log in to Your USendHome Control Panel
+                {% endblocktrans %}
+            </h1>
+        </div>
+		<div class="dashboard-login-form">
+			<div class="social-login">
+				<ul class="clearfix">
+                    <a href="{% url 'social:begin' "facebook" %}" class="btn btn-social-block btn-social btn-social-lg btn-facebook">
+                        <i class="fa fa-facebook"></i> {% trans "Sign in with Facebook" %}
+                    </a>
+                    <a href="{% url 'social:begin' "twitter" %}" class="btn btn-social-block btn-social-lg btn-social btn-twitter">
+                        <i class="fa fa-twitter"></i> {% trans "Sign in with Twitter" %}
+                    </a>
+                    {% comment %}
+                    <a href="{% url 'social:begin' "odnoklassniki-oauth2" %}" class="btn btn-social-block btn-social-lg btn-social btn-odnoklassniki">
+                        <i class="fa fa-odnoklassniki"></i> Sign in with Odnoklassniki
+                    </a>
+                    {% endcomment %}
+				</ul>
+			</div>
+			<div class="or-login">
+				<span>{% trans "Or Sign In Manually" %}</span>
+			</div>
+			<div class="login-form">
+                <form action="." method="post">
+                    {% if login_form.is_bound and not login_form.is_valid %}
+                        <div class="alert alert-danger">
+                            <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
+                        </div>
+                    {% endif %}
+
+                    {% if login_form.non_field_errors %}
+                        {% for error in login_form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <i class="fa fa-exclamation-circle"></i> {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% csrf_token %}
+                    {% render_honeypot_field "gender" %}
+                    {% include "partials/form_field.html" with field=login_form.redirect_url %}
+                    <div class="form-group {% if login_form.username.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
+                            <input type="text" name="login-username" value="{{ login_form.username.value|default_if_none:"" }}" class="form-control" id="id_login-username" placeholder="Email address">
+                            {% for error in login_form.username.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group {% if login_form.password.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-key"></i></div>
+                            <input type="password" name="login-password" class="form-control" id="id_login-password" maxlength="4096" placeholder="Password">
+                            {% for error in login_form.password.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <a class="forgot-pass" href="{% url 'password-reset' %}">{% trans "Forgot your password?" %}</a>
+                    <button type="submit" name="login_submit" class="btn btn-danger btn-login">{% trans "SIGN IN" %}</button>
+                </form>
+            </div>
+            <div class="no-account">
+            	<p>{% trans "Don't have an account?" %} <a href="{% url 'customer:register' %}">{% trans "Create one here" %}</a></p>
+            </div>
+		</div>
+    </div>
+{% endblock content %}

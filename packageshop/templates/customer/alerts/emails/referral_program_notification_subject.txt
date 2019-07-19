@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans %}
+    Give $5, Get $5 shipping credit
+{% endblocktrans %}

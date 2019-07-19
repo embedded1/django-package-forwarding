@@ -1,0 +1,53 @@
+{% load i18n %}
+{% load customs_form_tags %}
+
+{% if form.is_bound and not form.is_valid %}
+    <div class="alert alert-danger">
+        <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
+    </div>
+{% endif %}
+
+{% if form.non_field_errors %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger control-group error">
+            <span class="help-inline"><i class="glyphicon glyphicon-exclamation-sign"></i> {{ error }}</span>
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% for field in form.hidden_fields %}
+    <div style="display:none;">{{ field }}</div>
+{% endfor %}
+
+{% for field in form.visible_fields %}
+    {% annotate_customs_form_field field %}
+    {% if forloop.first %}
+        <div class="box">
+            <div class="box-inner">
+                {% include "checkout/partials/customs_form_field.html" %}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if field.is_desc %}
+        <div class="box">
+            <div class="box-inner">
+                {% include "checkout/partials/customs_form_field.html" %}
+    {% endif %}
+
+    {% if field.is_quantity %}
+        <div class="row">
+            <div class="col col-6">
+                {% include "checkout/partials/customs_form_field.html" %}
+            </div>
+    {% endif %}
+
+    {% if field.is_value %}
+        <div class="col col-6">
+            {% include "checkout/partials/customs_form_field.html" %}
+        </div>
+        </div>{# row #}
+        </div>{# box-inner #}
+        </div>{# box #}
+    {% endif %}
+{% endfor %}

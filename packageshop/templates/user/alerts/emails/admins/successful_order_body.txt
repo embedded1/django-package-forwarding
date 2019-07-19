@@ -1,0 +1,39 @@
+{% load i18n %}
+{% load currency_filters %}
+
+Package UPC:                    {{ order.package.upc }}
+Customer name:                  {{ order.user }}
+shipping service:                {{ order.shipping_method }}
+
+
+Customs declaration:
+=====================
+{% with summary_tuple=order.package.custom_form_summary %}
+    {{ summary_tuple.0 }}
+    {% for field in summary_tuple.1 %}
+        {% if forloop.counter|divisibleby:"3" %}
+            {{ field }}
+        {% else %}
+            {{ field }},
+        {% endif %}
+    {% endfor %}
+{% endwith %}
+
+Shipping address:
+=================
+{% for field in order.shipping_address.active_address_fields %}
+    {{ field }}
+{% endfor %}
+
+Billing address:
+=================
+{% for field in order.billing_address.active_address_fields %}
+    {{ field }}
+{% endfor %}
+
+
+Order contents:
+================
+{% for line in order.lines.all %}
+   {{ line.description }}, {{ line.quantity }}, {{ line.line_price_before_discounts_incl_tax|currency:order.currency }}
+{% endfor %}

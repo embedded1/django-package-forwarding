@@ -1,0 +1,18 @@
+{% extends "customer/emails/base.html" %}
+{% load i18n %}
+
+{% block body %}
+<p>
+    {% blocktrans %}
+		We regret to inform you that we refused to receive a package addressed to your suite from  {{ store_name }}
+		due to obvious signs of external damage and/or missing contents. Rest assured we do this for your protection.
+    {% endblocktrans %}
+</p>
+<p>
+    {% blocktrans %}
+		Your package is on the way back to {{ store_name }}.<br/>
+		Please contact {{ store_name }} directly for further instructions regarding replacement items or a refund of your purchase.
+    {% endblocktrans %}
+</p>
+
+{% endblock %}

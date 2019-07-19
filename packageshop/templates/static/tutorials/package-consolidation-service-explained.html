@@ -1,0 +1,69 @@
+{% load i18n %}
+{% load url from future %}
+{% load staticfiles %}
+
+{% url "faq" "tutorial" as tutorials_url %}
+
+<h4>{% trans "How to consolidate multiple parcels into one shipment?" %}</h4>
+<h5>{% trans "Introduction" %}</h5>
+<p>	
+	{% blocktrans %}
+		Merchants have a bad habit of shipping merchandise in multiple packages.
+		This is expensive and inefficient.
+		Let us merge all of your goods into one box to be delivered to you in one shipment.
+		We always use the smallest box that fits all of your goods, and if we do need to use a second box, it'll be the smallest, too!
+		Give us a blanket instruction to consolidate every incoming package of yours and enjoy added discounts.
+		Read this <a href="{{ tutorials_url }}#tutorial-q2">tutorial</a> to find out how to do that; keep reading here to set up a one-time Package Consolidation service.		
+	{% endblocktrans %}
+</p>
+
+
+
+<h5>{% trans "Walkthrough" %}</h5>
+<p>There are 2 ways to request Package Consolidation for your parcels:</p>
+<ul>
+    <li>
+        Order the Package Consolidation service in advance (20% off retail service price): This method allows you to request the Package Consolidation service in advance for all incoming packages.
+        When this option is selected, we will immediately consolidate your parcels as soon as we receive them.
+        <ul>
+            <li>Login to your Control Panel.</li>
+            <li>
+                Scroll down the right part of the page until you see “Order Extra Service in Advance”
+                Within the option, select “Package Consolidation” and click the Save button.
+                <img class="tutorial-img" src="{% static "images/tutorials/consolidation_advance.png" %}" alt="order package consolidation in advance"/>
+            </li>
+        </ul>
+    </li>
+    <li>
+        Order the Package Consolidation service after we receive your package"
+        <ul>
+            <li>
+                {% trans "Log in to your USendHome control panel and click on the Manage Packages button." %}
+                <img class="tutorial-img" src="{% static "images/tutorials/manage_packages.png" %}" alt="manage packages"/>
+            </li>
+            <li>
+                {% trans "Click the Consolidate option next to the package you wish to consolidate." %}
+                <img class="tutorial-img" src="{% static "images/tutorials/consolidate.png" %}" alt="Consolidate package"/>
+            </li>
+            <li>
+                {% trans "Repeat Step 2 for every package you wish to consolidate." %}
+            </li>
+            <li>
+                {% trans "Click on the Package Consolidation tab on the main control panel page once all the packages have been selected and click on the Consolidate Packages button." %}
+                <img class="tutorial-img" src="{% static "images/tutorials/consolidate_packages.png" %}" alt="Packages waiting for consolidation"/>
+            </li>
+            <li>
+               {% trans "Click on the create consolidated container button to allow us to start processing your request." %}
+               <img class="tutorial-img" src="{% static "images/tutorials/create_consolidation_container.png" %}" alt="Create Consolidated container"/>
+            </li>
+            <li>
+               {% trans "Select consolidation options." %}
+               <img class="tutorial-img" src="{% static "images/tutorials/consolidation_options.png" %}" alt="Create Consolidated container"/>
+            </li>
+            <li>
+                {% trans "We'll notify you by email once we've completed your Package Consolidation so you can authorize your shipment." %}
+            </li>
+        </ul>
+    </li>
+</ul>
+

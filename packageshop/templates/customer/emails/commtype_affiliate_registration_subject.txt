@@ -1,0 +1,2 @@
+{% load i18n %}
+{% trans 'Start earning commission as a USendHome Affiliate' %}

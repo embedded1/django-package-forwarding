@@ -1,0 +1,47 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+    {% trans "USendHome Terms of Service Update" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Terms of Service Update" %}
+{% endblock %}
+
+{% block body %}
+
+<p>
+    {% url 'terms' as terms_url %}
+    {% blocktrans with name=customer.get_full_name|title %}
+        Hello {{ name }},<br/>
+        We wanted to let you know about some updates to the USendHome Terms of Service, which will go into effect on
+        August 20 2016. You can read the full agreements on our updated <a href="{{ site }}{{ terms_url }}">Terms of Service page.</a>
+        Here are the highlights of updates:
+    {% endblocktrans %}
+</p>
+<ul>
+    <li>
+        {% blocktrans %}
+            We have added a new paragraph that describes the terms that apply on your
+            local US address provided by USendHome.
+        {% endblocktrans %}
+    </li>
+</ul>
+<p>
+    {% blocktrans %}
+        If you continue using the Site after August 20 2016, the new terms will apply to you.
+        If you don't agree to the amended Terms of Service, you can close your account before August 20 2016,
+        and you won't be bound by the amended terms.
+    {% endblocktrans %}
+</p>
+<p>
+    {% url 'contact' as contact_url %}
+    {% blocktrans %}
+        As always, if you have any questions, don't hesitate to <a href="{{ site }}{{ contact_url }}">contact</a> us.
+        Thank you for being part of the USendHome experience!
+    {% endblocktrans %}
+</p>
+
+{% endblock %}

@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans with id=package.upc %}
+    Package #{{ id }} is about to be considered abandoned
+{% endblocktrans %}

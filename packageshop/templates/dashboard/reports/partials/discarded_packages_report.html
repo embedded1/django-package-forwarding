@@ -1,0 +1,36 @@
+{% extends 'dashboard/reports/index.html' %}
+{% load i18n %}
+
+{% block report %}
+<table class="table table-striped table-bordered table-hover">
+    {% if objects %}
+        <tr>
+            <th>{% trans "Package ID" %}</th>
+            <th>{% trans "Customer name" %}</th>
+            <th>{% trans "USH number" %}</th>
+            <th>{% trans "Number of days in storage" %}</th>
+            <th>{% trans "Date entered into system" %}</th>
+            <th>{% trans "Date discarded" %}</th>
+            {% if user.is_staff %}
+                <th>{% trans "Partner name" %}</th>
+            {% endif %}
+        </tr>
+        {% for package in objects %}
+            <tr>
+                <td>{{ package.upc }}</td>
+                <td>{{ package.owner }}</td>
+                <td>{{ package.owner.get_profile.uuid }}</td>
+                <td>{{ package.get_storage_days }}</td>
+                <td>{{ package.date_created }}</td>
+                <td>{{ package.date_updated }}</td>
+                {% if user.is_staff %}
+                    <td>{{ package.partner.name }}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr><td>{% trans "No results found." %}</td></tr>
+    {% endif %}
+</table>
+{% include "partials/pagination.html" %}
+{% endblock %}

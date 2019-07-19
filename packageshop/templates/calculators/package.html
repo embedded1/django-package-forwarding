@@ -1,0 +1,116 @@
+{% extends "calculators/calculator.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load user_agents %}
+
+{% block promo-messages %}
+    <div class="container">
+        <div id="promo-messages">
+            <div class="alert alert-safe alert-noicon alert-info fade in">
+                <h1>{% trans "Package Shipping Calculator" %}</h1>
+                <p>
+                    {% blocktrans %}
+                        Get the estimate shipping costs for your US online purchases by using our package shipping calculator
+                    {% endblocktrans %}
+                </p>
+                <p class="hidden-sm hidden-xs">
+                    {% blocktrans %}
+                        Just enter package dimensions and weight and let us handle the rest
+                    {% endblocktrans %}
+                </p>
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'customer:register' %}" class='btn btn-info'>{% trans "GET FREE USA ADDRESS NOW" %}</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+	{% trans 'Get Estimate Shipping Costs with International Shipping Calculator' %}
+{% endblock %}
+
+{% block description %}
+	{% trans "Have you checked your package international shipping costs online? Get an estimate with postage Calculator for your US online purchases today." %}
+{% endblock %}
+
+{% block calculator_form %}
+    <form id="basic-calc" action="{% url 'calculators:package' %}" method="post">
+        {% include "calculators/partials/basic_calculator_form.html" %}
+    </form>
+    {# exit modal #}
+    {% if not request.session.added_chrome_extension and not user.get_profile.added_chrome_extension and request|is_pc %}
+        {% include "partials/amazon_app_modal.html" %}
+    {% endif %}
+{% endblock calculator_form %}
+
+{% block calculator-faq %}
+	{% url "calculators:package" as package_calculator_url %}
+	{% url "calculators:amazon" as amazon_calculator_url %}
+    <h2>{% trans "Package Shipping Calculator Frequently Asked Questions" %}</h2>
+	<div class="row">
+
+		<div class="col-md-4">
+			<h3>{% trans "Do you ship within the USA?" %}</h3>
+			<p>
+				{% blocktrans %}
+					Yes, if you're a reseller this service is just for you.
+                    Ship your orders to us and reship to your customers in the US and around the world easily.<br/>
+                    <strong>*Available only for business accounts.</strong>
+				{% endblocktrans %}
+			</p>
+		</div>
+		<div class="col-md-4">
+			<h3>{% trans "Can I ship alcoholic beverages internationally?" %}</h3>
+			<p>
+                {% url 'faq' 'shipping' as pro_url %}
+				{% blocktrans %}
+					alcoholic beverages can't be transported internationally. see this <a href="{{ pro_url }}#shipping-q8">question</a> and check out the complete list of restircted items.
+				{% endblocktrans %}
+			</p>
+		</div>
+		<div class="col-md-4">
+			<h3>{% trans "Does USendHome support weekend delivery?" %}</h3>
+			<p>
+				{% blocktrans %}
+                    The warehouse working week is Monday through Friday.
+					To prevent any unnecessarily delays in processing your package, please don't select the weekend delivery option as it requires a
+					second delivery attempt.
+				{% endblocktrans %}
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<h3>{% trans "I would like to deliver an expensive item to my USendHome address, what is the preferred method to ship it to my address?" %}</h3>
+			<p>
+				{% blocktrans %}
+					We recommend you purchase our insurance for every item valued at more than $100.
+                    Additionally, it is also recommended to ship expensive items with an express carrier to take advantage of a door-to-door
+                    service that eliminates the risk of theft.
+				{% endblocktrans %}
+			</p>
+		</div>
+		<div class="col-md-4">
+			<h3>{% trans "Can you check that my iPhone works propely before I release it for delivery?" %}</h3>
+			<p>
+				{% blocktrans %}
+					Sure, just list the actions you would like our operations staff to take and we will report back with out findings.
+                    The customized services feature was designed primary to give USendHome members the option to verify that an electronic device works
+                    properly before it is being delivered internationally.
+					This saves time, money and the frustration of receiving a malfunctioning item.
+				{% endblocktrans %}
+			</p>
+		</div>
+		<div class="col-md-4">
+			<h3>{% trans "Is the postal code really required?" %}</h3>
+			<p>
+				{% blocktrans %}
+					Postal code when available is a crucial data for finding accurate rates in postage calculator.
+					Express carrier methods will not be / wrongly displayed if the postal code is invalid or missing.
+					Make sure you always include the complete postal code for the package destination.
+				{% endblocktrans %}
+			</p>
+		</div>
+	</div>
+{% endblock %}

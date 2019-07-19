@@ -1,0 +1,21 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "USendHome Prepaid Return Label" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Package Returned to Merchant" %}
+{% endblock %}
+
+{% block body %}
+	<p>
+		{% blocktrans %}
+            Your order is on its way back to the merchant
+			We've successfully applied the return label you provided.
+			Please contact the merchant directly to obtain the applicable tracking number to confirm
+            when your return order is received.
+		{% endblocktrans %}
+	</p>
+{% endblock %}

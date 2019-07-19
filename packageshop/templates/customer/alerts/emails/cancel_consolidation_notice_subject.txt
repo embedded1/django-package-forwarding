@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans  %}
+    Package Consolidation last delivery notice
+{% endblocktrans %}

@@ -1,0 +1,12 @@
+{% load i18n %}
+{% load shipping_methods_tags %}
+
+<p>
+    {% blocktrans with number=package.upc %}
+        Delivery exception has occurred for package {{ number }}: {{ status }}
+    {% endblocktrans %}
+</p>
+<p>
+    {% render_shipping_method_tracking_url carrier tracking_number as tracking_url %}
+    <a href="{{ tracking_url }}" target="_blank">{{ tracking_url }}</a>
+</p>

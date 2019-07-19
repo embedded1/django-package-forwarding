@@ -1,0 +1,19 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+
+    {% blocktrans with name=customer.get_full_name|title %}
+        Hello {{ name }},
+        We would like to inform you that we can not longer receive new packages at our old address in New Jersey.
+        All new orders must be shipped to our new location in California.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+       Please contact us if you're already expecting a delivery at the old address.
+    {% endblocktrans %}
+{% endblock %}
+
+
+

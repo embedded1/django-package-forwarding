@@ -1,0 +1,33 @@
+{% extends "checkout/checkout.html" %}
+{% load url from future %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Payment details" %}
+{% endblock %}
+
+{% block checkout_nav %}
+    {% include 'checkout/nav.html' with step=4 %}
+{% endblock %}
+
+{% block checkout_title %}{% trans "Enter payment details" %}{% endblock %}
+
+{% block order_contents %}{% endblock %}
+{% block shipping_address %}{% endblock %}
+{% block shipping_method %}{% endblock %}
+{% block payment_method %}{% endblock %}
+{% block payment_details %}
+    <div class="page-header">
+        <h1>Payment via PayPal</h1>
+    </div>
+
+    <div class="form-actions">
+        <a href="{% url paypal-redirect %}"><img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" align="left" style="margin-right:7px;"></a>
+    </div>
+{% endblock payment_details %}
+
+{% block onbodyload %}
+    {% with 4 as current_step %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock %}

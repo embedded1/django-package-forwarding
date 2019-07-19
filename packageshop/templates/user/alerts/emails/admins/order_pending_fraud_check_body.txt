@@ -1,0 +1,24 @@
+{% load i18n %}
+{% load currency_filters %}
+
+Package UPC:                    {{ order.package.upc }}
+Customer name:                  {{ order.user }}
+shipping service:               {{ order.shipping_method }}
+Order total:                    {{ order.total_incl_tax|currency:order.currency }}
+
+
+Shipping address:
+=================
+{% for field in order.shipping_address.active_address_fields %}
+    {{ field }}
+{% endfor %}
+
+Billing address:
+=================
+{% for field in order.billing_address.active_address_fields %}
+    {{ field }}
+{% endfor %}
+
+
+MaxMind Risk Score: {{ risk_score }}
+Error message: {{ err_msg }}

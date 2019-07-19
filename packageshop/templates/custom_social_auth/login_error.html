@@ -1,0 +1,26 @@
+{% extends "500.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+    {% trans 'Login Error' %} | {% trans 'USendHome' %}
+{% endblock %}
+
+
+{% block error_heading %}
+    {% trans "Login Error" %}
+{% endblock %}
+
+{% block error_sub_heading %}
+{% endblock %}
+
+{% block error_message %}
+    <p>
+        {% url "contact" as contact %}
+        {% url "promotions:home" as home %}
+        {% blocktrans %}
+            We're sorry but we couldn't log you in this time. <a href="{{ home }}">Return Home</a><br/>
+            Don't hesitate <a href="{{ contact }}">contacting</a> our customer support so we could help you out.
+        {% endblocktrans %}
+    </p>
+{% endblock %}

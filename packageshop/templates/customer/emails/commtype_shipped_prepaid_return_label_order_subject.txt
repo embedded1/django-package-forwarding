@@ -1,0 +1,6 @@
+{% load i18n %}
+
+{% blocktrans %}
+	Your return-to-merchant order #{{ order_number }} has been shipped
+{% endblocktrans %}
+

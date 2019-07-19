@@ -1,0 +1,220 @@
+{% extends "static/faq/base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block description %}
+	{% trans "Read FAQ about our package consolidation, package forwarding service, shipping costs & value added services and change the way you ship from the US." %}
+{% endblock %}
+
+{% block title %}
+    {% trans "FAQ - Package Consolidation, Package Forwarding Service" %}
+{% endblock %}
+
+
+{% block messages %}
+    <div class="container">
+        <div id="promo-messages">
+            <div class="alert alert-safe alert-noicon alert-info fade in">
+                <h1>{% trans "Package Consolidation &amp; Package Forwarding Service Questions" %}</h1>
+                <p class="align-message-text strech">
+                    {% blocktrans %}
+                        Explore how USendHome package consolidation and package forwarding extra services can change the way you ship from the US.
+                    {% endblocktrans %}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block faq_section %}
+<div id="package" class="faq-content active">
+    <div class="faq-content-inner" id="package-q8">
+        <h2>{% trans "Do you offer package consolidation service?" %}</h2>
+        <p>
+            {% blocktrans %}
+                Yes! If you're expecting multiple parcels this is the best service you can use to reduce shipping costs.
+                On your request, we will consolidate items of selected parcels into one shipment,
+                so you will be paying for only one shipment and all items will be forwarded at the same time.
+                This is a win-win situation as you save both time and money!
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                Enjoy great discounts by ordering such services in advance before your orders arrive to your USendHome address.
+                Unleash the power of USendHome package consolidation service by enabling it through your control panel now!
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                Check out this <a href="{{ tutorials_url }}#tutorial-q4">tutorial</a> to get you started quickly.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="package-q12">
+        <h3>{% trans "Can I add items to my shipment after the package consolidation request has been completed?" %}</h3>
+        <p>
+            {% blocktrans %}
+                Unfortunately this is not an option.
+                Once we complete your consolidation request no further actions allowed and you can only release your parcel for delivery.
+                Please make sure all parcels are listed before you request this service.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="package-q13">
+        <h3>{% trans "No USPS methods available for my consolidated package, is there a reason why?" %}</h3>
+        <p>
+            {% blocktrans %}
+                The USPS has a specific mailing conditions for every country.
+                If you only want to ship with the USPS, make sure you select this option: "Split my items into multiple boxes if
+                1 box is too big for the USPS" when you request the Package Consolidation service.
+                Our operations staff will use the minimum number of boxes required for your items.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+               Click <a href="http://pe.usps.com/text/imm/immctry.htm" rel="nofollow" target="_blank">here</a> to see the complete mailing conditions for your country.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="package-q1">
+        <h3>{% trans "How can I tell my package isn't damaged?" %}</h3>
+        <p>
+            {% blocktrans %}
+                We keep track of the condition of every package we receive.
+                You can see that information through your control panel under the incoming packages tab.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                Note: USendHome may refuse to receive any parcel that shows clear signs of damage.
+                This action is taken for your benefit since such parcels can't be delivered abroad and must be returned to the merchant.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="package-q2">
+        <h3>{% trans "Can I receive the Pre-Ordered extra services discount for my consolidated package?" %}</h3>
+        <p>
+            {% blocktrans %}
+                Absolutely! just tell us what extra services you're interested in before you ask us to merge your selected items into one shipment.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                Log into your control panel and select the extra services you would like our operations staff to take on your consolidated package.
+                Now What's left to do is to select the packages you want us to consolidate into 1 box and we will handle it from there.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                Check out this <a href="{{ tutorials_url }}#tutorial-q2">tutorial</a> to get you started.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="package-q3">
+        <h3>{% trans "How can I verify that all my items arrived?" %}</h3>
+        <p>
+            {% blocktrans %}
+                USendHome provides package content photos that can be ordered via your control panel.
+                At your request, we will take one to three photos of your items and upload them into your control panel.
+                Click on the package number to see the photos.
+                If you notice a missing item, you may return the parcel back to the merchant through your control panel.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="package-q4">
+        <h3>{% trans "When will my order be dispatched?" %}</h3>
+        <p>
+            {% blocktrans %}
+                We dispatch orders on a first-paid-first-out basis.
+                Get your order to the top of the pile by purchasing the express checkout service.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                In general, orders are dispatched within 1 working day after successful payment is received.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="package-q5">
+        <h4>{% trans "Do you provide a service to check that my electronic device is working properly?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Yes, custom requests such as this can be purchased via our customized services within your control panel.
+                Just describe in detail what actions you want our operations staff to perform and we will take care of it for you.
+                You will only be charged if we successfully manage to complete your request.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="package-q6">
+        <h4>{% trans "Can you fill in the customs declaration on my behalf?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Yes, we offer a customs declaration paperwork service to answer such needs.
+                Order the service for your package and we will fill out the customs paperwork for you.
+                You can review the completed declaration during your checkout process.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="package-q7">
+        <h4>{% trans "I suspect the merchant has packed my items in a large package, can you repack my goods to reduce shipping costs?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Yes, our trained operations staff will try to reduce shipping costs by moving your items into proper packaging if you order our repacking service.
+                Envelopes can reduce up to 40 percent of shipping costs.
+                This is one of our secret weapons in reducing the shipping costs for our clients.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+              The cost of transporting a shipment can also be affected by the amount of space that it occupies on an aircraft, rather than the actual weight.
+              This is the volumetric (or dimensional) weight.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="package-q9">
+        <h4>{% trans "Is it possible for you to take photos of package contents for every incoming package?" %}</h4>
+        <p>{% trans "Yes, there are two types of extra services:" %}</p>
+        <ul>
+            <li>{% trans "On Demand - extra services ordered after we receive the package" %}</li>
+            <li>{% trans "Pre-Ordered - extra services ordered in advance before the package is received." %}</li>
+        </ul>
+        <p>
+            {% blocktrans %}
+                The second type is what you're looking for. Just tell us what extra services you're interested in before your orders arrive at your mailbox.
+                Pre-Ordered extra services benefit from significant discounts; not only will your packages be displayed in your control panel ready for delivery,
+                but you save great deal of money.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                Check out this <a href="{{ tutorials_url }}#tutorial-q2">tutorial</a> to get you started in no time.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="package-q10">
+        <h4>{% trans "How long can I store my packages in your warehouse?" %}</h4>
+        <p>
+            {% blocktrans %}
+                We offer 10 days of free storage for a single package and 30 days for consolidated packages.
+                We will notify you by email 3 days before your free storage quota runs out.
+                A fee will be applied for each day the free quota is exceeded.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                The maximum storage time is 90 days.
+                After that, the goods will be considered abandoned and we may dispose of them in any manner permitted by law.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="package-q11">
+        <h4>{% trans "Do I have to notify you of every package I deliver to your distribution center?" %}</h4>
+        <p>
+            {% blocktrans %}
+                No, you will be notified of every incoming package we receive that is addressed to your personal USendHome address.
+                Sit back, relax and wait for the greeting email that notifies you the second your order is available in your control panel.
+            {% endblocktrans %}
+        </p>
+    </div>
+</div>
+{% endblock %}

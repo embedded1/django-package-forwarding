@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load staticfiles %}
+
+{% block body_class %}giveaway{% endblock %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block title %}
+    {% trans "USendHome Giveaway Contest" %}
+{% endblock %}
+
+{% block description %}
+	{% trans "Take some actions and have a chance of winning best seller item from the USA" %}
+{% endblock %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <a class="e-widget no-button" href="https://gleam.io/69Ejt/usendhome-amazon-fire-hd-8-giveaway" rel="nofollow">USendHome Amazon Fire HD 8 Giveaway</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extrascripts %}
+    <script type="text/javascript" src="https://js.gleam.io/e.js" async="true"></script>
+{% endblock %}
+
+{% block defer_js %}
+    {% include "partials/gleam.html" %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

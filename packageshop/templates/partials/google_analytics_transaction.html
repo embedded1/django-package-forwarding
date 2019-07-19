@@ -1,0 +1,27 @@
+{% extends "partials/google_analytics.html" %}
+
+{% block extratracking %}
+    ga('require', 'ecommerce');
+
+    ga('ecommerce:addTransaction', {
+        'id': '{{ order.number|escapejs }}',                  // Transaction ID. Required.
+        'affiliation': '{{ shop_name|escapejs }}',            // Affiliation or store name.
+        'revenue': '{{ order.total_incl_tax|escapejs }}',     // Grand Total.
+        'shipping': '{{ order.shipping_incl_tax|escapejs }}', // Shipping.
+        'tax': '{{ order.total_tax|escapejs }}',              // Tax.
+        'currency': '{{ order.currency|escapejs }}'           // Currency
+    });
+
+    {% for line in order.lines.all %}
+        ga('ecommerce:addItem', {
+            'id': '{{ order.number }}',                                          // Transaction ID. Required.
+            'name': '{{ line.title|escapejs }}',                                 // Product name. Required.
+            'sku': '{{ line.partner_sku|escapejs }}',                            // SKU/code.
+            'category': '{{ line.category|default:"Uncategorised"|escapejs }}',  // Category or variation.
+            'price': '{{ line.unit_price_incl_tax }}',                           // Unit price.
+            'quantity': '{{ line.quantity }}'                                    // Quantity.
+        });
+    {% endfor %}
+
+   ga('ecommerce:send');
+{% endblock %}

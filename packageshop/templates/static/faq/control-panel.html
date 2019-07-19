@@ -1,0 +1,123 @@
+{% extends "static/faq/base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block description %}
+	{% trans "USendHome powerful yet simple control panel made it super easy to manage shipping from the USA. Learn how to master it through frequently asked questions." %}
+{% endblock %}
+
+{% block title %}
+    {% trans "USendHome Control Panel Questions" %}
+{% endblock %}
+
+
+{% block messages %}
+    <div class="container">
+        <div id="promo-messages">
+            <div class="alert alert-safe alert-noicon alert-info fade in">
+                <h1>{% trans "USendHome Control Panel Questions" %}</h1>
+                <p>
+                    {% url "faq" "tutorial" as tutorials_url %}
+                    {% blocktrans %}
+                        Find all the resources you need to get you started shopping US online brands.
+                    {% endblocktrans %}
+                </p>
+                <p>
+                    {% blocktrans %}
+                        Starting from locating your private US address up to tracking your packages while in transit.
+                    {% endblocktrans %}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block faq_section %}
+<div id="control-panel" class="faq-content active">
+    <div class="faq-content-inner" id="control-panel-q1">
+        <h4>{% trans "Is it free to open a new USendHome account?" %}</h4>
+        <p>
+            {% url 'customer:register' as register %}
+            {% blocktrans %}
+                Yes, 100-percent free! There is no setup fee to open a new account, nor are there monthly fees.
+                You pay only for the services you use. What are you waiting for?
+                <a href="{{ register }}">open account now!</a>
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="control-panel-q2">
+        <h4>{% trans "Where can I find my personal US address?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Go to your control panel and you will see your private address and suite number under the
+                My USendHome Private Address section.
+                Make sure to include your suite number when shipping orders to our distribution center.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="control-panel-q3">
+        <h4>{% trans "Do I need to go through a verification process before I can start using my personal US address?" %}</h4>
+        <p>
+            {% blocktrans %}
+                No, remember what we stand for: US Package Forwarding Made Simple, which means in plain words: no hassle experience.
+                You don't need to waste your money on notary services, just save it for your online orders.
+                Once you open up an account with us you're ready to deliver packages to your private USendHome mailbox.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="control-panel-q4">
+        <h4>{% trans "How do I track my shipments?" %}</h4>
+        <p>
+            {% blocktrans %}
+                We use a powerful package tracking system that keeps you updated the second new shipping information comes in. Sit back and let us notify you by turning on our package tracking option in your control panel.
+                All shipping methods include a tracking number so you always know where your delivery is.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="control-panel-q5">
+        <h4>{% trans "My package has been delivered, but I can't find it under the incoming packages tab" %}</h4>
+        <p>
+            {% blocktrans %}
+                We receive large volumes of packages each day. Please allow one working day for your package to be updated in your control panel.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                Shipments lacking this information make it harder to identify the proper recipient and delay processing your package.
+                Make sure you include your complete shipping address when you deliver items to your private mailbox.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="control-panel-q6">
+        <h4>{% trans "Do I have to include my suite number when I deliver items to your distribution center?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Absolutely! Your suite number is your unique identifier.
+                We use it to identify you as a USendHome customer and, more importantly, it enables us to provide you with a private mailbox.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                Please make sure that your suite number is included on the shipping address every time you deliver your items to our distribution center.
+                Shipments with no suite number make it harder for us to identify the owner and additional fees may apply.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                If you're expecting a package but haven't received an email notification from us, contact our <a href="{{ support_url }}">customer support</a> and we'll look into it for you.
+                Unidentified packages will be disposed of after 90 days as permitted by law.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="control-panel-q7">
+        <h4>{% trans "How do I close my account?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Just contact <a href="{{ support_url }}">customer support</a> and we will close your account.
+                We're sad to see you go but we respect your decision.
+                It would be helpful if you could share with us the reason behind your decision.
+            {% endblocktrans %}
+        </p>
+    </div>
+</div>
+{% endblock %}

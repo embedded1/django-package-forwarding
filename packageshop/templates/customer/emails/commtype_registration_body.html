@@ -1,0 +1,88 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "Welcome to USendHome" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Welcome to USendHome" %}
+{% endblock %}
+
+{% block body %}
+	<p>
+        {% blocktrans with name=user.first_name|title %}
+            Hey {{ name }},
+        {% endblocktrans %}
+	</p>
+
+	<p>
+        {% blocktrans %}
+            Welcome to USendHome! Thanks so much for joining us.
+            You're on your way to shop US brands like a US resident.
+        {% endblocktrans %}
+	</p>
+
+    {% if private_addresses %}
+
+        {% if exclusive_club_member %}
+            <p>
+                {% blocktrans %}
+                    We noticed that you came from Purse.io so we have an extra treat just for you!<br>
+                    You're now a member of our Purse.io exclusive club which means that you're qualified for:
+                {% endblocktrans %}
+            </p>
+            <ul>
+                <li>$5 off shipping for every order</li>
+                <li>FREE express checkout (same day dispatching) for every order</li>
+            </ul>
+            <p>
+                That's a total of $7 off every order. Only for members of this club! <br>
+                You'll automatically see this discount applied at checkout.
+            </p>
+        {% endif %}
+
+        <p>
+            {% blocktrans %}
+                USendHome is a platform that allows you to deliver your online purchases straight to your doorstep
+                by giving you a FREE package forwarding address in the US.
+                Ship orders to us, manage your packages - and get the goods forwarded to you anywhere in the world.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                You probably wonder what to do next so let me outline the process for you:
+            {% endblocktrans %}
+        </p>
+        <ul>
+            <li>Copy your private US address that shows in your control panel</li>
+            <li>Use the address you just copied as your shipping address to deliver packages to our facility</li>
+            <li>Have fun and let us notify you once your package arrives (no need to take any action after you've sent tje package to us)</li>
+            <li>Log into your control panel and release the package for delivery (only now we'll ask you to pay for our service)</li>
+            <li>Mission Accomplished! Your package is on its way!</li>
+        </ul>
+        <p>
+            {% render_email_button "customer:profile-view" "Go to Control Panel" %}
+        </p>
+    {% else %}
+        <p>
+            {% blocktrans %}
+                USendHome is in a process of moving to a new and larger facility.<br/>
+                We'll email you as soon as your personal US address at the new facility
+                is ready to receive your goods.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% render_email_button "customer:profile-view" "Go to Control Panel" %}
+        </p>
+    {% endif %}
+
+    <p>
+        {% blocktrans %}
+            Have any questions? Just shoot us an email at <a href="mailto:support@usendhome.com">support@usendhome.com</a>! We're always here to help.
+        {% endblocktrans %}
+    </p>
+
+{% endblock %}

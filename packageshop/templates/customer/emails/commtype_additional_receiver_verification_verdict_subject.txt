@@ -1,0 +1,17 @@
+{% load i18n %}
+
+{% if is_verified %}
+    {% blocktrans %}
+	   Additional receiver has been successfully verified
+    {% endblocktrans %}
+{% else %}
+    {% if more_documents %}
+        {% blocktrans %}
+            Additional documents required to complete the additional receiver verification process
+        {% endblocktrans %}
+    {% else %}
+        {% blocktrans %}
+            Additional receiver verification process failed
+        {% endblocktrans %}
+    {% endif %}
+{% endif %}

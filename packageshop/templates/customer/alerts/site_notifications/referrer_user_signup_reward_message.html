@@ -1,0 +1,32 @@
+{% extends "customer/emails/base_css.html" %}
+{% load url from future %}
+{% load i18n %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome User Signed Up Credit" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Pending Shipping Credit" %}
+{% endblock %}
+
+{% block body %}
+    <p>
+        {% blocktrans %}
+            We would like to thank you for inviting {{ referee_name }} to join the USendHome family!
+            A shipping credit will be applied to your account after {{ referee_name }} delivers the first
+            package with us.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+            We've created a statistics page where you can review your referral program performence
+            and available shipping credit.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% render_email_button "customer:referrals-index" "View Referrals Stats" %}
+    </p>
+{% endblock %}
+

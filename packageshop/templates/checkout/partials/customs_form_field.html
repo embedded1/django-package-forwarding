@@ -1,0 +1,31 @@
+{% load form_filters %}
+
+<div class="form-group">
+    <label for="{{ field.auto_id }}" class="label {% if field.field.required %}required{% endif %}">
+        {{ field.label|safe }}
+        {% if field.field.required %} <span>*</span>{% endif %}
+    </label>
+    <label class="{{ field|addwrapperfieldcss }} {% if field.errors %}state-error{% endif %}">
+        {% if field.is_value %}
+            <i class="icon-prepend glyphicon glyphicon-usd"></i>
+        {% else %}
+            {% if field.is_quantity %}
+                <i class="icon-prepend glyphicon glyphicon-shopping-cart"></i>
+            {% else %}
+                {% if field.is_desc %}
+                    <i class="icon-prepend glyphicon glyphicon-tag"></i>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        {{ field }}
+    </label>
+    {% for error in field.errors %}
+        <em class="invalid">{{ error }}</em>
+    {% endfor %}
+    {% if field.help_text %}
+        <div class='note'>
+            {# We allow HTML within form help fields #}
+            {{ field.help_text|safe }}
+        </div>
+    {% endif %}
+</div>

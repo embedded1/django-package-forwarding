@@ -1,0 +1,27 @@
+{% extends "oscar/customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}{% autoescape off %}
+
+{% blocktrans with user_name=user.get_full_name|title %}
+    Hi {{ user_name }},
+{% endblocktrans %}
+
+{% if issuer == "purse" %}
+    {% blocktrans %}
+        By this time your personal US address is already available in your Purse.io account.
+        Now it's the perfect time to set up your USendHome account to start managing the incoming packages.
+        We now accept payments in Bitcoin.
+    {% endblocktrans %}
+{% else %}
+    {% blocktrans %}
+        By this time you probably have received your personal US address.
+        Now it's the perfect time to set up your USendHome account to start managing the incoming packages.
+    {% endblocktrans %}
+{% endif %}
+
+{% trans "Please go to the following URL link to finish the signup process:" %}
+{{ site }}{{ complete_registration_url }}
+
+{% endautoescape %}
+{% endblock %}

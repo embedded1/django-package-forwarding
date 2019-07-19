@@ -1,0 +1,86 @@
+{% extends "checkout/checkout.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block title %}
+    {{ block.super }} {% trans "Shipping Methods" %}
+{% endblock %}
+
+{% block checkout_nav %}
+    {% include 'checkout/nav.html' with step=3 %}
+{% endblock %}
+
+{% block step_description %}
+	<h2>{% trans "3. Shipping Methods" %}</h2>
+{% endblock %}
+
+{% block shipping_method %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="shipping-methods-loading" style="display: none">
+                <span class="spin"></span>
+                <p>
+					{% blocktrans %}
+						Please wait while we're retrieving matching shipping methods for your package.
+					{% endblocktrans %}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="search-results" style="display: none"></div>
+    <!-- Modal -->
+    <div class="modal fade" id="insuranceModal" tabindex="-1" role="dialog" aria-labelledby="insuranceModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="insuranceModalLabel">{% trans "Protect Your Items In Transit" %}</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+                <div id="first-class-notice">
+                    <p>
+                      {% blocktrans %}
+                          First class international is untrackable once the package has left the US.<br/>
+                          There is no way to track it and there is no proof of delivery or shipment.<br/>
+                          Insurance is automatically calculated and added to your order, you may remove it at your own risk.
+                      {% endblocktrans %}
+                    </p>
+                </div>
+            <div>
+                <span>{% trans "Add Shipping Insurance" %}</span>
+                <div class="switch has-switch">
+                    <div class="switch-animate switch-off">
+                        <input type="checkbox" id="insurance-required">
+                        <span class="switch-left">{% trans "YES" %}</span>
+                        <label>&nbsp;</label>
+                        <span class="switch-right">{% trans "NO" %}</span>
+                    </div>
+                </div>
+                <span class="help-block">{% trans "Get your precious items protected with our comprehensive insurance policy" %}</span>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="insurance-action" class="btn btn-primary btn-save" data-dismiss="modal">{% trans "Continue" %}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock shipping_method %}
+
+{% block onbodyload %}
+	{{ block.super }}
+    usendhome.shipping_methods.init();
+{% endblock %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/assets/isotope/isotope.css" %}">
+{% endblock %}
+
+{% block extrascripts %}
+    {{ block.super }}
+    {# Add MaxMind device tracking javascript code to detect proxy usage in the checkout process #}
+    {% include "partials/maxmind_device_tracking.html" %}
+    <script src="{% static "usendhome/assets/isotope/jquery.isotope.min.js" %}"></script>
+    <script src="{% static "usendhome/assets/spin/spin.min.js" %}"></script>
+{% endblock %}

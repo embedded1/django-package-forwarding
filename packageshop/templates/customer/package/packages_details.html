@@ -1,0 +1,184 @@
+{% load url from future %}
+{% load i18n %}
+{% load staticfiles %}
+{% load catalogue_filters %}
+
+<section>
+	<div class="container">
+		<div class="row incoming-packages">
+			<div class="col-md-12">
+				<ol class="breadcrumb">
+					<li><a href="{% url 'promotions:home' %}"><i class="fa fa-home"></i>{% trans "Home" %}</a></li>
+					<li><a href="{% url 'customer:profile-view' %}">{% trans "Control Panel" %}</a></li>
+					<li class="active">{% if consolidate %}{% trans "Package Consolidation" %}{% else %}{% trans "Packages in Warehouse" %}{% endif %}</li>
+				</ol>
+				<h3 class="heading">{% if consolidate %}{% trans "Package Consolidation" %}{% else %}{% trans "Packages in Warehouse" %}{% endif %}</h3>
+                {% if consolidate %}
+                    <div class="clearfix">
+                        <button data-toggle="modal" data-target="#DoneConsolidationModal" class="btn btn-info btn-consiterate">{% trans "Create consolidated container" %}</button>
+                    </div>
+                {% endif %}
+				<div class="row">
+                    {% for package in pending_packages %}
+                        <div class="packagebox col-md-3">
+                            <div class="packagebox-inner">
+                                {% include "catalogue/partials/gallery.html" with idx=forloop.counter %}
+                                <div class="packagebox-info">
+                                    <div class="title"><a class="modalRemoteLoad" data-modal-name="packageDetailsModal" data-load-url="{% url 'catalogue:detail' package.slug package.pk %}">#{{ package.upc }}</a></div>
+                                    <div class="merchant-name">
+                                        {% if package.is_consolidated %}
+                                            {% trans "Consolidated Package" %}
+                                        {% else %}
+                                            {{ package.title|title|truncatechars:25 }}
+                                        {% endif %}
+                                    </div>
+                                    <div class="date">{{ package.date_created|date:"d M Y" }}</div>
+                                </div>
+                                <div class="packagebox-btns">
+                                    {% if package.is_contain_prohibited_items %}
+                                        {% if package.is_waiting_for_consolidation %}
+                                            <div class="packagebox-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Cancel Consolidation" %}">
+                                            <form method="post" action="{% url 'customer:waiting-for-consolidation-packages' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="product_id" value="{{ package.id }}" />
+                                                <input type="hidden" name="action" value="consolidation_remove" />
+                                                <button type="submit"><i class="fa fa-remove"></i><span class="btn-txt">{% trans "Cancel" %}</span></button>
+                                            </form>
+                                        </div>
+                                        {% else %}
+                                            <div class="packagebox-btn cursor-not-allowed" data-toggle="tooltip" data-placement="top" title="{% trans "Consolidation Disabled. Package contains prohibited items." %}"><i class="fa fa-cubes"></i><span class="btn-txt">{% trans "Consolidate" %}</span></div>
+                                        {% endif %}
+                                        <div class="packagebox-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Return Package to the Merchant." %}">
+                                            <form method="post" action="{% url 'checkout:index' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="product_id" value="{{ package.id }}" />
+                                                <input type="hidden" name="action" value="return_to_store" />
+                                                <button type="submit"><i class="fa fa fa-reply"></i><span class="btn-txt">{% trans "Ship Back" %}</span></button>
+                                            </form>
+                                        </div>
+                                        <div class="packagebox-btn cursor-not-allowed" data-toggle="tooltip" data-placement="top" title="{% trans "Extras Disabled. Package contains prohibited items." %}"><i class="fa fa-star" style="color: #f5cd79;"></i><span class="btn-txt">{% trans "Extras" %}</span></div>
+                                    {% elif package.is_waiting_for_consolidation %}
+                                        <div class="packagebox-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Cancel Consolidation" %}">
+                                            <form method="post" action="{% url 'customer:waiting-for-consolidation-packages' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="product_id" value="{{ package.id }}" />
+                                                <input type="hidden" name="action" value="consolidation_remove" />
+                                                <button type="submit"><i class="fa fa-remove"></i><span class="btn-txt">{% trans "Cancel" %}</span></button>
+                                            </form>
+                                        </div>
+                                        <div class="packagebox-btn dropup">
+                                            <div class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plane"></i><span class="btn-txt">{% trans "Ship" %}</span></div>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <form method="post" action="{% url 'checkout:index' %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="product_id" value="{{ package.id }}" />
+                                                        <button type="submit"><i class="fa fa fa-plane"></i>{% trans "Release for Delivery" %}</button>
+                                                    </form>
+                                                </li>
+                                                <li>
+                                                    <form method="post" action="{% url 'checkout:index' %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="product_id" value="{{ package.id }}" />
+                                                        <input type="hidden" name="action" value="return_to_store" />
+                                                        <button type="submit"><i class="fa fa-reply"></i>{% trans "Return to Merchant" %}</button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="packagebox-btn modalRemoteLoad" data-toggle="tooltip" data-placement="top" title="{% trans "Order Extra Services." %}" data-modal-name="extraServicesModal" data-load-url="{% url "customer:extra-services-handling" package_pk=package.pk %}"><i class="fa fa-star" style="color: #f5cd79;"></i><span class="btn-txt">{% trans "Extras" %}</span></div>
+                                    {% elif package.is_consolidated %}
+                                        <div class="packagebox-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Return Package to the Merchant" %}">
+                                            <form method="post" action="{% url 'checkout:index' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="product_id" value="{{ package.id }}" />
+                                                <input type="hidden" name="action" value="return_to_store" />
+                                                <button type="submit"><i class="fa fa fa-reply"></i><span class="btn-txt">{% trans "Ship Back" %}</span></button>
+                                            </form>
+                                        </div>
+                                        <div class="packagebox-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Release Package for Delivery." %}">
+                                            <form method="post" action="{% url 'checkout:index' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="product_id" value="{{ package.id }}" />
+                                                <button type="submit"><i class="fa fa fa-plane"></i><span class="btn-txt">{% trans "Ship Out" %}</span></button>
+                                            </form>
+                                        </div>
+                                        <div class="packagebox-btn modalRemoteLoad" data-modal-name="extraServicesModal" data-load-url="{% url "customer:extra-services-handling" package_pk=package.pk %}"><i class="fa fa-star" style="color: #f5cd79;"></i><span class="btn-txt">{% trans "Extras" %}</span></div>
+                                    {% else %}
+                                        {# package is single #}
+                                        <div class="packagebox-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Move to Package Consolidation Section." %}">
+                                            <form method="post" action="{% url 'customer:pending-packages' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="product_id" value="{{ package.id }}" />
+                                                <input type="hidden" name="action" value="consolidation_add" />
+                                                <button type="submit"><i class="fa fa-cubes"></i><span class="btn-txt">{% trans "Consolidate" %}</span></button>
+                                            </form>
+                                        </div>
+                                        <div class="packagebox-btn dropup">
+                                            <div class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plane"></i><span class="btn-txt">{% trans "Ship" %}</span></div>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <form method="post" action="{% url 'checkout:index' %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="product_id" value="{{ package.id }}" />
+                                                        <button type="submit"><i class="fa fa fa-plane"></i>{% trans "Release for Delivery" %}</button>
+                                                    </form>
+                                                </li>
+                                                <li>
+                                                    <form method="post" action="{% url 'checkout:index' %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="product_id" value="{{ package.id }}" />
+                                                        <input type="hidden" name="action" value="return_to_store" />
+                                                        <button type="submit"><i class="fa fa-reply"></i>{% trans "Return to Merchant" %}</button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="packagebox-btn modalRemoteLoad" data-toggle="tooltip" data-placement="top" title="{% trans "Order Extra Services." %}" data-modal-name="extraServicesModal" data-load-url="{% url "customer:extra-services-handling" package_pk=package.pk %}"><i class="fa fa-star" style="color: #f5cd79;"></i><span class="btn-txt">{% trans "Extras" %}</span></div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+{# extra services modal #}
+<div class="modal modal-cp fade" id="extraServicesModal" tabindex="-1" role="dialog" aria-labelledby="extraServicesModalLabel" aria-hidden="true">
+    <div class="modal-dialog extra-services-panel">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="extraServicesModalLabel">{% trans "Order Extra Services For Your Package" %}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body" id="extraServicesModalBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-more-services btn-cancel">{% trans "Show More" %} <i class="fa fa-caret-down"></i></button>
+                <button type="button" class="btn btn-primary btn-save modalFormSubmit">{% trans "Order" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# package details modal #}
+<div class="modal modal-cp fade" id="packageDetailsModal" tabindex="-1" role="dialog" aria-labelledby="packageDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog extra-services-panel">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="packageDetailsModalLabel">{% trans "Package Details" %}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body" id="packageDetailsModalBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans "Close" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

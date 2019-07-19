@@ -1,0 +1,87 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load url from future %}
+{% load i18n %}
+{% load currency_filters %}
+{% load staticfiles %}
+{% load order_tags %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row incoming-packages">
+                <div class="col-md-12">
+				<ol class="breadcrumb">
+					<li><a href="{% url 'promotions:home' %}"><i class="fa fa-home"></i>{% trans "Home" %}</a></li>
+					<li><a href="{% url 'customer:profile-view' %}">{% trans "Control Panel" %}</a></li>
+					<li class="active">{% trans "Order History" %}</li>
+				</ol>
+                    <h3 class="heading">{% trans "Order History" %}</h3>
+                    <div class="row">
+                        <div class="col-md-6 filter">
+                            <p>{% trans "Filter" %}</p>
+                            <form action="." method="get">
+                                {% include "partials/form_fields.html" with form=form %}
+                                <button type="submit" class="btn btn-danger btn-filter">{% trans 'Filter Results' %}</button>
+                            </form>
+                            <a href="{% url 'customer:order-list' %}" class="btn btn-default btn-reset">{% trans 'Reset' %}</a>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 40px;">
+                        <div class="col-md-12">
+                            {% if orders %}
+                                <div class="table-responsive">
+                                    <table class="tabel order-table">
+                                        <thead>
+                                            <tr>
+                                                <td>{% trans "#Order" %}</td>
+                                                <td>{% trans "#Package" %}</td>
+                                                <td>{% trans "Total" %}</td>
+                                                <td>{% trans "Status" %}</td>
+                                                <td>{% trans "Date Submitted" %}</td>
+                                                <td>{% trans "Invoice" %}</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for order in orders %}
+                                                <tr>
+                                                    <td><a href="{% url 'customer:order' order_number=order.number %}">{{ order.number }}</a></td>
+                                                    <td>{{ order.package.upc }}</td>
+                                                    <td>{{ order.total_incl_tax|currency:order.currency }}</td>
+                                                    <td>
+                                                        {% render_order_status_label order.status %}
+                                                    </td>
+                                                    <td>{{ order.date_placed|date:"d M Y" }}</td>
+                                                    <td>
+                                                        <a href="{% url 'customer:order-invoice' order.number %}" target="_blank"><i class="fa fa-file-text-o"></i></a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {% include "partials/pagination.html" with main_site=1 %}
+                            {% else %}
+                                <p>{% trans "No orders found." %}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block extrascripts %}
+    {{ block.super }}
+    <script src="{% static "usendhome/assets/jquery-ui-1.11.2.custom/jquery-ui.min.js" %}"></script>
+{% endblock %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "usendhome/assets/jquery-ui-1.11.2.custom/jquery-ui.css" %}" type="text/css" />
+{% endblock %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.initDatepicker();
+{% endblock %}

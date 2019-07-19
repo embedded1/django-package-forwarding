@@ -1,0 +1,44 @@
+{% extends 'dashboard/layout.html' %}
+{% load dashboard_tags %}
+{% load url from future %}
+{% load i18n %}
+
+{% block body_class %}{{ block.super }} users{% endblock %}
+
+{% block title %}
+    {% trans "Customers" %}
+{% endblock %}
+
+{% block header %}
+    <div class="page-header">
+        <h1>{% trans "Customer Registration Type Breakdown" %}</h1>
+    </div>
+{% endblock header %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            <span class="divider">/</span>
+        </li>
+        <li class="active">{% trans "Customers Breakdown" %}</li>
+    </ul>
+{% endblock %}
+
+{% block dashboard_content %}
+    <table class="table table-striped table-bordered table-hover">
+        <tr>
+            <th>{% trans "Registration Type" %}</th>
+            <th>{% trans "User Count" %}</th>
+            <th>{% trans "Order Count" %}</th>
+        </tr>
+        {% for entry in breakdown_list %}
+            <tr>
+                <td>{{ entry.0 }}</td>
+                <td>{{ entry.1 }}</td>
+                <td>{{ entry.2 }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% include "partials/pagination.html" %}
+{% endblock dashboard_content %}

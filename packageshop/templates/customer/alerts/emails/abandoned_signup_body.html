@@ -1,0 +1,51 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "You Almost Got Your Personal US Address" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "You Almost Got Your Personal US Address" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    {% blocktrans %}Hi, {% endblocktrans %}
+</p>
+
+<p>
+    {% blocktrans %}
+        I saw that you were about to create a free account with us and that you didn't get a chance to
+        finish the sign up process. I just wanted to see if there were any problems, or anything at all I could help with.
+        If so, please let me know by responding to this email.
+    {% endblocktrans %}
+</p>
+
+<p>
+    {% blocktrans %}
+        In case you were looking to continue where you left off, below you'll find a fast ticket to get your
+        personal US address up and running.
+    {% endblocktrans %}
+</p>
+
+<p>
+    {% blocktrans %}
+        Thanks again for visiting us, and please let me know if you have thoughts on how we can improve your experience
+        at USendHome.
+    {% endblocktrans %}
+</p>
+
+<p>
+    {% render_email_button 'customer:register' "Continue With The Sign Up" %}
+</p>
+
+{% endblock %}
+
+{% block footer %}
+    <p style="margin-top:20px">
+        {% trans "Cheers," %}<br/>
+        {% trans "Leo Jones | USendHome Co-founder" %}
+    </p>
+{% endblock %}

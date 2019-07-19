@@ -1,0 +1,9 @@
+{% load i18n %}
+<table class="table table-striped table-bordered form-inline">
+    <caption>{% trans "Product special requests" %}</caption>
+    <tr>
+        <td>
+            {% include "partials/form_fields_dashboard.html" with form=special_requests_form %}
+        </td>
+    </tr>
+</table>

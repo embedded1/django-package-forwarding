@@ -1,0 +1,18 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}
+    {% blocktrans %}
+        Your friend {{ friend_name }} has been using USendHome - a US package forwarding service
+        - and thought you might want to give it a shot. Get your private US address in 5 seconds and start your
+        online shopping spree with us today!
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        Because you've been invited by a friend, we'd like to give you a $5
+        credit to try it out. Just use this link to create an account and you'll be credited automatically.
+    {% endblocktrans %}
+
+    {% trans "Use the URL link below to redeem Your Credit:" %}
+    {{ referral_link }}
+{% endblock %}

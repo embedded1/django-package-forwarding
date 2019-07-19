@@ -1,0 +1,36 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome Account Verification" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Account Verification" %}
+{% endblock %}
+
+{% block body %}
+    <p>
+        {% blocktrans with user_name_title=user_name|title %}
+            Hello {{ user_name_title }},
+        {% endblocktrans %}
+    </p>
+	<p>
+        {% blocktrans %}
+            Our security department has flagged your recent order for manual reviewing.
+        {% endblocktrans %}
+    </p>
+	<p>
+        {% blocktrans %}
+            Before we can mail out your order you must complete the account verification process.
+            Once we receive all documents we will start the verification process.
+            It usually takes us 1-2 business days to complete.
+            Click on the button below to start your account verification process now.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% render_email_button account_verify_url "Verify Account" %}
+    </p>
+{% endblock %}

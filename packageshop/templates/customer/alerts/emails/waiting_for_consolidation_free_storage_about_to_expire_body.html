@@ -1,0 +1,33 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome Free Storage Runs Out" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Your Free Storage Runs Out" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    {% blocktrans %}
+        We noticed that you haven't completed the package consolidation request yet and we
+        would like to inform you that your free package storage duration (30 days) is about to expire real soon.
+        Hurry up and complete the package consolidation request now to avoid paying extra fees.
+    {% endblocktrans %}
+
+</p>
+<p>
+    {% url 'customer:waiting-for-consolidation-packages' as consolidation_url %}
+    {% blocktrans %}
+		Click on the button below and then just click on the "Create Consolidated Container" button to get your items packed in one container today.
+        <a href="{{ site }}{{ consolidation_url }}">{{ site }}{{ consolidation_url }}</a>
+    {% endblocktrans %}
+</p>
+<p>
+    {% render_email_button "customer:waiting-for-consolidation-packages" "Complete Consolidation" %}
+</p>
+{% endblock %}

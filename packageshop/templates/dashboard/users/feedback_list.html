@@ -1,0 +1,69 @@
+{% extends 'dashboard/layout.html' %}
+{% load dashboard_tags %}
+{% load url from future %}
+{% load i18n %}
+
+{% block body_class %}{{ block.super }} users{% endblock %}
+
+{% block title %}
+    {% trans "Customers" %}
+{% endblock %}
+
+{% block header %}
+    <div class="page-header">
+        <h1>{% trans "Customer Feedback" %}</h1>
+    </div>
+{% endblock header %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            <span class="divider">/</span>
+        </li>
+        <li class="active">{% trans "Customers Feedback" %}</li>
+    </ul>
+{% endblock %}
+
+{% block dashboard_content %}
+    {% block feedback_list %}
+        {% if feedback_list %}
+            <form action="." method="post" class="form-inline">
+                {% csrf_token %}
+                <table class="table table-striped table-bordered table-hover">
+                    <tr>
+                        {% block feedback_list_header %}    
+							<th>{% trans "Email" %}</th>       
+                            <th>{% trans "Customer's name" %}</th>                            							
+                            <th>{% trans "Order number" %}</th>
+                            <th>{% trans "Date received" %}</th>   
+							<th></th>							
+                        {% endblock %}
+                    </tr>
+                    {% for feedback in feedback_list %}
+                        <tr>
+                            {% block feedback_list_row %}
+                                {% with user=feedback.customer %}
+                                    <td><a href="{% url 'dashboard:user-detail' pk=user.id %}">{{ user.email }}</a></td>
+								    <td>{{ user.get_full_name }}</td>
+                                {% endwith %}
+                                <td>{{ feedback.order.number }}</td>                                
+                                <td>{{ feedback.date_created|date:"d/m/y H:i" }}</td>                                
+                                <td>
+                                    <a href="{% url 'dashboard:user-feedback' pk=feedback.id %}" class="btn btn-info">{% trans "View" %}</a>
+                                </td>
+                            {% endblock %}
+                        </tr>
+                    {% endfor %}
+                </table>
+                {% include "partials/pagination.html" %}
+            </form>
+
+        {% else %}
+            <table class="table table-striped table-bordered table-hover">                
+                <tr><td>{% trans "No feedback found." %}</td></tr>
+            </table>
+        {% endif %}
+    {% endblock %}
+
+{% endblock dashboard_content %}

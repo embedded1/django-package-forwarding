@@ -1,0 +1,24 @@
+{% extends "oscar/customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}{% autoescape off %}
+
+{% if proactive %}
+    {% blocktrans %}
+		You're receiving this e-mail because you requested to confirm your email address at {{ site_name }}.
+		Just click the link below to confirm your address.
+	{% endblocktrans %}
+{% else %}
+    {% blocktrans with name=user.first_name|title %}
+        Hey {{ name }},
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        Thanks for signing up for a USendHome account! Please confirm your account.
+    {% endblocktrans %}
+{% endif %}
+
+{{ site }}{{ confirmation_url }}
+
+{% endautoescape %}
+{% endblock %}

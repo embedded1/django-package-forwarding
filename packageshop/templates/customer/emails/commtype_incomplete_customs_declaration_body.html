@@ -1,0 +1,45 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+
+{% block body %}{% autoescape off %}
+    <p>
+        {% blocktrans with name=user.first_name|title %}
+            Hey {{ name }},
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans with order_number=order.number %}
+            The operations team has noticed that the customs declaration for order {{ order_number }} is incomplete and
+            must be updated ASAP.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+            We remind you that all imported goods must be declared to customs, regardless of whether the goods are new or used or whether you're buying them for yourself
+            or as a gift and that the item does not contain any undeclared, restricted or dangerous articles.
+            Incomplete customs declaration might cause delays in processing and shipping your package so it's very important to do it right.
+        {% endblocktrans %}
+    </p>
+
+    <p>{% trans "This is the incomplete customs declaration:" %}</p>
+
+    <p>
+        {% with summary_tuple=order.package.custom_form_summary %}
+            {{ summary_tuple.0 }}<br/>
+            {% for field in summary_tuple.1 %}
+                {% if forloop.counter|divisibleby:"3" %}
+                    {{ field }}
+                    <br/>
+                {% else %}
+                    {{ field }},
+                {% endif %}
+            {% endfor %}
+        {% endwith %}
+    </p>
+
+    <p>
+        {% blocktrans %}
+            Please send us the updated declaration by replaying to this email.
+        {% endblocktrans %}
+    </p>
+{% endautoescape %}{% endblock %}

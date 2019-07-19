@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% load i18n %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block title %}
+    {% trans "Best International Package forwarding service from USA - USendHome" %}
+{% endblock %}
+
+{% block page_inner_class %}
+    about
+{% endblock %}
+
+{% block description %}
+	{% trans "USendHome provides is an Internal package forwarding and shipping service that enables getting packages from USA to anywhere in the world. We enable people from 128+ countries to buy from US-only online stores and have those packages delivered to their address without any fuss. Get a Free Forever US Forwarding Address." %}
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <h1>{% trans "Meet USendHome, The Rising Package Forwarding Company" %}</h1>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="about-us">
+                        <h2 class="about-us-heading">{% trans "Who We Are" %}</h2>
+                        <p>
+                            {% blocktrans %}
+                                USendHome has one mission: Break international shipping boundaries by making shipping from the USA easy and affordable.
+                                When shopping US online retailers, shipping is too expensive or unavailable. We've changed that!
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                All US purchases are sent to our customer's private mailbox, and our high-quality service team happily forwards the purchases to them overseas.
+                                We love what we do and it shows!
+                            {% endblocktrans %}
+                        </p>
+                        <h2 class="about-us-heading">{% trans "Our Groundbreaking Technology" %}</h2>
+                        <p>
+                            {% blocktrans %}
+                                USendHome customers have everything at their fingertips. With our state-of-the-art control panel, customers manage their forwarding needs without a middleman.
+                                Our real-time management system is fast and second to none.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                Our customers also enjoy the convenience of our advanced package tracking system.
+                                With one click of the mouse, all shipments are tracked and progress notifications sent to our customers automatically.
+                            {% endblocktrans %}
+                        </p>
+                        <h2 class="about-us-heading">{% trans "Our Logistics Infrastructure Makes a Difference" %}</h2>
+                        <p>
+                            {% blocktrans %}
+                                USendHome's state-of-the-art California facility is where we take package management and forwarding to the next level.
+                                We are experts in safely and efficiently handling all of our customer's logistics needs.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                Our facility houses a monumental volume of packages seamlessly, and your items are fully protected.
+                                We insure all packages while in our care and keep track of everything via a unique inventory system.
+                            {% endblocktrans %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

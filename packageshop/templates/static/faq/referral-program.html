@@ -1,0 +1,94 @@
+{% extends "static/faq/base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block description %}
+	{% trans "Learn about USendHome referral program and how it can reduce your international shipping through frequency asked questions." %}
+{% endblock %}
+
+{% block title %}
+    {% trans "USendHome Referral Program Questions" %}
+{% endblock %}
+
+
+{% block messages %}
+    <div class="container">
+        <div id="promo-messages">
+            <div class="alert alert-safe alert-noicon alert-info fade in">
+                <h1>{% trans "Referral Program Questions" %}</h1>
+                <p>
+                    {% blocktrans %}
+                        Learn how you can save more on international shipping by inviting your friends to USendHome.com
+                    {% endblocktrans %}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block faq_section %}
+<div id="referral-program" class="faq-content active">
+    <div class="faq-content-inner" id="referral-q1">
+        <h4>{% trans "How do I get started?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Every customer receives a personal referral link that can be utilized for endorsing our services.
+                We also designed a fancy
+            {% endblocktrans %}
+
+            {% if user.is_authenticated %}
+                 <a href="{% url 'customer:referrals-index' %}" rel="noindex">{% trans "referrals stats page" %}</a>
+            {% else %}
+                referrals stats page
+            {% endif %}
+            {% blocktrans %}
+                where you can invite your friends and keep track on your referrals performence.
+                The referral link can be accessed from the Account Information section within the USendHome control panel.
+            {% endblocktrans %}
+
+        </p>
+    </div>
+    <div class="faq-content-inner" id="referral-q2">
+        <h4>{% trans "How will referrals be awarded?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Referrals will be awarded via shipping credit. Available credit automatically
+                appears on the checkout page in the form of a shipping discount.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="referral-q3">
+        <h4>{% trans "How do I earn the shipping credit?" %}</h4>
+        <p>
+            {% blocktrans %}
+               We made it super simple! Anyone you refer to USendHome that signs up using your unique referral link will immediately receive $5 in shipping credit.
+               In return for helping us spread the word, we’ll give you $5 for each friend that signs up, once they have delivered their first package with us.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="referral-q4">
+        <h4>{% trans "When do I receive my shipping credit?" %}</h4>
+        <p>
+            {% blocktrans %}
+                You will receive your credits after your referral releases a package for delivery (excluding Return-to-Sender shipments)
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="referral-q5">
+        <h4>{% trans "What is a pending referral?" %}</h4>
+        <p>
+            {% blocktrans %}
+                A pending referral means that a user has signed up with your unique referral link, but has not yet released a package for delivery for the payout to occur.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="referral-q6">
+        <h4>{% trans "Is there a limit for the shipping credit I can earn?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Nope! There is no limit to how many friends you can refer and shipping credits you can earn :)
+            {% endblocktrans %}
+        </p>
+    </div>
+</div>
+{% endblock %}

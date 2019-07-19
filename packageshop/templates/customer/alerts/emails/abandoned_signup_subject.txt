@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans %}
+    Thanks for visiting us at USendHome
+{% endblocktrans %}

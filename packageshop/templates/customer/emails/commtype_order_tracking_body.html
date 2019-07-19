@@ -1,0 +1,59 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load shipping_methods_tags %}
+
+{% block title %}
+    {% trans "USendHome Package Tracking" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Package Tracking" %}
+{% endblock %}
+
+{% block body %}
+    {% if latest_status == 'delivered' %}
+        <p>
+            {% trans "Your package has arrived!!! here's the full shipping information:" %}
+        </p>
+    {% elif latest_status == 'failure' %}
+        <p>
+            {% blocktrans %}
+                Your action is required to clear all outstanding exceptions with your package.
+                Please contact {{ display_carrier }} office in your country as more information regarding your shipment is needed.
+                Let us know if you need any help from our end.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% trans "Here's the full shipping information for your reference:" %}
+        </p>
+    {% else %}
+        <p>
+            {% trans "Your order has been updated with new shipping information:" %}
+        </p>
+    {% endif %}
+
+	<ul>
+		{% for line in shipping_info %}
+            {% if line.tracking_location.city %}
+			    <li>{{ line.message|safe }} in {{ line.tracking_location.city }}</li>
+            {% else %}
+			    <li>{{ line.message|safe }}</li>
+            {% endif %}
+		{% endfor %}
+	</ul>
+
+    <p>
+		{% blocktrans %}
+			It is being shipped via {{ display_carrier }} under tracking number {{ tracking_number }}.<br/>
+			You can view the status of this shipment manually at the following URL link:<br/>
+		{% endblocktrans %}
+
+		{% render_shipping_method_tracking_url carrier tracking_number as tracking_url %}
+        <a href="{{ tracking_url }}" target="_blank">{{ tracking_url }}</a>
+    </p>
+	
+    <p>
+		{% trans "Please allow reasonable time for the status of the shipment to display updated information at the above link." %}.
+	</p>
+{% endblock %}
+

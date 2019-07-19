@@ -1,0 +1,106 @@
+{% load i18n %}
+
+{% if form.is_bound and not form.is_valid %}
+	<div class="alert alert-danger">
+		<strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
+	</div>
+{% endif %}
+
+{% if form.non_field_errors %}
+	{% for error in form.non_field_errors %}
+		<div class="alert alert-danger">
+			<i class="fa fa-exclamation-circle"></i> {{ error }}
+		</div>
+	{% endfor %}
+{% endif %}	
+
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="form-group {% if form.first_name.errors %}has-error{% endif %}">
+			{% include "partials/form_field_label.html" with field=form.first_name %}
+			<div class="input-group">
+				<div class="input-group-addon"><i class="fa fa-user"></i></div>
+				{% include "partials/form_field_input.html" with field=form.first_name inputaddon=1 %}
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group {% if form.last_name.errors %}has-error{% endif %}">
+			{% include "partials/form_field_label.html" with field=form.last_name %}
+			<div class="input-group">
+				<div class="input-group-addon"><i class="fa fa-user"></i></div>
+				{% include "partials/form_field_input.html" with field=form.last_name inputaddon=1 %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<div class="form-group {% if form.line1.errors %}has-error{% endif %}">
+			{% include "partials/form_field_label.html" with field=form.line1 %}
+			<div class="input-group">
+				<div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+				{% include "partials/form_field_input.html" with field=form.line1 inputaddon=1 %}
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group {% if form.line2.errors %}has-error{% endif %}">
+			{% include "partials/form_field_label.html" with field=form.line2 %}
+			<div class="input-group">
+				<div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+				{% include "partials/form_field_input.html" with field=form.line2 inputaddon=1 %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-4">
+		<div class="form-group {% if form.line4.errors %}has-error{% endif %}">
+			{% include "partials/form_field_label.html" with field=form.line4 %}
+			<div class="input-group">
+				<div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+				{% include "partials/form_field_input.html" with field=form.line4 inputaddon=1 %}
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group {% if form.state.errors %}has-error{% endif %}">
+			{% include "partials/form_field_label.html" with field=form.state %}
+			<div class="input-group">
+				<div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+				{% include "partials/form_field_input.html" with field=form.state inputaddon=1 %}
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group {% if form.postcode.errors %}has-error{% endif %}">
+			{% include "partials/form_field_label.html" with field=form.postcode %}
+			<div class="input-group">
+				<div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+				{% include "partials/form_field_input.html" with field=form.postcode inputaddon=1 %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<div class="form-group {% if form.country.errors %}has-error{% endif %}">
+			{% include "partials/form_field_label.html" with field=form.country %}
+			<div class="input-group">
+				<div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+				{% include "partials/form_field_input.html" with field=form.country inputaddon=1  %}
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group {% if form.phone_number.errors %}has-error{% endif %}">
+			{% include "partials/form_field_label.html" with field=form.phone_number %}
+			<div class="input-group">
+				<div class="input-group-addon"><i class="fa fa-phone"></i></div>
+				{% include "partials/form_field_input.html" with field=form.phone_number inputaddon=1  %}
+			</div>                        
+		</div>
+	</div>
+</div>

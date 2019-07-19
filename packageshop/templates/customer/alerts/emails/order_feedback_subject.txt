@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans with number=order.number %}
+    Tell us about Order #{{ number }}
+{% endblocktrans %}

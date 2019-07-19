@@ -1,0 +1,36 @@
+{% load i18n %}
+
+<h4>{% trans "Returning Packages Back to Merchants" %}</h4>
+<h5>{% trans "Introduction" %}</h5>
+
+<p>
+	{% blocktrans %}
+		Sometime packages have to be returned - we get that. Therefore, we've made it quick and simple to return your packages to the merchant from our warehouse.
+		That's right, We'll do it for you. You do need to contact the merchant first to ensure it will receive your returned merchandise
+		and to get a prepaid return label so you can avoid paying the shipping costs yourself.
+		Once you've done that, leave the rest to us.
+	{% endblocktrans %}
+</p>
+
+<h5>{% trans "Walkthrough" %}</h5>
+
+<ul>
+	<li>
+		{% trans "Log in to your USendHome control panel and click on the Incoming Packages tab" %}
+	</li>
+	<li>
+		{% trans "Click the drop-down menu next to the desired package and select the Return-to-Merchant option" %}
+	</li>
+	<li>
+		{% trans "Allow the wizard to take you through the Return-to-Merchant Checkout process" %}
+		<ul>
+			<li>{% trans "Upload the merchant's prepaid return label if you have one and proceed to the next step" %}</li>
+			<li>{% trans "Enter the merchandise's total value if you don't have prepaid return label and proceed to the next step" %}</li>
+			<li>{% trans "Select a shipping address from your address book or enter the merchant's address manually" %}</li>
+			<li>{% trans "Select your preferred shipping method" %}</li>
+			<li>{% trans "Complete payment" %}</li>
+		</ul>
+	</li>
+	<li>{% trans "Enable the Package tracking option in your control panel so we can keep you abreast of your return packages progress" %}</li>
+</ul>
+

@@ -1,0 +1,6 @@
+{% load url from future %}
+
+<form id="profile-form" action="{% url "customer:settings-update" %}" method="post">
+    {% csrf_token %}
+    {% include 'partials/form.html' %}
+</form>

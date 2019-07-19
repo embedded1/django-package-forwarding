@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+{% load i18n %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block description %}
+	{% trans "Know your bill before you start using our services. No hidden or subscriptions fees, we only charge for the services you use. No packages - No bill, it's that simple." %}
+{% endblock %}
+
+{% block title %}
+    {% trans "Learn More About USendHome Fees, Nothing is Hidden" %}
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <h1>{% trans "USendHome Fees Explained, Nothing is Hidden" %}</h1>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="about-us" id="basics">
+                        <h5>{% trans "Package Processing" %}</h5>
+                        <p>
+                            {% blocktrans %}
+                                We charge a flat-rate $1 Package Processing fee for every package that arrives at our warehouse.<br/>
+                                For example, if you ask us to merge items from 3 orders into one shipment you would pay a $3
+                                Package Processing fee when you release your consolidated package for delivery.
+                            {% endblocktrans %}
+                        </p>
+                        <h5>{% trans "Package Consolidation" %}</h5>
+                        <p>
+                            {% blocktrans %}
+                                You pay $2 per package for our Package Consolidation service if you ask us to consolidate your packages before they arrive.
+                                The service is $3 per package if you decide to consolidate your packages once they're already here.
+                                Save $1 on all deliveries by selecting this service for all incoming packages in your control panel.
+                            {% endblocktrans %}
+                        </p>
+                        <h5>{% trans "Storage" %}</h5>
+                        <p style="margin-bottom: 15px;">
+                            {% blocktrans %}
+                               We store your packages safely until you are ready for shipment.
+                               Single packages are stored for free for 10 days and then charged $1 per day starting on day 11.
+                               Consolidated packages are stored for free for 30 days, and then charged $1 per day starting on day 31.
+                               The arrival time of consolidated packages is considered to be the arrival time of the first received package.
+                               For example, if we merge items from 2 packages, one received at May 10 and
+                               the second received at May 16, the storage duration of the consolidated package starts from May 10.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                Please note that every completed Package Consolidation request must be released for delivery within 3 days.
+                                Storage fees will be applied to shipments that don't meet this criteria.
+                            {% endblocktrans %}
+                        </p>
+                        <h5>{% trans "Payment Processing" %}</h5>
+                        <p>
+                            {% blocktrans %}
+                                We apply a Payment Processing fee once you are ready to have your packages shipped to you.
+                                The fee is 4.5% of your total shipping cost and is assessed to cover your credit card's transaction fees.
+                                This fee is separate from the $1 Package Processing fee.
+                            {% endblocktrans %}
+                        </p>
+                        <h5>{% trans "Incomplete USendHome Address" %}</h5>
+                        <p>
+                            {% blocktrans %}
+                               Please include your private mailbox number on orders shipped to our warehouse.
+                               If this information is not included, we cannot identify to whom the package belongs.
+                               Packages that do not have this information are assessed a $5 fee per package.
+                               The first package received is exempt from this fee but all packages following are assessed.
+                               <br/>
+                                Shipments lacking this information make it harder to identify the proper recipient and
+                                delay processing your package.
+                                Just make sure your private mailbox is included to get your packages updated in your control panel
+                                as they come in.
+                            {% endblocktrans %}
+                        </p>
+                        <h5>{% trans "Heavy Package" %}</h5>
+                        <p>
+                            {% blocktrans %}
+                                Packages received at our warehouse that weight over 50 pounds will be assessed a $10 Heavy Package fee.
+                            {% endblocktrans %}
+                        </p>
+                        <h5>{% trans "Return Label Processing" %}</h5>
+                        <p>
+                            {% blocktrans %}
+                                Packages returned to the vendor that include a prepaid return label will be assessed a $10
+                                Return Label Processing fee to cover the costs for preparing and returning your packages for you.
+                            {% endblocktrans %}
+                        </p>
+                        <h5 id="eei-fee">{% trans "EEI Documentation Handling" %}</h5>
+                        <p>
+                            {% blocktrans %}
+                                Electronic Export Information (EEI) filing is generally required by the US Census Bureau for exports that contain a single commodity's value exceeding $2,500.00.
+                                We charge $40 flat fee if EEI document is required for your shipment.
+                                Please note that we can't ship a package if the value of any item exceeds $2500 via the USPS due to complicated regulations.
+                                Only express carriers shipping method (FedEx and etc) will be available at checkout.
+                            {% endblocktrans %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

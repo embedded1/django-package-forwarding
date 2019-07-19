@@ -1,0 +1,24 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}
+{% blocktrans with shop_name=package.title %}
+	We just received a delivery from {{ shop_name }} that was missing your private mailbox number.
+	Shipments lacking this information make it harder to identify the proper recipient and delay processing your package.
+	Your package will be available in your account once we complete the extra processing required for such packages.
+{% endblocktrans %}
+
+{% blocktrans with uuid=package.owner.get_profile.uuid %}
+	Please make sure that you always include your private mailbox number {{ uuid }} on the
+	shipping address of your orders when using our services to have your package updated in your account
+    immediately with no delays.
+{% endblocktrans %}
+
+{% if not is_charged %}
+    {% blocktrans %}
+         We did not charge you this time, but in the future, if a shipment does not identify your private mailbox number,
+		a missing mailbox number surcharge will be applied.
+    {% endblocktrans %}
+{% endif %}
+
+{% endblock %}

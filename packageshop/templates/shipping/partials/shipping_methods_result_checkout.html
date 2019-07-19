@@ -1,0 +1,56 @@
+{% load i18n %}
+{% load currency_filters %}
+{% load staticfiles %}
+
+{% comment %}
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!
+        THIS FILE IS NOT USED
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!
+{% endcomment %}
+
+
+{% for method in methods %}
+    <div class="col-md-4 shipping-method" data-service="{{ method.service }}" data-rate="{{ method.shipping_method_cost }}" data-delivery="{{ method.max_delivery_days }}">
+        <div class="item-box fixed-box thumbnail">
+            <form method="post" action="{% url checkout:shipping-method %}" role="form">
+                <figure class="checkout-shipping-rates">
+                    <div class="item-hover">
+                        <span class="overlay color2"></span>
+                        <span class="inner">
+                            <a class="block fa fa-plus fsize20 add-insurance" data-content="{% trans "Shipping insurance added" %}" data-tmp-content="{% trans "Shipping insurance removed" %}" data-tooltip-title="{% trans "Add insurance" %}" data-tmp-tooltip-title="{% trans "Remove insurance" %}" data-action="remove"></a>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="insurance" value="yes" style="display: none">
+                                    <strong>
+                                        {% blocktrans with insurance_rate=method.shipping_insurance_cost|currency  %}
+                                            {{ insurance_rate }} insurance
+                                        {% endblocktrans %}
+                                    </strong>
+                                </label>
+                            </div>
+                        </span>
+                    </div>
+                    {% csrf_token %}
+                    <input type="hidden" name="method_code" value="{{ method.code }}" />
+                    <input type="hidden" name="insurance_charges" value="{{ method.shipping_insurance_cost|default:'0.0' }}" />
+                    <button type="submit" class="btn btn-primary select-shipping-method">
+                        <i class="fa fa-plane"></i>
+                        {% trans "Select Method" %}
+                    </button>
+                    <img src="{% static "sendome/images/9.jpg" %}" class="img-responsive" width="260" height="260" alt="{{ method.name }}" />
+                </figure>
+            </form>
+            <div class="item-box-desc">
+                <h4>{{ method.name }}</h4>
+                <small class="delivery-days">
+                    {% blocktrans with days=method.delivery_days %}
+                        {{ days }} business days
+                    {% endblocktrans %}
+                </small>
+                <div class="item-box-rate">
+                    <span class="shipping-rate">{{ method.shipping_method_cost|currency }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}

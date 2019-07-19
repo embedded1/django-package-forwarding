@@ -1,0 +1,76 @@
+{% extends 'dashboard/reports/index.html' %}
+{% load url from future %}
+{% load currency_filters %}
+{% load sorting_tags %}
+{% load misc_filters %}
+{% load i18n %}
+
+{% block report_header %}
+    {% if description %}
+        <div class="table-header">
+        <table width="100%">
+            <tr>
+                <td>{% trans "Orders:" %} {{ num_records }}</td>
+                <td>{% trans "Revenues:" %} ${{ total_revenues }}</td>
+                <td>{% trans "Average revenue:" %} ${{ average_payment }}</td>
+                <td>{% trans "PayPal Payments:" %} ${{ paypal_total_payments }}</td>
+                <td>{% trans "Bitcoin Payments:" %} ${{ bitcoin_total_payments }}</td>
+                <td>{% trans "Total Received Payments (including partner share):" %} ${{ total_payments }}</td>
+                <td>{% trans "shipping costs + insurance:" %} ${{ shipping_plus_insurance_costs }}</td>
+                <td>{% trans "Partner Total Payments:" %} ${{ partner_payments }}</td>
+                <td>{% trans "Partner shipping costs:" %} ${{ partner_shipping_costs }}</td>
+                <td>{% trans "Partner Bitcoin Payments:" %} ${{ partner_bitcoin_payments }}</td>
+                <td>{% trans "Partner PayPal Payments:" %} ${{ partner_paypal_payments }}</td>
+            </tr>
+        </table>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block report %}
+    <table class="table table-striped table-bordered table-hover">
+        {% if objects %}
+            <tr>
+                <th>{% trans "Order number" %}</th>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Total" %}</th>
+                <th>{% trans "Shipping method" %}</th>
+                <th>{% trans "Shipping surcharges" %}</th>
+                <th>{% trans "Base shipping rate" %}</th>
+                <th>{% trans "Order content" %}</th>
+                <th>{% trans "Payment amount to USendHome" %}</th>
+                <th>{% trans "Payment revenue to USendHome" %}</th>
+                <th>{% anchor 'sources__label' _("Payment type") %}</th>
+                <th>{% trans "Payment date" %}</th>
+                <th>{% trans "Partner" %}</th>
+            </tr>
+            {% for order in objects %}
+                <tr>
+                    <td><a href="{% url 'dashboard:order-detail' number=order.number %}">{{ order.number }}</a></td>
+                    <td>{{ order.user.get_full_name|title }}</td>
+                    <td>{{ order.total_incl_tax }}</td>
+                    <td>{{ order.tracking.display_carrier|default:order.tracking.carrier }} {{ order.shipping_method }}</td>
+                    <td>{{ order.shipping_surcharges|default:"-" }}</td>
+                    <td>{{ order.shipping_excl_tax|currency:order.currency }}</td>
+                    <td>
+                        {% for line in order.lines.all %}
+                            ({{ line.title }}, {{ line.line_price_incl_tax|currency:order.currency }}),
+                        {% endfor %}
+                    </td>
+                    {% with source=order.sources.all.0 %}
+                        <td>{{ source.self_share|currency:order.currency }}</td>
+                        <td>{{ source.self_revenue|currency:order.currency }}</td>
+                        <td>{{ source.label }}</td>
+                    {% endwith %}
+                    <td>{{ order.date_placed }}</td>
+                    {% if user.is_staff %}
+                        <td>{{ order.package.partner.name|default:"-" }}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr><td>{% trans "No results found." %}</td></tr>
+        {% endif %}
+    </table>
+    {% include "partials/pagination.html" %}
+{% endblock %}

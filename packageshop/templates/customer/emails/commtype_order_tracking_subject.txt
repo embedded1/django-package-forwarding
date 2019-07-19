@@ -1,0 +1,11 @@
+{% load i18n %}
+
+{% if latest_status == 'failure' %}
+    {% blocktrans with number=order.number %}
+        Shipping exception - your action is required
+    {% endblocktrans %}
+{% else %}
+    {% blocktrans with number=order.number %}
+        Shipping update for order #{{ number }}
+    {% endblocktrans %}
+{% endif %}

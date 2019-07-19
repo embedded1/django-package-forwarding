@@ -1,0 +1,29 @@
+{% load i18n %}
+{% load url from future %}
+
+<div class="modal modal-cp fade contacts" id="exitModal" tabindex="-1" role="dialog" aria-labelledby=exitModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">{% trans "Want to shop at Amazon.com like a US resident?" %}</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body contacts-body" id="exitModalBody">
+                <h3 style="width: 80%;">
+                    {% blocktrans %}
+                        Give our new Chrome extension a spin. It will save you time, money and frustration. <span class="label label-danger">GUARANTEED</span>
+                    {% endblocktrans %}
+                </h3>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="//www.youtube.com/embed/VPN-9xVsv3g?html5=1&rel=0&showinfo=0&autohide=1" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="modal-footer" id="exitModalFooter">
+                <div class="modal-btns">
+                    <a href="{% url 'chrome-ext' %}" class="btn">{% trans "Learn More" %}</a>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary btn-save" id="add-to-chrome">{% trans "Add to Chrome" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+    {% extends "base.html" %}
+
+{% block layout %}
+    {% block nav %}
+        {# Top-horizontal bar with account, notifictions, dashboard links #}
+        {% include "partials/nav_accounts.html" %}
+    {% endblock %}
+
+    {% block header %}
+    {% endblock %}
+
+    {# Main content of page - other layout templates may override this block #}
+    <div class="page_inner {% block page_inner_class %}{% endblock %}">
+        <div class="content">
+            {% block breadcrumbs %}{% endblock %}
+            {% block messages %}
+                <div class="container">
+                    {% include "partials/alert_messages.html" %}
+                </div>
+            {% endblock %}
+            {# Div exists for AJAX updates to entire content section #}
+            <div id="content_inner">{% block content %}{% endblock %}</div>
+        </div>
+    </div>
+
+    {% block footer %}
+        {% include "partials/footer.html" %}
+    {% endblock %}
+{% endblock %}
+

@@ -1,0 +1,208 @@
+{% extends 'checkout/checkout.html' %}
+{% load currency_filters %}
+{% load discount_filters %}
+{% load staticfiles %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+    {{ block.super }} {% trans "Order Confirmation" %}
+{% endblock title %}
+
+
+{% block header %}
+    <div class="cover blur-in">
+        <header id="checkout-header" class="thankyou-header">
+            <div class="container">
+                {% comment %}
+                    <div class="row">
+                        {% include "partials/brand.html" %}
+                    </div><!-- /row-fluid -->
+                {% endcomment %}
+                {% block step_description %}{% endblock %}
+                <h2 class="confirm-header"><span><i class="fa fa-check-circle"></i></span>
+                    {% blocktrans with order_num=order.number %}
+                        Confirmation for order #{{ order_num }}
+                    {% endblocktrans %}
+                </h2>
+            </div>
+        </header><!-- /header -->
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="cover blur-in">
+    <section id="checkout-options" class="blur">
+        <div class="container">
+            <div class="row confirm-details">
+                <div class="col-md-8">
+                    <h4 style="margin-bottom: 30px;">{% trans "Thank You For Your Order!" %}</h4>
+                    <p style="margin-bottom: 30px;">
+                        {% blocktrans with number=order.number %}
+                            Your order has been placed and confirmation email will be sent right after order approval.<br/>
+                            Your order number is: <span class="label label-primary">{{ number }}</span><br/>
+                            Please make a note of this reference or print this page and quote it in any communication with us regarding your order.
+                            Don't forget to enable our Package Tracking service to receive automatic updates of your shipment's progress!
+                        {% endblocktrans %}
+                    </p>
+                </div>
+            </div>
+            <div class="row order-details">
+                <div class="col-sm-5">
+                    {% include "checkout/partials/shipping_address.html" with shipping_address=order.shipping_address %}
+                </div>
+                <div class="col-sm-3">
+                    <span><strong>{% trans "Shipping Method" %}</strong></span>
+                    <span>{% if order.shipping_method != 'No shipping required' %}{{ order.tracking.display_carrier|default:order.tracking.carrier }} {{ order.shipping_method }}{% else %}{% trans "As listed on the prepaid return label" %}{% endif %}</span>
+                </div>
+                <div class="col-sm-4">
+                    <span class="right-align"><strong>{% trans "Payment Method" %}</strong></span>
+                    <span class="right-align">{{ order.sources.all.0.label }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table" style="margin-bottom: 40px; margin-top: 40px;">
+                        <thead>
+                            <tr>
+                                <td>{% trans "Description" %}</td>
+                                <td>{% trans "Quantity" %}</td>
+                                <td>{% trans "Price" %}</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for line in order.lines.all %}
+                                <tr>
+                                    <td>{{ line.description }}</td>
+                                    <td>{{ line.quantity }}</td>
+                                    <td>{{ line.line_price_before_discounts_excl_tax|currency }}</td>
+                                </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row payment-confirm">
+                <div class="col-md-4 col-md-offset-8">
+                    <table class="table total-table">
+                        <tbody>
+                            {% if order.basket_discounts %}
+                                <tr>
+                                    <td>{% trans "Subtotal:" %}</td>
+                                    <td>{{ order.basket_total_before_discounts_excl_tax|currency }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans "Discount:" %}</td>
+                                    <td>-{{ order|total_order_discounts|currency }}</td>
+                                </tr>
+                                {% if order.total_tax %}
+                                    <tr>
+                                        <td>VAT (17%):</td>
+                                        <td>+{{ order.total_tax|currency }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% else %}
+                                {% if order.total_tax %}
+                                <tr>
+                                    <td>{% trans "Subtotal:" %}</td>
+                                    <td>{{ order.basket_total_before_discounts_excl_tax|currency }}</td>
+                                </tr>
+                                <tr>
+                                    <td>VAT (17%):</td>
+                                    <td>+{{ order.total_tax|currency }}</td>
+                                </tr>
+                                {% endif %}
+                            {% endif %}
+                            <tr>
+                                <td class="green">{% trans "Total:" %}</td>
+                                <td class="green">{{ order.total_incl_tax|currency }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="text-align: center; margin-top: 50px;">
+                    <a href="{% url 'promotions:home' %}" class="mr30">{% trans "Return to site" %}</a>
+                    <a id="shipping-credit" href="{% url 'customer:referrals-index' %}" class="btn btn-info btn-lightblue"><i class="fa fa-plane"></i>{% trans "Get $5 Shipping Credit" %}</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<div class="modal modal-cp fade" id="orderProcessingModal" tabindex="-1" role="dialog" aria-labelledby="orderProcessingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="orderProcessingModalLabel">{% trans "Order Processing" %}</h4>
+            </div>
+            <div class="modal-body order-processing-body" id="orderProcessingModalBody">
+                <div class="loading"></div>
+                <div class="headline order-processing">
+                    {% with source=order.get_payment_source_type %}
+                        {% if source == "BitsOfGold" %}
+                            <h3>
+                                {% blocktrans %}
+                                    Please wait while your order is being processed...<br/>
+                                    it might take some time (up to 10 min) so go grab yourself a coffee
+                                    while you're waiting :) <br/>
+                                    You can close this page if processing takes more than 10 minutes - we will notify you
+                                    once confirmation has been received.
+                                {% endblocktrans %}
+                            </h3>
+                        {% else %}
+                            <h3>{% trans "Please wait while your order is being processed..." %}</h3>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% comment %}
+{% block tracking %}
+    {{ block.super }}
+    <div style="display: none">
+        {% if google_analytics_id %}
+            {% include 'partials/google_analytics_transaction.html' %}
+        {% endif %}
+        {% if not debug %}
+            <!-- Google Code for ORDER Conversion Page -->
+            <script type="text/javascript">
+                /* <![CDATA[ */
+                var google_conversion_id = 953470795;
+                var google_conversion_language = "en";
+                var google_conversion_format = "3";
+                var google_conversion_color = "ffffff";
+                var google_conversion_label = "Xut0CNyu7mYQy57TxgM";
+                var google_conversion_value = 10.00;
+                var google_conversion_currency = "USD";
+                var google_remarketing_only = false;
+                /* ]]> */
+            </script>
+            <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+            </script>
+            <noscript>
+                <div style="display:inline;">
+                    <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/953470795/?value=10.00&amp;currency_code=USD&amp;label=Xut0CNyu7mYQy57TxgM&amp;guid=ON&amp;script=0"/>
+                </div>
+            </noscript>
+        {% endif %}
+    </div>
+{% endblock %}
+{% endcomment %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.thank_you.init();
+{% endblock %}
+
+{% block extrascripts %}
+    {{ block.super }}
+    <script src="{% static "usendhome/assets/spin/spin.min.js" %}"></script>
+{% endblock %}

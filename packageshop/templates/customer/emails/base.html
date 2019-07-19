@@ -1,0 +1,13 @@
+{% load i18n %}
+{% load url from future %}
+{% block header %}{% endblock %}
+{% block body %}{% endblock %}
+
+{% block footer %}
+<p>
+    {% url 'promotions:home' as home_url %}
+    {% blocktrans %}
+        Andy Fribone | <a href="{{ site }}{{ home_url }}">USendHome</a>
+    {% endblocktrans %}
+</p>
+{% endblock %}

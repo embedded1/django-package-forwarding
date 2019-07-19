@@ -1,0 +1,8 @@
+{% load url from future %}
+{% load i18n %}
+
+<h3>{% trans "Just enter the addresses of the people you’d like to refer, and we’ll send them each a $5 shipping credit." %}</h3>
+<input id="email-tags" data-url="{% url 'contacts:friends-invite' %}">
+<div class="contacts-limit">{% trans "You have" %} <span>{{ remaining_invites }}</span> {% trans "invites remaining today." %}</div>
+
+

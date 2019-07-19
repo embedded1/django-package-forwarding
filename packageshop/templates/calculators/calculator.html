@@ -1,0 +1,76 @@
+{% extends "calculators/layout.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% comment %}
+{% block promo-messages %}
+    <div class="container">
+        <div class="row">
+            <div id="promo-messages">
+                <div class="alert alert-safe alert-noicon alert-success fade in">
+                    <a class="close" data-dismiss="alert" href="#">×</a>
+                    <h4><strong>{% trans "Post Launch Discount" %}</strong></h4>
+                    <p>
+                        {% blocktrans %}
+                            Receive <strong>10%</strong> off your shipping with the <strong>POSTLAUNCH10</strong> promo code at checkout.
+                        {% endblocktrans %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% endcomment %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-10">
+            <div class="shipping-methods-loading" style="display: none">
+                <span class="spin"></span>
+                <p>
+					{% blocktrans %}
+						Please wait while we're retrieving matching shipping methods for your package.
+						<span>						
+							Note that the shipping costs shown are only an estimate.
+							The final shipping costs are based upon the actual size and weight of the received package.						
+						</span>     
+					{% endblocktrans %}
+				</p>				
+            </div>
+        </div>
+    </div>
+    <div class="search-results" style="display: none"></div>
+{% endblock %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.calculator.init();
+{% endblock %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/assets/isotope/isotope.css" %}">
+    <link rel="stylesheet" href="{% static "usendhome/assets/bootstrapvalidator-0.5.3/dist/css/bootstrapValidator.min.css" %}">
+{% endblock %}
+
+{% block defer_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        function downloadJSAtOnload() {
+            var element = document.createElement("script");
+            element.src = "{% static "usendhome/assets/isotope/jquery.isotope.min.js" %}";
+            document.body.appendChild(element);
+        }
+        if (window.addEventListener)
+            window.addEventListener("load", downloadJSAtOnload, false);
+        else if (window.attachEvent)
+            window.attachEvent("onload", downloadJSAtOnload);
+        else window.onload = downloadJSAtOnload;
+    </script>
+{% endblock %}
+
+{% block extrascripts %}
+    {{ block.super }}
+    <script src="{% static "usendhome/assets/spin/spin.min.js" %}"></script>
+    <script src="{% static "usendhome/assets/bootstrapvalidator-0.5.3/dist/js/bootstrapValidator.min.js" %}"></script>
+{% endblock %}

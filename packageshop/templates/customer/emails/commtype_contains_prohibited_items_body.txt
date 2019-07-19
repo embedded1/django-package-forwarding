@@ -1,0 +1,20 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+
+    {% blocktrans with package_number=package.upc merchant_name=package.title %}
+       Your order from {{ merchant_name }} has arrived.
+       Package #{{ package_number }} contains prohibited items that can't be shipped internationally and
+       must be returned back to the sender.
+    {% endblocktrans %}
+
+    {% if prohibited_items_msg %}
+        Prohibited items description: {{ prohibited_items_msg }}
+    {% endif %}
+
+    {% trans "Visit the following URL link to have your items shipped immediately:" %}
+    {{ site }}{% url "customer:pending-packages" %}
+
+{% endblock %}

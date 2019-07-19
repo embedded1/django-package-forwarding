@@ -1,0 +1,44 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load url from future %}
+{% load i18n %}
+
+{% block headersubtext %}
+    <h5>{% trans "Private US Address" %}</h5>
+{% endblock %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block tabcontent %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            {% if virtual_addresses %}
+                <table class="table table-striped table-bordered">
+                    <tbody>
+                        <tr>
+                            <th class="center">{% trans 'Private US Address' %}</th>
+                        </tr>
+                        {% for virtual_address in virtual_addresses %}
+                            <tr>
+                                <td>
+                                    {% for virtual_address in virtual_addresses %}
+                                        <p>
+                                            {{ virtual_address.line1 }}<br/>
+                                            {{ virtual_address.line2 }}<br/>
+                                            {{ virtual_address.city }}, {{ virtual_address.state }} {{ virtual_address.postcode }}
+                                        </p>
+                                    {% endfor  %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>                
+            {% else %}
+                <p>
+                    {% trans "We could not find your US address, please contact" %}
+                    <a href="{% url "contact" %}">{% trans "support" %}</a>
+                </p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

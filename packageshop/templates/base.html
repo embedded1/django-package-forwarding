@@ -1,0 +1,138 @@
+{% load i18n compress %}
+{% load staticfiles %}
+{% comment %}{% load analytical %}{% endcomment %}
+
+<!DOCTYPE html>
+    <html lang=”en”>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        {% comment %}<meta name="created" content="{% now "jS M Y h:i" %}" />{% endcomment %}
+        <meta name="description" content="{% block description %}{% endblock %}" />
+        <meta name="keywords" content="{% block keywords %}{% endblock %}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        {% block extrameta %}{% endblock %}
+        {% block analytics_head_top %}
+            {% comment %}{% analytical_head_top %}{% endcomment %}
+        {% endblock %}
+        <title>{% if display_version %}[{% trans "Build" %} {{ version }}] {% endif %}{% block title %}{% endblock %}</title>
+
+        <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+        <!--[if lt IE 9]>
+        <script src="{% static "usendhome/assets/html5shiv/html5shiv.min.js" %}"></script>
+        <![endif]-->
+
+        {% block favicon %}
+            <link rel="apple-touch-icon" sizes="57x57" href="{% static "apple-touch-icon-57x57.png" %}">
+            <link rel="apple-touch-icon" sizes="60x60" href="{% static "apple-touch-icon-60x60.png" %}">
+            <link rel="apple-touch-icon" sizes="72x72" href="{% static "apple-touch-icon-72x72.png" %}">
+            <link rel="apple-touch-icon" sizes="76x76" href="{% static "apple-touch-icon-76x76.png" %}">
+            <link rel="apple-touch-icon" sizes="114x114" href="{% static "apple-touch-icon-114x114.png" %}">
+            <link rel="apple-touch-icon" sizes="120x120" href="{% static "apple-touch-icon-120x120.png" %}">
+            <link rel="apple-touch-icon" sizes="144x144" href="{% static "apple-touch-icon-144x144.png" %}">
+            <link rel="apple-touch-icon" sizes="152x152" href="{% static "apple-touch-icon-152x152.png" %}">
+            <link rel="apple-touch-icon" sizes="180x180" href="{% static "apple-touch-icon-180x180.png" %}">
+            <link rel="icon" type="image/png" href="{% static "favicon-32x32.png" %}" sizes="32x32">
+            <link rel="icon" type="image/png" href="{% static "favicon-194x194.png" %}" sizes="194x194">
+            <link rel="icon" type="image/png" href="{% static "favicon-96x96.png" %}" sizes="96x96">
+            <link rel="icon" type="image/png" href="{% static "android-chrome-192x192.png" %}" sizes="192x192">
+            <link rel="icon" type="image/png" href="{% static "favicon-16x16.png" %}" sizes="16x16">
+            <link rel="manifest" href="{% static "manifest.json" %}">
+            <link rel="shortcut icon" href="{% static "favicon.ico" %}?v=3">
+            <meta name="msapplication-TileColor" content="#da532c">
+            <meta name="msapplication-TileImage" content="{% static "mstile-144x144.png" %}">
+            <meta name="msapplication-config" content="{% static "browserconfig.xml" %}">
+            <meta name="theme-color" content="#ffffff">
+        {% endblock %}
+
+        {% block mainstyles %}
+            {% comment %}
+            We use an inner block to work-around the fact that django-compressor doesn't work with
+            template inheritance.  Ie, we can't just wrap the {% block mainstyles %} with compress tags and
+            expect it to compress CSS files added in child templates.
+            {% endcomment %}
+             {% block styles %}
+                {% compress css %}
+                    <link rel="stylesheet" href="{% static "usendhome/css/styles_43.css" %}" type="text/css" />
+                    <link rel="stylesheet" href="{% static "usendhome/css/add_27.css" %}" type="text/css" />
+                    <link rel="stylesheet" href="{% static "usendhome/assets/font-awesome-4.6.3/css/font-awesome.min.css" %}" type="text/css" />
+                    <link rel="stylesheet" href="{% static "usendhome/assets/animate.css" %}" type="text/css" />
+                    <link rel="stylesheet" href="{% static "usendhome/assets/select2-3.5.2/select2.css" %}" type="text/css" />
+                    {% if 'Safari' in request.user_agent.browser.family %}
+                        <link rel="stylesheet" href="{% static "usendhome/css/switch_safari.css" %}" type="text/css" />
+                    {% else %}
+                        <link rel="stylesheet" href="{% static "usendhome/css/switch_2.css" %}" type="text/css" />
+                    {% endif %}
+                {% endcompress %}
+            {% endblock %}
+        {% endblock %}
+
+        {# Additional CSS - specific to certain pages #}
+        {% block extrastyles %}{% endblock %}
+        {% block extrahead %}{% endblock %}
+
+        {% block tracking %}
+            {# No need to use GA directly, as we're using mixpanel!! oh ya!!! #}
+            {% include "partials/google_analytics.html" %}
+            {% include "mixpanel/mixpanel.html" %}
+        {% endblock %}
+
+        {% block livechat %}{% endblock %}
+        {% block analytics_head_bottom %}
+            {% comment %}{% analytical_head_bottom %}{% endcomment %}
+        {% endblock %}
+    </head>
+
+    <body class="{% block body_class %}{% endblock %}" {% block body_attrs %}{% endblock %}>
+        {% block analytics_body_top %}
+            {% comment %}{% analytical_body_top %}{% endcomment %}
+        {% endblock %}
+        {# Main content goes in this 'layout' block #}
+        {% block layout %}{% endblock %}
+
+        {% comment %}
+        Scripts loaded from a CDN.  These can't be wrapped by the 'compress' tag and so we
+        use a separate block for them.
+        {% endcomment %}
+        {% block cdn_scripts %}
+        {% endblock %}
+
+        {# Local scripts #}
+        {% block scripts %}
+            {% compress js %}
+                <script src="{% static "usendhome/assets/jquery-1.11.2.min.js" %}" type="text/javascript" charset="utf-8"></script>
+                <script src="{% static "usendhome/assets/bootstrap-3.3.2/dist/js/bootstrap.min.js" %}" type="text/javascript" charset="utf-8"></script>
+                <script src="{% static "usendhome/assets/select2-3.5.2/select2.min.js" %}" type="text/javascript" charset="utf-8"></script>
+                <script src="{% static "usendhome/js/main_41.js" %}" type="text/javascript" charset="utf-8"></script>
+                <script src="{% static "usendhome/assets/jquery-placeholder/jquery.placeholder.min.js" %}" type="text/javascript" charset="utf-8"></script>
+            {% endcompress %}
+        {% endblock %}
+
+        {# Additional JS scripts #}
+        {% block extrascripts %}{% endblock %}
+
+        {# Block for body onload functions #}
+        <script type="text/javascript">
+            $(function() {
+                {% block onbodyload %}
+                    usendhome.init();
+                {% endblock %}
+            });
+        </script>
+
+        {# Page meta-data - this is populated by the 'metadata' template context processor #}
+        <!-- {% trans "Version:" %} {{ version }} -->
+        {% block analytics_body_bottom %}
+            {% comment %}{% analytical_body_bottom %}{% endcomment %}
+        {% endblock %}
+        {% block retargeting %}
+            {% include "partials/adroll.html" %}
+        {% endblock %}
+        {% block defer_js %}
+            {% comment %}{% include "partials/hotjar.html" %}{% endcomment %}
+        {% endblock %}
+    </body>
+</html>
+
+
+

@@ -1,0 +1,35 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}
+    {% blocktrans %}Hello {{ full_name }},{% endblocktrans %}
+
+    {% blocktrans %}
+        By now you should have received your most recent USendHome delivery and hopefully,
+        you're really pleased with it.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        If it hasn't yet arrived, please follow this link for help:
+        {{ site }}{{ contact_url }}
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        We really hope you're happy with your new items. But there's only one way to find out for sure -
+        and that's to ask for your feedback.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        If you have a few moments, we'd be really grateful if you could answer 3 very quick questions
+        about your experience with us, so that we can keep improving the USendHome experience for everyone.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        Just click on the link below to get started:
+        {{ site }}{{ survey_url }}
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        Thanks for your help,
+    {% endblocktrans %}
+{% endblock %}

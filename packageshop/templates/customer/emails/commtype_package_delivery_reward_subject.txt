@@ -1,0 +1,8 @@
+{% load i18n %}
+{% if not is_affiliate %}
+    {% blocktrans %}
+        Shipping credit has been applied to your account
+    {% endblocktrans %}
+{% else %}
+    You've just earned $10
+{% endif %}

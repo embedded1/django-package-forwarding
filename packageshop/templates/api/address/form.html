@@ -1,0 +1,51 @@
+<div class="ush-shipping-block">
+    <div class="col-l">
+        <div class="col-l-inner">
+            <div class="content">
+                <form id="forwardingAddressForm">
+                    <div class="subtitle">Create Package Forwarding Account</div>
+                    {% if form.is_bound and not form.is_valid %}
+                        <div class="ush-message error">
+                            <div class="txt">
+                                <strong>Oops! We found some errors</strong> - please check the error messages below and try again
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="input-group {% if form.first_name.errors %}has-error{% endif %}">
+                        <label for="ush-ship-fname">First Name</label>
+                        <input type="text" name="first_name" id="ush-ship-fname" {% if form.first_name.value %}value="{{ form.first_name.value }}"{% endif %}>
+                        {% for error in form.first_name.errors %}
+                            <span class="error-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="input-group {% if form.last_name.errors %}has-error{% endif %}">
+                        <label for="ush-ship-lname">Last Name</label>
+                        <input type="text" name="last_name" id="ush-ship-lname" {% if form.last_name.value %}value="{{ form.last_name.value }}"{% endif %}>
+                        {% for error in form.last_name.errors %}
+                            <span class="error-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="input-group {% if form.email.errors %}has-error{% endif %}">
+                        <label for="ush-ship-email">Email</label>
+                        <input type="text" name="email" id="ush-ship-email" {% if form.email.value %}value="{{ form.email.value }}"{% endif %}>
+                        {% for error in form.email.errors %}
+                            <span class="error-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="input-group {% if form.password.errors %}has-error{% endif %}">
+                        <label for="ush-ship-password">Password</label>
+                        <input type="password" name="password" id="ush-ship-password" placeholder="Already have a USendHome account? use your account password">
+                        {% for error in form.password.errors %}
+                            <span class="error-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <input type="hidden" name="issuer" value="{{ issuer }}">
+                    <div class="btn-block">
+                        <input class="btn" type="submit" value="Sign Up for Free" {% if not submit_enabled %}disabled="disabled"{% endif %}>
+                    </div>
+                </form>
+                <p class="info">By signing up, you agree to USendHome <a href="https://usendhome.com/legal/terms/" target="_blank">Terms of Service</a> and <a href="https://usendhome.com/legal/privacy/" target="_blank">Privacy Policy</a></p>
+            </div>
+        </div>
+    </div>
+</div>

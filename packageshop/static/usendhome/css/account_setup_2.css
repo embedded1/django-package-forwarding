@@ -1,0 +1,207 @@
+#section-connect {
+    margin-top: 30px;
+}
+#section-connect .container {
+	max-width: 100%;
+}
+#section-connect h3 {
+}
+#section-connect .connect-list {}
+#section-connect .connect-list ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: 0;
+}
+#section-connect .connect-list ul li.item {
+	width: 200px;
+	height: 200px;
+	display: inline-block;
+	margin: 0 30px 30px 0;
+	background: #469ae9;
+	padding: 30px;
+	position: relative;	
+	transition:all 0.1s ease;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+#section-connect .connect-list ul li.item.recommended:before {
+	content: "";
+	position: absolute;
+	top: -5px;
+	left: -5px;
+	width: 95px;
+	height: 95px;
+	display: block;
+	z-index: 1;
+	background: url(../images/recommended.png) 0 0 no-repeat;
+}
+#section-connect .connect-list ul li.item.selected {
+	/*border: 10px solid rgba(0, 0, 0, .3);*/
+	box-shadow: 0 0 0 5px rgba(0, 0, 0, .3) inset;
+}
+
+#section-connect .connect-list ul li.item .item-inner-1 {
+	display: table;	
+	width: 100%;
+
+}
+#section-connect .connect-list ul li.item .item-inner-2 {
+	display: table-cell;
+	vertical-align: middle;
+	padding: 10px 0 30px;
+}
+
+#section-connect .connect-list ul li.item.item-bnr {
+	padding: 0;
+}
+#section-connect .connect-list ul li.item.item-bnr .item-inner-2 {
+	padding: 0;
+}
+
+
+#section-connect .connect-list ul li .connect-icon {
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	height: 70px;
+	width: 70px;
+	display: block;
+	margin: 0 auto;	
+	text-align: center;
+    margin-bottom: 10px;
+}
+#section-connect .connect-list ul li .connect-icon .fa {
+	color: #fff;
+	font-size: 65px;
+}
+
+#section-connect .connect-list ul li .connect-title {
+	text-align: center;
+	font-weight: 600;
+	color: #fff;
+	font-size: 15px;
+}
+
+#section-connect .connect-list ul li .connect-title span {
+    display: block;
+    font-size: 14px;
+}
+
+#section-connect .connect-list ul li .connect-info {
+	color: #fff;
+	text-align: center;
+	font-size: 14px;
+	line-height: 1.2;
+	font-weight: 300;
+	display: none;
+    margin-top: 5px;
+}
+
+#section-connect .connect-list ul li .connect-link {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: none;
+	background: rgba(0, 0, 0, .4);
+	color: #fff;
+	text-align: center;
+	padding: 10px;
+	line-height: 17px;
+	font-weight: 300;
+}
+
+#section-connect .connect-list ul li.cmonitor {
+	background: #469ae9;
+}
+#section-connect .connect-list ul li.ccontact {
+	background: #f3a000;
+}
+#section-connect .connect-list ul li.facebook {
+	background: #2d4486;
+}
+#section-connect .connect-list ul li.hubspot {
+	background: #903a10;
+}
+#section-connect .connect-list ul li.mailchimp {
+	background: #40accd;
+}
+#section-connect .connect-list ul li.marketo {
+	background: #473b95;
+}
+#section-connect .connect-list ul li.safari {
+	background: #1e96fe;
+}
+#section-connect .connect-list ul li.twitter {
+	background: #469ae9;
+}
+
+/*connect hover*/
+#section-connect .connect-list ul li:hover {
+	/*box-shadow: 0 0 5px rgba(0, 0, 0, .5);*/
+}
+#section-connect .connect-list ul li:hover .connect-icon {
+	display: none;
+}
+
+#section-connect .connect-list ul li:hover .connect-title span {
+	display: none;
+}
+
+#section-connect .connect-list ul li:hover .connect-title {
+	text-align: center;
+	font-weight: bold;
+	font-size: 14px;
+}
+#section-connect .connect-list ul li:hover .connect-info {
+	display: block;
+}
+
+#section-connect .connect-list ul li:hover .connect-link {
+	display: block;
+}
+@media (max-width: 767px) {
+	#section-connect .connect-list ul li .connect-icon {
+		display: none;
+	}
+
+	#section-connect .connect-list ul li .connect-title {
+		font-weight: bold;
+		font-size: 14px;
+	}
+	#section-connect .connect-list ul li .connect-info {
+		display: block;
+	}
+
+	#section-connect .connect-list ul li .connect-link {
+		display: block;
+	}
+
+    #section-connect .connect-list ul li:hover .connect-title span {
+        display: block;
+    }
+}
+
+#section-end input[type="checkbox"] {
+    vertical-align: sub;
+}
+#section-end {
+    margin-bottom: 30px;
+}
+@media (max-width: 479px) {
+    #section-connect .connect-list ul li .connect-icon {
+        display: none;
+    }
+    #section-connect .connect-list ul li:hover .connect-title {
+        text-align: center;
+        font-weight: bold;
+    }
+    #section-connect .connect-list ul li:hover .connect-title span {
+        display: block;
+    }
+
+	#section-connect .connect-list ul li .connect-link {
+		display: block;
+	}
+}

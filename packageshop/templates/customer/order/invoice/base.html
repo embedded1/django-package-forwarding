@@ -1,0 +1,249 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <style type="text/css">
+        @page {
+            size: a4 portrait;
+            margin: 1cm;
+            margin-left:2cm;
+            margin-right:2cm;
+
+            /* header of the document with top red line
+             * logo and address on the left and shipping
+             * address label to peel off on the right.
+             */
+            @frame headerLogo {
+                top: 23mm;
+                left: 16mm;
+                width: 50mm;
+                height: 24mm;
+                -pdf-frame-content: headerLogo;
+            }
+            @frame headerSender {
+                top: 40mm;
+                left: 20mm;
+                width: 50mm;
+                height: 23mm;
+                -pdf-frame-content: headerSender;
+            }
+            @frame customerDetails{
+                top: 80mm;
+                left: 20mm;
+                right: 105mm;
+                height: 30mm;
+                -pdf-frame-content: customerDetails;
+            }
+            @frame shippingAddress{
+                top: 80mm;
+                left: 95mm;
+                right: 20mm;
+                height: 30mm;
+                -pdf-frame-content: shippingAddress;
+            }
+            @frame paymentMethod{
+                top: 80mm;
+                left: 168mm;
+                right: 50mm;
+                height: 30mm;
+                -pdf-frame-content: paymentMethod;
+            }
+            /* now comes the actual order information */
+            @frame orderDetails{
+                top: 40mm;
+                left: 140mm;
+                right: 90mm;
+                height: 80mm;
+                -pdf-frame-content: orderDetails;
+            }
+            @frame pageNumber {
+                top: 280mm;
+                right: 20mm;
+                left: 20mm;
+                height: 5mm;
+                -pdf-keep-in-frame-mode: overflow;
+                -pdf-frame-content: pageNumber;
+            }
+        }
+        @page nextPage {
+            size: a4 portrait;
+            margin: 1cm;
+            margin-left:2cm;
+            margin-right:2cm;
+
+            @frame headerLogo {
+                top: 23mm;
+                left: 16mm;
+                width: 50mm;
+                height: 24mm;
+                -pdf-frame-content: headerLogo;
+            }
+            @frame headerSender {
+                top: 40mm;
+                left: 20mm;
+                width: 50mm;
+                height: 23mm;
+                -pdf-frame-content: headerSender;
+            }
+            @frame customerDetails{
+                top: 80mm;
+                left: 20mm;
+                right: 105mm;
+                height: 30mm;
+                -pdf-frame-content: customerDetails;
+            }
+            @frame shippingAddress{
+                top: 80mm;
+                left: 95mm;
+                right: 20mm;
+                height: 30mm;
+                -pdf-frame-content: shippingAddress;
+            }
+            @frame paymentMethod{
+                top: 80mm;
+                left: 168mm;
+                right: 50mm;
+                height: 30mm;
+                -pdf-frame-content: paymentMethod;
+            }
+            /* now comes the actual order information */
+            @frame orderDetails{
+                top: 40mm;
+                left: 140mm;
+                right: 90mm;
+                height: 80mm;
+                -pdf-frame-content: orderDetails;
+            }
+            @frame pageNumber {
+                top: 280mm;
+                right: 20mm;
+                left: 20mm;
+                height: 5mm;
+                -pdf-keep-in-frame-mode: overflow;
+                -pdf-frame-content: pageNumber;
+            }
+        }
+
+        img { zoom: 100%; }
+
+        #headerSender{
+			font-size: 14px;
+            line-height: 1.6;
+            -pdf-keep-in-frame-mode: overflow;
+        }
+
+        #shippingAddress, #customerDetails, #paymentMethod {
+            -pdf-keep-in-frame-mode: overflow;
+            padding-bottom:1mm;
+        }
+
+        .table-title {
+            vertical-align: top;
+        }
+
+        .product-table th {
+            background-color: lightgrey;
+        }
+
+        .product-table td, .sums-table td {
+            vertical-align: justify;
+            text-align: center;
+            padding-top: 3mm;
+            font-size:8.5pt;
+            padding-left:2mm;
+            padding-right:2mm;
+        }
+
+        .product-table th {
+            vertical-align: justify;
+            text-align: center;
+            padding-top: 3mm;
+            padding-bottom: 2mm;
+            font-size:8.5pt;
+            padding-left:2mm;
+            padding-right:2mm;
+        }
+
+        .turn-page-title {
+            width: 100%;
+            text-align: center;
+        }
+        .turn-page-title h1 {
+            font-size: 2em;
+        }
+
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+        .page-number {
+            text-align: right;
+        }
+        </style>
+    </head>
+    <body>
+        <div id="headerLogo">
+            <img src="{{ STATIC_ROOT}}{% static "usendhome/images/logo-invoice.png" %}" />
+        </div>
+
+        <div id="headerSender">
+            {% block pageheader %}
+                <p>
+                    1112 Walnut Ave.<br/>
+                    Tustin, CA 92780<br/>
+                    United States<br/>
+                </p>
+            {% endblock %}
+        </div>
+
+        <div id="orderDetails">
+            {% block order-details %}{% endblock %}
+        </div>
+		
+        <div id="customerDetails">
+            <table>
+                <tr>
+                    <td><strong>Invoice To:</strong></td>
+                </tr>
+                <tr>
+                    <td>{% block customer-details %}{% endblock %}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="shippingAddress">
+            <table>
+                <tr>
+                    <td><strong>Shipping Address:</strong></td>
+                </tr>
+                <tr>
+                    <td>{% block shipping-address %}{% endblock %}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="paymentMethod">
+            <table>
+                <tr>
+                    <td><strong>Payment Method:</strong></td>
+                </tr>
+                <tr>
+                    <td>{% block payment-method %}{% endblock %}</td>
+                </tr>
+            </table>
+        </div>
+
+        <pdf:spacer height='115mm'>
+        <div>
+            {% block product-table %}{% endblock %}
+            {% block order-sums %}{% endblock %}
+        </div>
+
+        <div id="pageNumber">
+            <div class="page-number" style="font-size: .5em;">
+                Page <pdf:pagenumber />
+            </div>
+        </div>
+</body>
+</html>

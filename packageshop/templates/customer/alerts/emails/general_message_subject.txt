@@ -1,0 +1,5 @@
+{% load i18n %}
+
+{% blocktrans %}
+    Shipping to the New Jersey address
+{% endblocktrans %}

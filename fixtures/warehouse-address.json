@@ -1,0 +1,16 @@
+[
+    {
+        "pk": 1,
+        "model": "address.useraddress",
+        "fields": {
+            "line1": "25 Trefoil Drive",
+            "line4": "Trumbull",
+            "state": "Connecticut",
+            "postcode": "06611",
+            "country": "US",
+            "phone_number": "+12034459001",
+            "date_created": "2014-09-12T17:08:56Z",
+            "user": 1
+        }
+    }
+]

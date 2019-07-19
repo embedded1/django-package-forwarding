@@ -1,0 +1,28 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+    {% blocktrans with name=customer.first_name|title %}
+        Hi {{ name }},
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        Happy Holidays from USendHome!
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        As you've probably noticed the huge US sales are already taking place and with the holiday shopping upon us
+        delivery times may be closer to (or even pass) the expected delivery times, especially with USPS.
+        Please also keep in mind that due to the large volume of packages we receive during the holiday season some delays
+        in processing your packages may occur.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        There's a great way to send an holiday gift to your friends:
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        Invite your friends, give them $5 in shipping credit and get $5 for each one that signs up.
+    {% endblocktrans %}
+{% endblock %}

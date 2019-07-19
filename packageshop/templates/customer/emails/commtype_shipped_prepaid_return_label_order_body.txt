@@ -1,0 +1,12 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}
+
+    {% blocktrans %}
+		Your order is on its wa back to the merchant.
+		We've successfully applied the return label you provided.
+		Please contact the merchant directly to obtain the applicable tracking number to confirm when your return order is received.
+    {% endblocktrans %}
+
+{% endblock %}

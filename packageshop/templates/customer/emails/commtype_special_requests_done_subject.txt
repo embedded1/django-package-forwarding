@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans %}
+	Extra Services have been fully processed
+{% endblocktrans %}

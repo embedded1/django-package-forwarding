@@ -1,0 +1,7 @@
+{% load url from future %}
+      
+<form action="{% url "customer:extra-services-handling" package.pk %}" method="post">
+	{% csrf_token %}
+	{% include "partials/form_fields.html" with extraclass='invisible' %}
+</form>   
+ 

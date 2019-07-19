@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans  %}
+    Missing mailbox number surcharge rate change
+{% endblocktrans %}

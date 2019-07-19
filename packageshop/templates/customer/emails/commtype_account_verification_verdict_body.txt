@@ -1,0 +1,38 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+    {% blocktrans %}
+        Hello {{ user_name }},
+    {% endblocktrans %}
+
+    {% if is_verified %}
+        {% blocktrans %}
+            Congratulations! your account has been successfully verified.
+            As a verified account holder your orders will be dispatched more quickly and you will
+            enjoy a seamless forwarding experience.
+        {% endblocktrans %}
+    {% else %}
+        {% if more_documents %}
+            {% url 'customer:account-verify' account_status.pk as account_status_verify_url %}
+            {% blocktrans %}
+                We are unable to verify your identity based on the documents you provided us with.
+                Use the URL link below to provide additional documents, make sure all documents contain a
+                clear and visible photo.
+                {{ site }}{{ account_status_verify_url }}
+            {% endblocktrans %}
+        {% else %}
+            {% blocktrans %}
+                We're sorry but we couldn't verify your identity based on the documents you provided us with.
+                We have no option left from closing down your account.
+            {% endblocktrans %}
+            {% blocktrans %}
+                You can always contact us to supply additional information that will help us to
+                verify your identity.
+                Your account has been put on hold for the next 10 days, please make sure you provide all additional
+                information within this time frame.
+            {% endblocktrans %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

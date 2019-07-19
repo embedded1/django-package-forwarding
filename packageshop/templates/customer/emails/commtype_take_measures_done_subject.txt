@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans with package_number=package.upc %}
+	Your package #{{ package_number }} is ready to be sent back to merchant
+{% endblocktrans %}

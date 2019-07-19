@@ -1,0 +1,43 @@
+{% load i18n %}
+
+<h4>{% trans "Filing a Shipping Insurance Claim" %}</h4>
+
+<h5>{% trans "Introduction" %}</h5>
+<p>
+	{% blocktrans %}
+		We offer affordable insurance for all of our shipping methods.
+		Our insurance policy is very comprehensive and covers you against lost packages and/or damaged goods.
+		If your package is lost, simply provide us with your USendHome order number, which you'll find in your control panel under the order history tab, 
+		along with the order invoice you received from the merchant.
+		We need snapshots if your claim is for damaged goods, and make sure you keep all damaged goods and their original packing,
+		because you might need you to send them back to us.
+	{% endblocktrans %}
+</p>
+<p>
+	{% blocktrans %}
+		Please note that you must keep all damaged goods and their original packing as you may be instructed to return the goods back to us.
+		We will get back to you once we finish processing your claim.
+	{% endblocktrans %}
+</p>
+
+<h5>{% trans "Walkthrough" %}</h5>
+<ul>
+	<li>
+		{% trans "Log in to your USendHome control panel and click on the Insurance Claim button on your account information tab" %}
+	</li>
+	<li>
+		{% trans "Upload the order invoice you received from the merchant" %}
+	</li>
+	<li>
+		{% trans "Enter your USendHome order number" %}
+	</li>
+	<li>
+		{% trans "Upload photos that clearly show your package damage (for damaged goods only)" %}
+	</li>
+	<li>
+		{% trans "Describe in detail the nature of your claim" %}
+	</li>	
+	<li>
+		{% trans "Click on the Submit Claim button" %}
+	</li>	
+</ul>

@@ -1,0 +1,45 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+    {% blocktrans with name=user.first_name|title %}
+        Hey {{ name }},
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        Welcome to USendHome! Thanks so much for joining us.
+        You’re on your way to shop US brands like a US resident.
+    {% endblocktrans %}
+
+    {% if private_addresses %}
+        {% blocktrans %}
+            USendHome is a platform that allows you to deliver your online purchases straight to your doorstep
+            by giving you a FREE package forwarding address in the US.
+            Ship orders to us, manage your packages - and get the goods forwarded to you anywhere in the world.
+        {% endblocktrans %}
+
+        You probably wonder what to do next so let me outline the process for you:
+
+        1 - Head to your control panel and copy your personal US shipping address
+        2 - Use your personal address to ship orders to your private mailbox
+        3 - Have fun and let us notify you once your package arrives
+        4 - Log into your control panel and release the package for delivery
+
+        {% trans "Go to Control Panel:" %}
+	    {{ site }}{% url "customer:profile-view" %}
+    {% else %}
+        {% blocktrans %}
+            USendHome is in a process of moving to a new and larger facility.<br/>
+            We'll email you as soon as your personal US address at the new facility
+            is ready to receive your goods.
+        {% endblocktrans %}
+
+	    {% trans "Visit the URL link below to log in into your control panel:" %}
+	    {{ site }}{% url "customer:profile-view" %}
+    {% endif %}
+
+    {% blocktrans %}
+        Have any questions? Just shoot us an email! We're always here to help.
+    {% endblocktrans %}
+{% endblock %}

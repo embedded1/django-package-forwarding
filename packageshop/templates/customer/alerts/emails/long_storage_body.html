@@ -1,0 +1,32 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome Storage Runs Out" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Your Storage Runs Out" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    {% blocktrans with id=package.upc %}
+        Your storage duration for package #{{ id }} is about to expire and
+        your package will be considered abandoned.
+        Hurry up and release your package for delivery today to avoid losing your items.
+    {% endblocktrans %}
+</p>
+{% if storage_days > 80 %}
+<p>
+    {% blocktrans %}
+        <strong>This is the final notice before your package will be considered abandoned and trashed.</strong>
+    {% endblocktrans %}
+</p>
+{% endif %}
+<p>
+    {% render_email_button "customer:pending-packages" "Release Package" %}
+</p>
+{% endblock %}

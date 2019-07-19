@@ -1,0 +1,27 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome Referral Program" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Refer your Friends to USendHome" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    {% blocktrans %}Hello {{ full_name }},{% endblocktrans %}
+</p>
+<p>
+    {% blocktrans %}
+        Give your friends $5, Get $5 shipping credit for each one who delivers their first package.
+        The good news is that there is no limit to how many friends you can refer and shipping credit you can earn.
+        Invite more, pay less for shipping - it's that simple!
+    {% endblocktrans %}
+</p>
+<p>
+    {% render_email_button 'customer:referrals-index' "Start Inviting" %}
+</p>
+{% endblock %}

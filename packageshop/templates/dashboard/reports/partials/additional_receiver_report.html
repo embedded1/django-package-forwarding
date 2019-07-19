@@ -1,0 +1,62 @@
+{% extends 'dashboard/reports/index.html' %}
+{% load i18n %}
+{% load thumbnail %}
+{% load url from future %}
+{% load misc_filters %}
+
+
+{% block report %}
+<table class="table table-striped table-bordered table-hover">
+    {% if objects %}.
+        <tr>
+            <th>{% trans "Customer name" %}</th>
+            <th>{% trans "Customer email" %}</th>
+            <th>{% trans "Mailbox number" %}</th>
+            <th>{% trans "Additional receiver name" %}</th>
+            <th>{% trans "Document1" %}</th>
+            <th>{% trans "Document2" %}</th>
+            <th>{% trans "Document3" %}</th>
+            <th>{% trans "Document4" %}</th>
+            <th>{% trans "Date created" %}</th>
+            <th></th>
+        </tr>
+        {% for receiver in objects %}
+        <tr>
+            <td>{{ receiver.package_owner.get_full_name }}</td>
+            <td>{{ receiver.package_owner.email }}</td>
+            <td>{{ receiver.package_owner.get_profile.uuid }}</td>
+            <td>{{ receiver.get_full_name }}</td>
+            {% with all_docs=receiver.documents.all %}
+                {% for doc in all_docs %}
+                    <td>
+                        {% if 'pdf' in doc.original.url %}
+                            <a href="{{ doc.original.url }}" target="_blank">{{ doc.filename }}</a>
+                        {% else %}
+                            {% thumbnail doc.original "250x250" upscale=False as thumb %}
+                                <a href="{{ doc.original.url }}" rel="lightbox_{{ doc.category }}">
+                                    <img src="{{ thumb.url }}" alt="{{ doc.category }}" class="img-polaroid">
+                                </a>
+                            {% endthumbnail %}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+                {% with docs_num=all_docs.count %}
+                    {% for i in docs_num|make_range:4 %}
+                        <td></td>
+                    {% endfor %}
+                {% endwith %}
+            {% endwith %}
+            <td>{{ receiver.date_created }}</td>
+            <td>
+                <a class="btn btn-info" href="{% url 'dashboard:update-additional-receiver' receiver.pk %}?action=accept">{% trans "Accept" %}</a>
+                <a class="btn btn-info" href="{% url 'dashboard:update-additional-receiver' receiver.pk %}?action=deny">{% trans "Deny" %}</a>
+                <a class="btn btn-info" href="{% url 'dashboard:update-additional-receiver' receiver.pk %}?action=more_documents">{% trans "More Documents" %}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr><td>{% trans "No results found." %}</td></tr>
+    {% endif %}
+</table>
+{% include "partials/pagination.html" %}
+{% endblock %}

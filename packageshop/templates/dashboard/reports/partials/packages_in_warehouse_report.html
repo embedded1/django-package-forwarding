@@ -1,0 +1,78 @@
+{% extends 'dashboard/reports/index.html' %}
+{% load url from future %}
+{% load sorting_tags %}
+{% load i18n %}
+
+{% block report %}
+<table class="table table-striped table-bordered table-hover">
+    {% if objects %}
+        <tr>
+            <th>{% trans "Customer suite number" %}</th>
+            <th>{% trans "Customer name" %}</th>
+            <th>{% anchor 'owner__is_active' _("Active account?") %}</th>
+            <th>{% trans "Package unique ID" %}</th>
+            <th>{% trans "Location 1" %}</th>
+            <th>{% trans "Location 2" %}</th>
+            <th>{% trans "Location 3" %}</th>
+            <th>{% trans "Consolidated?" %}</th>
+            <th>{% anchor 'date_consolidated' _("Number of days after consolidation completed") %}</th>
+            <th>{% anchor 'date_created' _("Number of days in storage") %}</th>
+            {% if user.is_staff %}
+                <th>{% anchor 'stockrecords__partner__name' _("Partner name") %}</th>
+            {% endif %}
+            <th></th>
+        </tr>
+        {% for package in objects %}
+        <tr>
+            <td>{{ package.owner.get_profile.uuid }}</td>
+            {% if user.is_staff %}
+                <td><a href="{% url 'dashboard:user-detail' pk=package.owner.id %}">{{ package.owner }}</a></td>
+            {% else %}
+                <td>{{ package.owner }}</td>
+            {% endif %}
+            <td>
+                {% if package.owner.is_active %}
+                    yes
+                {% else %}
+                    <strong style="color: red; font-size: 16px;">no</strong>
+                {% endif %}
+            </td>
+            <td><a href="{% url 'dashboard:catalogue-product' pk=package.id %}">{{ package.upc }}</a></td>
+            {% with product_location=package.location %}
+                <td>{{ product_location.loc1|default:"-" }}</td>
+                <td>{{ product_location.loc2|default:"-" }}</td>
+                <td>{{ product_location.loc3|default:"-" }}</td>
+            {% endwith %}
+            <td>{{ package.is_consolidated|yesno }}</td>
+            <td>
+                {% if package.is_consolidated and package.date_consolidated %}
+                    {{ package.get_post_consolidation_days }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>{{ package.get_storage_days }}</td>
+            {% if user.is_staff %}
+                <td>{{ package.partner.name }}</td>
+            {% endif %}
+            <td>
+                <form method="POST" action="{% url 'dashboard:catalogue-product' package.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="update_package_status">
+                    {% with storage_days=package.get_storage_days %}
+                        {% if storage_days > 90 %}
+                            <button class="btn" type="submit" name="package_status" value="discarded">{% trans "Discarded" %}</button>
+                        {% elif not package.owner.is_active %}
+                            <button class="btn" type="submit" name="package_status" value="returned_to_sender">{% trans "Returned to Sender" %}</button>
+                        {% endif %}
+                    {% endwith %}
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr><td>{% trans "No results found." %}</td></tr>
+    {% endif %}
+</table>
+{% include "partials/pagination.html" %}
+{% endblock %}

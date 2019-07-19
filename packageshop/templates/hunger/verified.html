@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% load url from future %}
+{% load i18n %}
+
+
+{% block title %}
+    {{ block.super }} {% trans 'Beta Confirmation' %}
+{% endblock %}
+
+
+{% block content %}
+    <section class="main-wrapper grey-wrapper">
+        <div class="container">
+            <div class="email-confirm">
+                <h3 class="bold-text">{% trans 'Beta Confirmation Completed Successfully' %}</h3>
+                <p>
+                    {% trans "You've successfully joined the USendHome beta!" %}<br/>
+                    {% trans "Sign up for a new account and receive your private US shipping address." %}
+                </p>
+                <a href="{% url "customer:register" %}" class="btn btn-primary">{% trans 'Sign Up' %}</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

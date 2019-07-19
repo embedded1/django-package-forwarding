@@ -1,0 +1,200 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load staticfiles %}
+{% load user_agents %}
+
+{% block body_class %}
+   {{ block.super }}
+    affiliates
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% if not email_confirmed %}
+        <div class="confirm-email">
+            <div class="txt">Confirm your email <strong>{{ user.email }}</strong></div>
+            <a class="btn resend" href="{% url "customer:email-confirmation-send" %}">RESEND</a>
+            <a class="change modalRemoteLoad" data-modal-name="settingsModal" data-load-url="{% url "customer:settings-update" %}">{% trans "Change Email" %}</a>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+				<div class="col-md-9">
+                    <div class="panel-item">
+                        <div class="panel-header">
+                            <h3 class="center-panel-header">Account Information</h3>
+                            <div class="right-buttons">
+                                <div class="dropdown notification-drop">
+                                    <button class="btn btn-default dropdown-toggle drop-button tooltip-social" type="button" id="notificationsdropdownMenu" data-toggle="dropdown" aria-expanded="true">
+                                        <i class="fa fa-bell"></i>
+                                        {% if num_unread_notifications > 0 %}
+                                            <span>{{ num_unread_notifications }}</span>
+                                        {% endif %}
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="notificationsdropdownMenu">
+                                        <span>{% trans "Latest Notifications" %}</span>
+                                        {% for notification in notifications %}
+                                            <li {% if not notification.is_read %}class="unread"{% endif %} role="presentation">
+                                                <p role="menuitem" tabindex="-1">{{ notification.subject|safe }}</p>
+                                                <span>{{ notification.date_sent|date:"M d, Y" }}</span>
+                                            </li>
+                                            {% if forloop.last %}
+                                                <li role="presentation">
+                                                    <a role="menuitem" tabindex="-1" href="{% url 'customer:notifications-inbox' %}">
+                                                        <p>{% trans "See all notifications" %}</p>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        {% empty %}
+                                            <li role="presentation"><p role="menuitem" tabindex="-1">{% trans "No notifications" %}</p></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <a href="{% url 'customer:logout' %}" class="tooltip-social" data-toggle="tooltip" data-placement="bottom" title="{% trans "Log Out" %}"><i class="fa fa-power-off"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <section class="wblock account-info">
+                        <table class="table account-table">
+                            <tbody>
+                                <tr>
+                                    <td>{% trans 'Name' %}</td>
+                                    <td><a class="modalRemoteLoad"  data-modal-name="passwordModal" data-load-url="{% url "customer:change-password" %}">{% trans "Change Password" %}</a></td>
+                                    <td>
+                                        {{ user.get_full_name|title }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td> {% trans 'Email Address' %}</td>
+                                    <td><a class="modalRemoteLoad" data-modal-name="settingsModal" data-load-url="{% url "customer:settings-update" %}">{% trans "Change Email" %}</a></td>
+                                    <td>
+                                        {{ user.email }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans 'Date Registered' %}</td>
+                                    <td>&nbsp;</td>
+                                    <td>{{ user.date_joined|date:"M d, Y" }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <div class="panel-item">
+                        <div class="panel-header">
+                            <h3 class="center-panel-header">Your Affiliate Link</h3>
+                        </div>
+                    </div>
+                    <section class="wblock contacts-send">
+                        <p>{% trans "Copy your personal affiliate link and post it on your website or blog." %}</p>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <label>{% trans "Affiliate Link" %}</label>
+                                <div class="referral-link-input">
+                                    <input class="form-control" data-toggle="tooltip" title="Copy to Clipboard" id="copy-referral-link" placeholder="Your Affiliate Link" readonly="readonly" data-clipboard-text="{{ affiliate_link }}" value="{{ affiliate_link }}" type="text">
+                                    <span class="copied" id="copy-referral-action"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="panel-item">
+                        <div class="panel-header">
+                            <h3 class="center-panel-header">{% trans "Affiliates Stats" %}</h3>
+                        </div>
+                    </div>
+                    <section class="wblock ref-stats">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><h6 class="u-mb-0">{% trans "CLICKS" %}</h6></td>
+                                    <td>{% trans "Number of times your link has been clicked" %}</td>
+                                    <td>{{ link_clicked_count }}</td>
+                                </tr>
+                                <tr>
+                                    <td><h6 class="u-mb-0">{% trans "REFERRALS" %}</h6></td>
+                                    <td>{% trans "People who have signed up using your link" %}</td>
+                                    <td>{{ link_signed_up_count }}</td>
+                                </tr>
+                                <tr>
+                                    <td><h6 class="u-mb-0">{% trans "PENDING" %}</h6></td>
+                                    <td>{% trans "Amount you stand to earn when your referrals have delivered a package" %}</td>
+                                    <td>${{ future_package_delivery_credit }}</td>
+                                </tr>
+                                <tr>
+                                    <td><h6 class="u-mb-0">{% trans "EARNED" %}</h6></td>
+                                    <td>{% trans "Amount that has already been applied to your account" %}</td>
+                                    <td>${{ total_unredeemed_credit }}</td>
+                                </tr>
+                                <tr>
+                                    <td><h6 class="u-mb-0">{% trans "REDEEMED" %}</h6></td>
+                                    <td>{% trans "Amount that has already been redeemed" %}</td>
+                                    <td>${{ total_redeemed_credit }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                    <section class="mb30">
+                        <p class="small-dark">{% trans "Please note: Bidding on branded keywords which include 'usendhome' for ads is prohibited." %}</p>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# Change password modal #}
+    <div class="modal modal-cp fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="passwordModalLabel">{% trans "Change Password" %}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body" id="passwordModalBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-save modalFormSubmit">{% trans "Save" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Change email address modal #}
+    <div class="modal modal-cp fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="settingsModalLabel">{% trans "Change Email Address" %}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+            <div class="modal-body" id="settingsModalBody"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-save modalFormSubmit">{% trans "Save" %}</button>
+            </div>
+         </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.referrals.init();
+    $('.drop-button').click(function() {
+        $(this).tooltip('toggle');
+        $(this).next('ul').toggle();
+    }).hover(function() {
+        $(this).tooltip({
+            placement: 'bottom',
+            title: 'Notifications'
+        }).tooltip('show');
+    });
+{% endblock %}
+
+{% block extrascripts %}
+    {{ block.super }}
+    <script src="{% static "usendhome/assets/spin/spin.min.js" %}"></script>
+    <script src="{% static "usendhome/assets/clipboard/clipboard.min.js" %}"></script>
+{% endblock %}

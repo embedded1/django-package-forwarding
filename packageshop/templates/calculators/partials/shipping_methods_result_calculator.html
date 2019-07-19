@@ -1,0 +1,43 @@
+{% load i18n %}
+{% load currency_filters %}
+{% load shipping_methods_tags %}
+{% load staticfiles %}
+
+<div class="sort-by" style="margin-bottom: 30px;">
+    <span>{% trans "Sort by:" %}</span>
+    <a data-filter="rate"><i class="fa fa-dollar"></i>{% trans "Rate" %}</a>
+    <a data-filter="delivery"><i class="fa fa-clock-o"></i>{% trans "Delivery Time" %}</a>
+</div>
+
+<div class="row shipping_methods_container">
+    {% for method in methods %}
+        <div class="col-md-3 width-25-precent shipping-method" data-rate="{{ method.shipping_method_cost }}" data-delivery="{{ method.max_delivery_days }}">
+            <div class="shipment-item">
+                <div class="item-logo">
+                    {% render_shipping_method_logo method.carrier %}
+                </div>
+                <div class="item-details">
+                    <p>
+                        {{ method.carrier_with_name }}
+                        <span>
+                            {% blocktrans with days=method.delivery_days %}
+                                {{ days }} business days
+                            {% endblocktrans %}
+                        </span>
+                    </p>
+                </div>
+                <div class="item-price">
+                    <span class="price">{{ method.shipping_method_cost|currency }}</span>
+                    {% if method.free_insurance %}
+                        <span class="free-insurance">{% trans "Free" %}</span>
+                        <span class="insurance2">{% trans "Insurance" %}</span>
+                    {% else %}
+                        <span class="insurance">+ {{ method.shipping_insurance_cost|currency }}</span>
+                        <span class="insurance2">{% trans "Insurance" %}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+

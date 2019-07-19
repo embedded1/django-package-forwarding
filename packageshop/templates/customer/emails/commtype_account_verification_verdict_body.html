@@ -1,0 +1,57 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+    {% trans "USendHome Account Verification Status" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Account Verification Status" %}
+{% endblock %}
+
+{% block body %}
+    <p>
+        {% blocktrans with user_name_title=user_name|title %}
+            Hello {{ user_name_title }},
+        {% endblocktrans %}
+    </p>
+
+    {% if is_verified %}
+        <p>
+            {% blocktrans %}
+                Congratulations! your account has been successfully verified.
+                As a verified account holder your orders will be dispatched more quickly and you will
+                enjoy a seamless forwarding experience.
+            {% endblocktrans %}
+        </p>
+    {% else %}
+        {% if more_documents %}
+            <p>
+                {% url 'customer:account-verify' account_status.pk as account_status_verify_url %}
+                {% blocktrans %}
+                    We are unable to verify your identity based on the documents you provided us with.
+                    Use the URL link below to provide additional documents, make sure all documents contain a
+                    clear and visible photo.
+                    <a href="{{ site }}{{ account_status_verify_url }}">{{ site }}{{ account_status_verify_url }}</a>
+                {% endblocktrans %}
+            </p>
+        {% else %}
+            <p>
+                {% blocktrans %}
+                    We're sorry but we couldn't verify your identity based on the documents you provided us with.
+                    We have no option left from closing down your account.
+                {% endblocktrans %}
+            </p>
+            <p>
+                {% url 'contact' as contact_url %}
+                {% blocktrans %}
+                    You can always <a href="{{ site }}{{ contact_url }}">contact</a> us to supply additional information that
+                    will help us verifying your identity.
+                    Your account has been put on hold for the next 10 days, please make sure you provide all additional
+                    information within this time frame.
+                {% endblocktrans %}
+            </p>
+        {% endif %}
+    {% endif %}
+{% endblock %}

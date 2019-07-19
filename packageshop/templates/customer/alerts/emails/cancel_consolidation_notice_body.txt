@@ -1,0 +1,19 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+    {% blocktrans with id=package.upc %}
+        We've completed your Package Consolidation request 5 days ago and package #{{ id }}
+        is waiting for delivery.
+        You have 2 more days to complete the delivery before we return all of the items back to senders.
+    {% endblocktrans %}
+
+    {% url "customer:pending-packages" as pending_url %}
+    {% blocktrans %}
+        Hurry up and release your package to avoid losing your items.
+        Visit the URL link below to get your package released for delivery now:
+    {% endblocktrans %}
+    {{ site }}{{ pending_url }}
+{% endblock %}
+

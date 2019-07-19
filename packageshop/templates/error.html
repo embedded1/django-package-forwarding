@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load i18n %}
+
+{% block body_class %}body-blue{% endblock %}
+
+{% block layout %}
+    <div class="container error-404">
+		{% block error_image %}{% endblock %}
+		<h1>{% block error_heading %}{% endblock %}</h1>
+		<h3>{% block error_sub_heading %}{% endblock %}</h3>
+		<p>{% block error_message %}{% endblock %}</p>
+	</div>
+{% endblock %}

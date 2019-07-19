@@ -1,0 +1,26 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "USendHome Package Discarded" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Package Discarded" %}
+{% endblock %}
+
+{% block body %}
+    <p>
+        {% blocktrans with package_number=package.upc %}
+           Package #{{ package_number }} exceeded the maximum storage days and has been removed from your account.
+        {% endblocktrans %}
+    </p>
+
+    <p>
+        {% blocktrans %}
+           Always release your packages for delivery in time to avoid losing your items.
+           We provide plenty of storage time and notifications that can help you manage your packages
+           at your private mailbox.
+        {% endblocktrans %}
+    </p>
+{% endblock %}

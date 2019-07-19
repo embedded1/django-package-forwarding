@@ -1,0 +1,21 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}
+    {% if is_affiliate %}
+        {% blocktrans with referee_name_title=referee_name|title %}
+            Hooray! {{ referee_name_title }} has just delivered the first package with us and now
+            it's your time to get rewarded. The affiliate revenue has already been applied to your account.
+        {% endblocktrans %}
+    {% else %}
+        {% blocktrans with referee_name_title=referee_name|title%}
+             Hooray! {{ referee_name_title }} has just delivered the first package with us and now
+             it's your time to get rewarded with shipping credit.
+        {% endblocktrans %}
+
+        {% blocktrans %}
+            The shipping credit has already been applied to your account.
+            It automatically appears on the checkout page in the form of a coupon.
+        {% endblocktrans %}
+    {% endif %}
+{% endblock %}

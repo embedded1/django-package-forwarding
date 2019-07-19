@@ -1,0 +1,36 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load shipping_methods_tags %}
+
+
+{% block body %}
+    {% if latest_status == 'delivered' %}
+        {% trans "Your package has arrived!!! here's the full shipping information:" %}
+    {% elif latest_status == 'failure' %}
+        {% blocktrans %}
+            Your action is required to clear all outstanding exceptions with your package.
+            Please contact {{ display_carrier }} office in your country as more information regarding your shipment is needed.
+            Let us know if you need any help from our end.
+        {% endblocktrans %}
+    {% else %}
+        {% trans "Your order has been updated with new shipping information:" %}
+    {% endif %}
+
+    {% for line in shipping_info %}
+        {% if line.tracking_location.city %}
+            {{ line.message|safe }} in {{ line.tracking_location.city }}
+        {% else %}
+            {{ line.message }}
+        {% endif %}
+    {% endfor %}
+
+    {% blocktrans %}
+		It is being shipped via {{ display_carrier }} under tracking number {{ tracking_number }}.
+		You can view the status of this shipment manually at the following URL link:
+    {% endblocktrans %}
+
+	{% render_shipping_method_tracking_url carrier tracking_number as tracking_url %}
+	{{ tracking_url }}
+
+    {% trans "Please allow reasonable time for the status of the shipment to display updated information at the above link." %}
+{% endblock %}

@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans %}
+	Order #{{ order_number }} cancelled
+{% endblocktrans %}

@@ -1,0 +1,26 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "USendHome Package Returned to the Sender" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Package Returned to the Sender" %}
+{% endblock %}
+
+{% block body %}
+    <p>
+        {% blocktrans with package_number=package.upc merchant_name=package.title|title %}
+           We wanted to let you know that package #{{ package_number }} is on the
+           way back to {{ merchant_name }}.
+        {% endblocktrans %}
+    </p>
+
+    <p>
+        {% blocktrans %}
+           It's expected to arrive in several days. We recommend you contact the seller directly
+           to take further actions.
+        {% endblocktrans %}
+    </p>
+{% endblock %}

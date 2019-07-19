@@ -1,0 +1,548 @@
+{% extends "static/faq/base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block description %}
+	{% trans "Read here FAQ about international shipping costs, shipping Insurance, personal USendHome address, shipping methods for your USA online purchases." %}
+{% endblock %}
+
+{% block title %}
+    {% trans "FAQ - Shipping Costs, Shipping Insurance, Personal US Address" %}
+{% endblock %}
+
+{% block messages %}
+    <div class="container">
+        <div id="promo-messages">
+            <div class="alert alert-safe alert-noicon alert-info fade in">
+                <h1>{% trans "USendHome Address &amp; International Shipping Costs Questions" %}</h1>
+                <p>
+                    {% blocktrans %}
+                        Learn how to ship packages to your personal US address and how we got you covered in case something wrong happens along the way.
+                    {% endblocktrans %}
+                </p>
+                <p>
+                    {% blocktrans %}
+                        Explore the wide range of shipping methods available for your online purchases.
+                    {% endblocktrans %}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block faq_section %}
+<div id="shipping" class="faq-content active">
+    <div class="faq-content-inner" id="shipping-q1">
+        <h4>{% trans "My package has been delivered, but I can't find it in my account" %}</h4>
+        <p>
+            {% blocktrans %}
+                We receive large volumes of packages each day. Please allow one working day for your package to be updated in your control panel.
+            {% endblocktrans %}
+        </p>
+        <p>
+            Warehouse receiving hours are 08:00 to 16:00 US Pacific Time Monday through Friday.
+            Packages received after 16:00 will be input the following day.
+            Packages received on Saturdays or Sundays will be entered the following Monday.
+        </p>
+        <p>
+            As the warehouse is closed on weekends we highly recommend not to select weekend delivery to avoid the hassle of
+            second delivery attempts and in some rare cases delivery failures.
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q2">
+        <h4>{% trans "Can I release for delivery package containing lithium battery?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Shipping batteries regulations have changed dramatically in 2017 and now determining whether a carrier and/or the destination country will accept the package will hinge in most cases on the type of battery (e.g. lithium ion, lithium metal, etc.),
+                the total battery weight, and any specific rules or regulations applied by customs in the recipient’s country.
+            {% endblocktrans %}
+        </p>
+        <p>
+            Due to regulations by the IATA, FAA and the TSA, <strong>USendHome no longer will be able to ship loose Lithium Ion batteries (PI965) for our customers.</strong>
+            This includes spare cell phone, and Laptop batteries, as well as power banks, and mobile chargers.
+            When you are ready to mail out your package, be careful which shipping method accepts lithium batteries and under which conditions
+        </p>
+        <ul>
+            <li>USPS: no lithium batteries can be shipped</li>
+            <li>FedEx: ships installed lithium batteries, no limit</li>
+            <li>DHL: ships installed lithium batteries, no limit</li>
+            <li>UPS: ships installed lithium batteries, no limit</li>
+            <li>Aramex: ships installed lithium batteries, 1 li-ion battery per package</li>
+        </ul>
+    </div>
+    <div class="faq-content-inner" id="shipping-q3">
+        <h3>{% trans "Are there any prohibited items that cannot be shipped internationally?" %}</h3>
+        <p>
+            {% blocktrans %}
+                This is a partial list of prohibited items that are undeliverable:
+            {% endblocktrans %}
+        </p>
+        <ul>
+            <li>Aerosols</li>
+            <li>Air bags</li>
+            <li>Alcoholic Beverages</li>
+            <li>Ammunition</li>
+            <li>Cigarettes</li>
+            <li>Dry Ice</li>
+            <li>Explosives</li>
+            <li>Fresh Fruits &amp; Vegetables</li>
+            <li>Gasoline</li>
+            <li>Nail Polish</li>
+            <li>Perfumes containing alcohol</li>
+            <li>Poison</li>
+            <li>Pool Chemicals</li>
+        </ul>
+        <p>
+            {% trans "There are certain items that can be delivered under specific restrictions. They are:" %}
+        </p>
+        <ul>
+            <li>Loose Lithium batteries</li>
+            <li>Cigars</li>
+            <li>Medical devices</li>
+            <li>Medicine or drugs</li>
+        </ul>
+        <p>
+            {% blocktrans %}
+                Check the policies for your destination. Every country has its own rules, and some may surprise you.
+                Shipping restrictions are determined by the receiving country.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                If you order illegal items or items that cannot be legally exported, we are not allowed to return those items to the merchant or to deliver them internationally.
+                We will report any incidents to law enforcement authorities and the items will be confiscated.
+                For all other legal but prohibited items, you're responsible to instruct us to return the items to the merchant or to dispose of them.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q4">
+        <h3>{% trans "Which shipping companies do you partner with?" %}</h3>
+        {# We partner with the USPS, FedEx and TNT shipping companies. <br/> #}
+        <p>
+            {% blocktrans %}
+                We partner with the USPS, FedEx, UPS, DHL and Aramex. <br/>
+                Stay tuned as this shipping companies list gets updated quite frequently.
+            {% endblocktrans %}
+        </p>
+    </div>
+
+    <div class="faq-content-inner" id="shipping-q5">
+        <h2>{% trans "What international shipping methods do you offer?" %}</h2>
+        <p>
+            {% blocktrans %}
+                The following information is for general information only. We support only shipping methods shown in our shipping calculators.
+                Always check the calculator for the dimension and weight before you ship package to us.
+            {% endblocktrans %}
+        </p>
+        {% url 'faq' 'shipping' as restricted_items_url %}
+        <p>
+            {% blocktrans %}
+                All rules and conditions of each shipping company apply to the customer.
+                We highly recommend visiting each shipping company website for complete and up-to-date information.
+                Also consider checking out the list of <a href="{{ restricted_items_url}}#shipping-q2"> restricted and prohibited items</a> to ship with each of these shipping methods.
+            {% endblocktrans %}
+        </p>
+        <p>{% trans "We offer the following shipping methods (more to come!):" %}</p>
+        <ul>
+            <li>
+                The USPS
+                <ul>
+                    <li>
+                        <span>Express Mail</span>
+                        <ul>
+                            <li>{% trans "Reliable and fast method, delivery in 3 to 5 business days to most destinations" %}</li>
+                            <li>{% trans "Shipping insurance available" %}</li>
+                            <li>{% trans "Includes package tracking" %}</li>
+                            <li>
+                                {% blocktrans %}
+                                    Click <a rel="nofollow" href="https://www.usps.com/ship/priority-mail-express-international.htm" target="_blank">here</a> for complete details based on your origin country.
+                                {% endblocktrans %}
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span>Priority Mail</span>
+                        <ul>
+                            <li>{% trans "Reliable and affordable - delivery in 6 to 10 business days to most destinations" %}</li>
+                            <li>{% trans "Shipping insurance available" %}</li>
+                            <li>{% trans "Includes package tracking" %}</li>
+                            <li>
+                                {% blocktrans %}
+                                    Click <a rel="nofollow" href="https://www.usps.com/ship/priority-mail-international.htm" target="_blank">here</a> for complete details based on your origin country.
+                                {% endblocktrans %}
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span>First Class</span>
+                        <ul>
+                            <li>{% trans "Most affordable for small packages - delivery time varies by destination and is slower than other methods" %}</li>
+                            <li>{% trans "Up to 4 pounds (cannot exceed $400 in value)" %}</li>
+                            <li>{% trans "Insurance available" %}</li>
+                            <li>{% trans "Includes tracking (only within the US)" %}</li>
+                            <li>
+                                {% blocktrans %}
+                                    Click <a rel="nofollow" href="https://www.usps.com/ship/first-class-package-international-service.htm" target="_blank">here</a> for complete details based on your origin country.
+                                {% endblocktrans %}
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                FedEx
+                <ul>
+                    <li>
+                        <span>Priority</span>
+                        <ul>
+                            <li>{% trans "Reliable and super fast method, delivery in 1 to 3 business days to most destinations" %}</li>
+                            <li>{% trans "Door-to-Door delivery" %}</li>
+                            <li>{% trans "Free insurance for shipments valued below $100" %}</li>
+                            <li>{% trans "Includes tracking" %}</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span>Economy</span>
+                        <ul>
+                            <li>{% trans "Reliable and affordable - delivery in 2 to 5 business days to most destinations" %}</li>
+                            <li>{% trans "Door-to-Door delivery" %}</li>
+                            <li>{% trans "Free insurance for shipments valued below $100" %}</li>
+                            <li>{% trans "Includes tracking" %}</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                DHL
+                <ul>
+                    <li>
+                        <span>Express</span>
+                        <ul>
+                            <li>{% trans "Reliable and super fast method, delivery in 1 to 3 business days to most destinations" %}</li>
+                            <li>{% trans "Door-to-Door delivery" %}</li>
+                            <li>{% trans "Includes tracking" %}</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                UPS
+                <ul>
+                    <li>
+                        <span>Express Saver</span>
+                        <ul>
+                            <li>{% trans "Reliable and super fast method, delivery in 1 to 3 business days to most destinations" %}</li>
+                            <li>{% trans "Door-to-Door delivery" %}</li>
+                            <li>{% trans "Free insurance for shipments valued below $100" %}</li>
+                            <li>{% trans "Includes tracking" %}</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span>Expedited</span>
+                        <ul>
+                            <li>{% trans "Reliable and affordable - delivery in 2 to 5 business days to most destinations" %}</li>
+                            <li>{% trans "Door-to-Door delivery" %}</li>
+                            <li>{% trans "Free insurance for shipments valued below $100" %}</li>
+                            <li>{% trans "Includes tracking" %}</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                Aramex
+                <ul>
+                    <li>
+                        <span>Aramex Priority Parcel Express</span>
+                        <ul>
+                            <li>{% trans "Reliable, super affordable and fast method, delivery in 5 to 10 business days to most destinations" %}</li>
+                            <li>{% trans "Door-to-Door delivery" %}</li>
+                            <li>{% trans "Includes tracking" %}</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        {% comment %}
+            <li>
+                TNT
+                <ul>
+                    <li>
+                        <span>TNT Express</span>
+                        <ul>
+                            <li>{% trans "Reliable and fast method, delivery in 3 to 5 business days" %}</li>
+                            <li>{% trans "Door-to-Door delivery" %}</li>
+                            <li>{% trans "Insurance available" %}</li>
+                            <li>{% trans "Includes tracking" %}</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span>TNT Economy</span>
+                        <ul>
+                            <li>{% trans "Reliable and affordable - delivery in 6 to 10 business days" %}</li>
+                            <li>{% trans "Door-to-Door delivery" %}</li>
+                            <li>{% trans "Shipping insurance available" %}</li>
+                            <li>{% trans "Includes package tracking" %}</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+           {% endcomment %}
+        </ul>
+    </div>
+
+    <div class="faq-content-inner" id="shipping-q6">
+        <h3>{% trans "Can I deliver orders to my private USendHome address with a different name than the one I registered with?" %}</h3>
+        <p>
+            {% blocktrans %}
+                Yes, Just make sure the shipping address contains your private mailbox number.
+                All packages addressed to a person with a name different than the account holder's name must go through the
+                additional receiver verification process.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                The verification process is simple and only requires 2 authentication documents.
+                It usually takes us 1-2 business days to review the data, once we successfully
+                manage to verify the additional receiver's identity, you will be able to release package
+                under his name for delivery.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                All orders that fail the additional receiver verification process must be returned back to the sender.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q7">
+        <h3>{% trans "Can I use my address to receive orders from non US merchants?" %}</h3>
+        <p>
+            {% blocktrans %}
+                No, we can only receive goods that you buy from online merchants in the US.
+                Packages that don't follow this condition will be refused and won't enter into your account.
+                Additionally, you'll be charged for the return costs and for any customs duties that may apply.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q8">
+        <h3>{% trans "How do I purchase shipping insurance?" %}</h3>
+        <p>
+            {% blocktrans %}
+                Shipping insurance is purchased during the checkout process when you select your preferred shipping method.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                Insure shipments valued at more than $100 for maximum protection.
+                We have the best insurance rates in the market so there's no excuse not to insure every shipment
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q9">
+        <h3>{% trans "How do I return a package back to the merchant?" %}</h3>
+        <p>
+            {% blocktrans %}
+                We've made it super easy for customers to send their items back.
+                Log in to your control panel, click on the incoming packages tab and simply click on the return to merchant button next to the package you would like to send back.
+                Complete the short checkout process and we will handle the rest.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q10">
+        <h3>{% trans "What phone number should I enter when placing an order online?" %}</h3>
+        <p>
+            {% blocktrans %}
+                Some online stores require a US phone number at checkout.
+                we highly recommend you use your own phone number to get your order delivered to your private address.
+                in case you don't own a US phone number your best option would be getting one online.
+                There are many services we provide a personal US phone number, here are some alternatives:
+                <a href="http://www.tollfreeforwarding.com/" target="_blank" rel="nofollow">http://www.tollfreeforwarding.com/</a>,
+                <a href="http://www.skype.com/en/features/online-number/" target="_blank" rel="nofollow">http://www.skype.com/en/features/online-number/</a>
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q11">
+        <h3>{% trans "What is the maximum size/weight/value of packages I can receive?" %}</h3>
+        <p>
+            {% blocktrans %}
+                Calculate international shipping costs with our <a href="{{ amazon_calculator_url }}">Amazon shipping calculator</a> for purchases placed through Amazon in the US.
+                For all other purchases, use the <a href="{{ package_calculator_url }}">package shipping calculator</a>.
+                Please use the appropriate calculator to verify that we can deliver your items before shipping them to our distribution center.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% url 'fees-explained' as fees-explained %}
+            {% blocktrans %}
+                EEI Documentation handling fee will be applied if the item's total value exceeds $2500.
+                Click <a href="{{ fees-explained }}#eei-fee">here</a> to learn more.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q12">
+        <h3>{% trans "How can I calculate international shipping costs in advance?" %}</h3>
+        <p>
+            {% blocktrans %}
+                Contact the merchant, ask for the dimensions and weight of the package, and use our <a href="{{ package_calculator_url }}">shipping calculator</a> to retrieve matching shipping methods and costs.
+                For purchases placed through Amazon in the US, use our <a href="{{ amazon_calculator_url }}">Amazon shipping calculator</a>.
+                Enter Amazon's product URL and destination and we will calculate estimated shipping rates for you.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                Note that the shipping costs shown in advance are only an estimate and not the final costs.
+                The final shipping costs are based upon the actual size and weight of the received package.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q13">
+        <h4>{% trans "What happens if my package arrives damaged to your distribution center?" %}</h4>
+        <p>
+            {% blocktrans %}
+                We may refuse to receive any package that shows signs of certain damage.
+                In such cases, the package will be returned back to the sender and notification will be sent to you.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                We keep track of your package's condition and display it on the incoming packages page.
+                If you want us to ship your items back to the merchant, contact the merchant directly to get the details of its return policy.
+                Some merchants will provide you with a prepaid return label, be sure to use it in the return-to-merchant checkout process.
+                A return shipping fee is applied if there is no prepaid return label.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q14">
+        <h4>{% trans "What happens if I have not received my goods?" %}</h4>
+        <p>
+            {% blocktrans %}
+                On rare occasions, packages do get lost in transport. Please wait 30 days, counting from the last tracking activity, and file an insurance claim through your control panel.
+                You're fully covered if you purchased our shipping insurance.
+                All you will need to provide us with is proof of purchase.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                We take insurance claims seriously and make sure you receive your money back in no time.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q15">
+        <h4>{% trans "What happens if my shipment has arrived damaged?" %}</h4>
+        <p>
+            {% blocktrans %}
+                If any of your items show a clear sign of damage and you purchased our shipping insurance, you will get your money back.
+                Just file shipping insurance claim through your control panel and we will take it from there.
+                You will need to provide proof of purchase and proof of damage.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                Please note that you must keep all damaged items and their original packaging, as you may be instructed to return them back to us.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q16">
+        <h4>{% trans "Will I have to pay duty and import tax?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Some countries allow goods below specific values to be imported free from duty and/or taxes.
+                We recommend you contact your local customs authorities for up-to-date details on the duty-free thresholds
+                and taxes that may apply for items that are valued above that amount.
+                Be aware that if you have consolidated several goods into one shipment, the value of the whole shipment will be assessed for duty.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                Duty and taxes are calculated based on the customs declaration paperwork that you must fill out during the checkout process.
+                All imported goods and their values must be declared by law to the importing country's customs office.
+                If an item is described incorrectly or an inaccurate value is stated, customs authorities may impose penalties and, in serious cases,
+                might even begin criminal proceedings.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                As the importer, you are responsible for complying with customs laws and regulations.
+                USendHome takes no responsibility for any penalty that might be imposed.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q17">
+        <h4>{% trans "Are there any destinations you won't deliver goods to?" %}</h4>
+        <p>
+            {% blocktrans %}
+                We deliver goods to all countries listed on our shipping calculators.
+                Please make sure your country is listed before delivering any items to our distribution center.
+                We cannot deliver items to any country out of that range.
+                Additionally, we will not ship goods to a blocked person.
+                Blocked people include individuals and entities (regardless of the mailing destination) that are listed on the OFAC Specially Designated Nationals (SDN) list.
+                The SDN list is available online <a href="http://www.treas.gov/offices/enforcement/ofac/sdn/t11sdn.pdf" rel="nofollow" target="_blank">here</a>.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q18">
+        <h4>{% trans "Can I use my personal USendHome address to deliver orders to my customers?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Yes, we do support drop shipping.<br/>
+                You can enter your customer's shipping address at checkout and we will make sure he gets
+                the order.
+                We can also remove the original invoice and insert your brand's invoice for a perfect drop shipping experience.
+                Plus, we can receive products you purchase from non-US merchants.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                Please note that we don't support third party payments.<br/>
+                The name on the credit card / PayPal account must match your USendHome account name.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q19">
+        <h4>{% trans "My package was shipped via USPS First Class Internationl and I think it's lost, what can I do now?" %}</h4>
+        <p>
+            {% blocktrans %}
+                First class international is untrackable.
+                Once it’s been sent it’s out of our control.
+                There is no way to track it and there is no proof of delivery or shipment.
+                It also doesn't have expedited brokerage, which means packages can "sit in customs" for up to 4-6 weeks.
+                Although this is rare it does happen.
+                Packages are sometimes not delivered at all (1% of cases), so this is why insurance is automatically added to your order,
+                However, it is generally fairly dependable, arriving with a week or two 95% of the time.
+                Lost package claims may be filed between 45 and 90 days after shipment.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                If it is past 90 days and your First Class package has not arrived please contact your local post office
+                and customs agency to see if your package has arrived and you haven't been notified.
+                Often times, your post office has the package and wants you to pay the import tariffs before it hands it over.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q20">
+        <h4>{% trans "Can I use my USendHome address to receive scratch cards?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Absolutely NOT, any scratch card received will be trashed and the user account will be terminated instantly.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q21">
+        <h4>{% trans "Can I use my USendHome address to receive private mail?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Absolutely NOT, we can only receive tangible items you purchase online.
+                Magazines, catalogues, letters, credit cards, gift cards or promotional materials addressed
+                to your personal US address will be trashed.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="shipping-q22">
+        <h4>{% trans "Can I use my USendHome address as a billing address when I shop online?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Absolutely NOT, you can only use your USendHome address as a shipping address to deliver
+                orders to your personal mailbox.
+            {% endblocktrans %}
+        </p>
+    </div>
+</div>
+{% endblock %}

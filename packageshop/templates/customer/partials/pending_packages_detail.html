@@ -1,0 +1,14 @@
+{% load i18n %}
+
+{% if not pending_packages %}
+    <div class="tag-box tag-box-v2">
+        <p>
+            {% trans "You do not have any packages addressed to you" %}.
+        </p>
+        <p>
+            {% trans "What are you waiting for? - start delivering orders to your private suite" %} .
+        </p>
+    </div>
+{% else %}
+    {% include "catalogue/partials/packages_details.html" %}
+{% endif %}

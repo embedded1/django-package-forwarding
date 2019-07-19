@@ -1,0 +1,268 @@
+{% extends "layout.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load staticfiles %}
+{% load honeypot %}
+{% load user_agents %}
+
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block extrahead %}
+    <meta name="google-site-verification" content="QMfVCqIzD425Pd3L4CXyIplxmQ4UzgyGierOPeqZqnE" />
+    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/cajhcjefikhfeodofkmpcnecklngmeln">
+{% endblock %}
+
+{% block page_inner_class %}
+    homepage
+{% endblock %}
+
+{% comment %}
+{% block extrameta %}
+    <meta name="msvalidate.01" content="020DA742E5C5DF3D3A5ED58A9D0C925B" />
+{% endblock %}
+{% endcomment %}
+
+{% block title %}
+	{% trans "International Package Forwarding and Shipping from USA to anywhere - USendHome" %}
+{% endblock %}
+
+{% block description %}
+    {% blocktrans %}
+          USendhome is the #1 international package forwarding and shipping service from USA to anywhere in the world.
+          Buy products from any online US brand or store such as Amazon or Ebay and get it shipped to any address.
+          Get a Free Forever US Forwarding Address now and shop like a native on any US Online store.
+          128+ countries supported.
+    {% endblocktrans %}
+{% endblock %}
+
+{% block messages %}{% endblock %}
+{% block nav %}
+	{% include "partials/nav_accounts.html" %}
+{% endblock %}	
+{% block content %}
+    <section id="section-1">
+        <div class="container">
+            <div class="text-center">
+                <h1>{% trans "Shop USA Online Brands and Forward Anywhere in the World " %}</h1>
+                {% comment %}<p class="lead" style="margin-bottom:15px;">{% trans "You do the shopping, we do the shipping" %}</p>{% endcomment %}
+                <h2 class="lead" style="margin-bottom:15px;">
+                    {% blocktrans %}
+                        Join in and enjoy the benefits of a <strong>FREE</strong> US address
+                    {% endblocktrans %}
+                </h2>
+                <p class="lead">
+                    {% blocktrans %}
+                        bundled with a <strong>UNIQUE</strong> technology for a seamless package forwarding experience!
+                    {% endblocktrans %}
+                </p>
+                {% if not user.is_authenticated %}
+                    {% if not operation_suspended %}
+                        <form id="create-account" class="form-inline" action="{% url 'customer:register' %}" method="post" autocomplete="off">
+                            {% csrf_token %}
+                            {% render_honeypot_field "gender" %}
+                            <input type="hidden" name="homepage_create_account">
+                            <input type="hidden" name="redirect_url" value="{% url 'customer:register-settings' %}">
+                            <div class="form-group form-group-lg">
+                                <label class="sr-only">{% trans "Email Address" %}</label>
+                                <input type="email" name="email" class="form-control" placeholder="{% trans 'Email Address' %}" value="">
+                            </div>
+                            <div class="form-group form-group-lg">
+                                <label class="sr-only">{% trans "Password" %}</label>
+                                <input type="password" name="password1" class="form-control" placeholder="{% trans 'Password' %}" value="">
+                            </div>
+                            <button type="submit" class="btn btn-default btn-lg">{% trans "Create account" %}</button>
+                        </form>
+                    {% endif %}
+				{% else %}
+					<a href="{% url 'customer:pending-packages' %}" class="btn btn-default btn-lg">{% trans "MANAGE PACKAGES" %}</a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    <div class="bottom-banner">
+        <div class="container">
+            <div id="carousel-important-messages" class="carousel slide" data-ride="carousel">
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <span>
+                            {% blocktrans %}
+						        Supporting new express carriers - <strong>DHL & Aramex</strong>
+                            {% endblocktrans %}
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span>{% trans "Accepting PayPal and All Major Credit Cards" %}</span>
+                    </div>
+                    <div class="item">
+                        <span>{% trans "Accepting Bitcoin" %}</span>
+                    </div>
+                </div>                
+            </div>		
+        </div>
+    </div>
+    <section id="section-2">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-sm-4 section-2-icon">
+                    <img src="{% static "usendhome/images/shop_us_brands.png" %}" alt="Shop USA Brands" class="img img-responsive hidden-xs"/>
+                    <div class="text">
+                        <h3>{% trans "Shop USA Brands" %}</h3>
+                        <p>{% trans "Place your orders with your favourite US online merchants. Have them ship to your free US address provided by USendHome and get notified the second your package arrives at your mailbox." %}</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 section-2-icon">
+                    <img src="{% static "usendhome/images/package_consolidation.png" %}" alt="Package Consolidation" class="img img-responsive hidden-xs"/>
+                    <div class="text">
+                        <h3>{% trans "Consolidate & Save Big" %}</h3>
+                        <p>{% trans "We receive and prepare your packages for delivery. Manage your packages online easily, consolidate multiple packages into 1 box and save up to 80% on shipping." %}</p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <img src="{% static "usendhome/images/forward_track_receive.png" %}" alt="Forward Package, Track And Receive" class="img img-responsive hidden-xs"/>
+                    <div class="text">
+                        <h3>{% trans "FORWARD, TRACK & RECEIVE" %}</h3>
+                        <p>{% trans "Get your online purchases forwarded directly to your home address, sit back and relax while USendHome package tracking system automatically tracks your packages." %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3>{% trans "Trusted by Purse.io" %}</h3>
+                    <p>
+                        {% blocktrans %}
+                            Purse and USendHome partnered up to make global e-commerce more seamless and flat.
+                            USendHome now provides thousands of Purse's customers a one-click reshipment service that enables them to
+                            receive packages at their home address anywhere in the world.
+                        {% endblocktrans %}
+                    </p>
+                </div>
+                <div class="col-sm-6">
+                    <blockquote class="quote-box">
+                        <p class="quotation-mark">
+                            “
+                        </p>
+                        <p class="quote-text">
+                            After evaluating all the shipping forwarders, we found USendHome to be a clear winner.
+                            We built a seamless integration – shoppers can generate a US address with 1 click.
+                        </p>
+                        <hr>
+                        <div class="blog-post-actions">
+                            <p class="blog-post-bottom pull-left">
+                              Purse’s founder and CEO, Andrew Lee
+                            </p>
+                            <p class="blog-post-bottom pull-right">
+                                <span class="quote-badge"><a href="https://news.bitcoin.com/purse-partners-usendhome-international/" target="_blank" rel="nofollow"><i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
+                            </p>
+                        </div>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% comment %}
+    <section id="section-4">
+        <div class="container">
+            <div class="text-center">
+                <h4>{% trans "With USendHome Leading USA Brands Are Only a Click Away!" %}</h4>
+                <p>
+					{% blocktrans %}
+						Shop online with any USA store, ship to your personal USendHome address
+                        and let USendHome package forwarding service handle everything from there.
+						You can even purchase from multiple US merchants and forward internationally
+                        all of your items in 1 consolidated shipment to save even more on shipping.
+					{% endblocktrans %}
+				</p>
+                <div id="slider_container">
+                    <!-- Slides Container -->
+                    <div u="slides">
+                        <div><img src="{% static "usendhome/images/brands/ebay.jpg" %}" alt="Ebay"/></div>
+                        <div><img src="{% static "usendhome/images/brands/amazon.jpg" %}" alt="Amazon"/></div>
+                        <div><img src="{% static "usendhome/images/brands/levis.jpg" %}" alt="Levis"/></div>
+                        <div><img src="{% static "usendhome/images/brands/walmart.jpg" %}" alt="Walmart"/></div>
+                        <div><img src="{% static "usendhome/images/brands/etsy.jpg" %}" alt="Etsy"/></div>
+                        <div><img src="{% static "usendhome/images/brands/carters.jpg" %}" alt="Carters"/></div>
+                        <div><img src="{% static "usendhome/images/brands/gap.jpg" %}" alt="GAP"/></div>
+                        <div><img src="{% static "usendhome/images/brands/nike.jpg" %}" alt="Nike"/></div>
+                    </div>
+                </div>
+                <!-- Jssor Slider End -->
+            </div>
+        </div>
+    </section>
+    {% endcomment %}
+    <section id="section-5">
+        <div class="container">
+            <h4>{% trans "USendHome Members Enjoy a Seamless Service Bundled with Highly Affordable Rates" %}</h4>
+            <div class="row">
+                <div class="col-sm-6">
+                    <p style="margin-bottom: 20px;">
+                        {% url "forwarding-destination" "ca" "canada" as ca %}
+                        {% url "forwarding-destination" "ru" "russia" as ru %}
+                        {% url "forwarding-destination" "au" "australia" as au %}
+                        {% url "forwarding-destination" "fr" "france" as fr %}
+                        {% url "forwarding-destination" "gb" "great-britain" as uk %}
+                        {% url "forwarding-destination" "br" "brazil" as br %}
+                        {% url "forwarding-destination" "sa" "saudi-arabia" as sa%}
+                        {% blocktrans %}
+                            Customers from <a href="{{ ca }}">Canada</a>,
+                            <a href="{{ ru }}">Russia</a>, <a href="{{ au }}">Australia</a>, <a href="{{ fr }}">France</a>,
+                            <a href="{{ uk }}">United Kingdom</a>, <a href="{{ br }}">Brazil</a>, <a href="{{ sa }}">Saudi Arabia</a>
+                             and many other destinations now enjoy an hassle-free package forwarding from the USA.
+                        {% endblocktrans %}
+                    </p>
+                    <p>
+                        {% url 'referral-program' as ref %}
+                        {% blocktrans %}
+                            Want to <a href="{{ ref }}">save even more on international shipping rates?</a> Give your friends a $5 in shipping credit and receive $5 for each one the signs up.
+                        {% endblocktrans %}
+                    </p>
+                </div>
+                <div class="col-sm-6">
+                    <p style="margin-bottom: 20px;">
+                        {% url "chrome-ext" as chrome %}
+                        {% blocktrans %}
+                            Looking to shop online at <a href="http://www.amazon.com" rel="nofollow" target="_blank">Amazon</a> in the USA? check out our <a href="{{ chrome }}">Amazon Worldwide Shipping</a>
+                            extension for Chrome that finds the optimal shipping solution for all items in your cart.
+                        {% endblocktrans %}
+                    </p>
+                    <p>
+                        {% url 'calculators:package' as calc %}
+                        {% blocktrans %}
+                            We have a solution for all other US brands as well, use USendHome <a href="{{ calc }}">international shipping calculator</a> to find the cheapest shipping rates out there.
+                        {% endblocktrans %}
+                    </p>
+                </div>
+				<div class="col-xs-12 get-started">
+                    <a href="{% url 'customer:register' %}" class="btn btn-primary btn-started">{% trans "JOIN IN NOW" %}</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% comment %}
+        {# exit modal #}
+        {% if not request.session.added_chrome_extension and not user.get_profile.added_chrome_extension and request|is_pc %}
+            {% include "partials/amazon_app_modal.html" %}
+        {% endif %}
+    {% endcomment %}
+{% endblock %}
+
+{% comment %}
+{% block extrascripts %}
+    <script src="{% static "usendhome/assets/jssor/jssor.slider.mini.js" %}" type="text/javascript"></script>
+{% endblock %}
+{% endcomment %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.homepage.init();
+{% endblock %}

@@ -1,0 +1,46 @@
+[
+    {
+        "pk": 1,
+        "model": "catalogue.productclass",
+        "fields": {
+            "track_stock": false,
+            "options": [],
+            "requires_shipping": false,
+            "name": "fee",
+            "slug": "fee"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "catalogue.productclass",
+        "fields": {
+            "track_stock": false,
+            "options": [],
+            "requires_shipping": false,
+            "name": "package",
+            "slug": "package"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "catalogue.productclass",
+        "fields": {
+            "track_stock": false,
+            "options": [],
+            "requires_shipping": false,
+            "name": "shipping insurance",
+            "slug": "shipping-insurance"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "catalogue.productclass",
+        "fields": {
+            "track_stock": false,
+            "options": [],
+            "requires_shipping": false,
+            "name": "shipping method",
+            "slug": "shipping-method"
+        }
+    }
+]

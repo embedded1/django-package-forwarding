@@ -1,0 +1,9 @@
+{% extends "partials/form_field.html" %}
+
+{% block label %}{% endblock %}
+
+{% block widget %}
+    {{ field }}
+    {{ field.label }}{% if field.field.required %} <span>*</span>{% endif %}
+    <i></i>
+{% endblock %}

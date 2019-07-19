@@ -1,0 +1,17 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}
+	{% blocktrans %}
+		Our operations staff is already handling your extra services request.
+		The following is the list of the services you ordered:
+	{% endblocktrans %}
+
+    {% for pending_special_request in pending_special_requests %}
+        {{ pending_special_request }}
+    {% endfor %}
+
+	{% blocktrans %}
+		We'll send you an email once we're done processing your request.
+	{% endblocktrans %}
+{% endblock %}

@@ -1,0 +1,153 @@
+{% extends "layout.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load staticfiles %}
+{% load honeypot %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block body_class %}
+    destination
+{% endblock %}
+
+{% block title %}
+    {% blocktrans %}
+        Forward and Ship your parcel from USA to {{ country_name }} with ease - USendHome
+    {% endblocktrans %}
+
+{% endblock %}
+
+{% block description %}
+    {% blocktrans %}
+        No more “we ship to US Only” . Shop online in the USA and have your items forwarded and shipped from USA to any address in {{ country_name }}.
+        Get a FREE US forwarding address for Australia now and shop on any US online store such as Amazon and Ebay like a native US Citizen.
+        Budget friendly package forwarding from USA to {{ country_name }}.
+    {% endblocktrans %}
+{% endblock %}
+
+{% block content %}
+    <section id="section-local-0">
+        <div class="container">
+            <span class="flag-icon {{ flag_icon }} pull-right"></span>
+            <div class="text-center">
+                <h1>
+                    {% blocktrans %}
+                        Save Big On Shipping from <br/>the USA to {{ country_name }}
+                    {% endblocktrans %}
+                </h1>
+                <h2 style="margin-bottom:15px; font-weight: 600;" class="lead">
+                    {% blocktrans %}
+                       Free US Address  & Package Consolidation Service
+                    {% endblocktrans %}
+                </h2>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-local-1">
+        <div class="container">
+            <div class="row">
+                <div class="localbox col-sm-4">
+                    <div class="localbox-inner">
+                        <div class="localbox-img">
+                            <img src="{% static "usendhome/images/package_delivery.jpg" %}" alt="{% trans "Door-to-Door delivery" %}">
+                        </div>
+                        <div class="localbox-header">
+                            <h3>
+                                {% blocktrans %}
+                                    Affordable Rates to {{ country_name }}
+                                {% endblocktrans %}
+                            </h3>
+                        </div>
+                        <div class="localbox-subheader">
+                            <ul>
+                                <li>{% trans "Free US shipping address" %}</li>
+                                <li>{% trans "No membership fee" %}</li>
+                                <li>{% trans "Wide range of extra services" %}</li>
+                            </ul>
+                        </div>
+                        <a href="{% url 'calculators:package' %}" class="btn localbox-btn localbox-btn-nephritis">{% trans "Check Rates" %}</a>
+                    </div>
+                </div>
+                <div class="localbox col-sm-4">
+                    <div class="localbox-inner">
+                        <div class="localbox-img">
+                            <img src="{% static "usendhome/images/warehouse.jpg" %}" alt="{% trans "Package Consolidation Service" %}">
+                        </div>
+                        <div class="localbox-header">
+                            <h3>{% trans "Package Consolidation Service" %}</h3>
+                        </div>
+                        <div class="localbox-subheader">
+                            <ul>
+                                <li>{% trans "Up to 80% off standard shipping rates" %}</li>
+                                <li>{% trans "Available for all customers" %}</li>
+                                <li>{% trans "Optimized packing" %}</li>
+                            </ul>
+                        </div>
+                        <a href="{% url "pricing" %}" class="btn localbox-btn localbox-btn-green-sea">{% trans "See Pricing" %}</a>
+                    </div>
+                </div>
+                <div class="localbox col-sm-4">
+                    <div class="localbox-inner">
+                        <div class="localbox-img">
+                            <img src="{% static "usendhome/images/amazon-box.jpg" %}" alt="{% trans "Amazon Delivery" %}">
+                        </div>
+                        <div class="localbox-header">
+                            <h3>{% trans "Unique Technology" %}</h3>
+                        </div>
+                        <div class="localbox-subheader">
+                            <ul>
+                                <li>{% trans "Automated package tracking system" %}</li>
+                                <li>{% trans "Plenty of shipping calculators" %}</li>
+                                <li>{% trans "An app that consolidates multiple Amazon items into the ideal number of boxes" %}</li>
+                            </ul>
+                        </div>
+                        <a href="{% url "chrome-ext" %}" class="btn localbox-btn localbox-btn-turquoise">{% trans "Watch Video" %}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-local-2">
+        <div class="container">
+            <div class="text-center">
+                <div class="social-login">
+                    <a href="{% url 'social:begin' "facebook" %}" class="btn btn-social-block btn-social btn-social-lg btn-facebook">
+                        <i class="fa fa-facebook"></i> {% trans "Sign up with Facebook" %}
+                    </a>
+                    <a href="{% url 'social:begin' "twitter" %}" class="btn btn-social-block btn-social-lg btn-social btn-twitter">
+                        <i class="fa fa-twitter"></i> {% trans "Sign up with Twitter" %}
+                    </a>
+                </div>
+            </div>
+            <span>{% trans "Or Create Account Manually" %}</span>
+            <form id="create-account" class="form-inline" action="{% url 'customer:register' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                {% render_honeypot_field "gender" %}
+                <input type="hidden" name="homepage_create_account">
+                <input type="hidden" name="redirect_url" value="{% url 'customer:register-settings' %}">
+                <div class="form-group form-group-lg">
+                    <label class="sr-only">{% trans "Email Address" %}</label>
+                    <input type="email" name="email" class="form-control" placeholder="{% trans 'Email Address' %}" value="">
+                </div>
+                <div class="form-group form-group-lg">
+                    <label class="sr-only">{% trans "Password" %}</label>
+                    <input type="password" name="password1" class="form-control" placeholder="{% trans 'Password' %}" value="">
+                </div>
+                <button type="submit" class="btn btn-default btn-lg">{% trans "Create account" %}</button>
+            </form>
+        </div>
+    </section>
+
+{% endblock %}
+
+
+{% block extrastyles %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/css/destination_1.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/assets/bootstrap-social/bootstrap-social.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/assets/flag-icon/flag-icon.min.css" %}">
+{% endblock %}

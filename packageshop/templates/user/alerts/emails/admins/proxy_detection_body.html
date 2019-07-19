@@ -1,0 +1,7 @@
+{% load i18n %}
+
+<p>
+    {% blocktrans with score=proxy_score|default:"N/A" %}
+        User {{ user_name }} is behind proxy, proxy score = {{ score }}
+    {% endblocktrans %}
+</p>

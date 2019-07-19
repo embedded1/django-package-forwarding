@@ -1,0 +1,80 @@
+{% load i18n %}
+{% load customs_form_tags %}
+
+<div class="row">
+	<div class="col-md-6">
+		{% if form.is_bound and not form.is_valid %}
+			<div class="alert alert-danger">
+				<strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
+			</div>
+		{% endif %}
+
+		{% if form.non_field_errors %}
+			{% for error in form.non_field_errors %}
+				<div class="alert alert-danger">
+					<i class="fa fa-exclamation-circle"></i> {{ error }}
+				</div>
+			{% endfor %}
+		{% endif %}
+	</div>
+</div>
+
+{% for field in form %}
+	{% annotate_customs_form_field field %}
+    {% if forloop.first %}
+		{# content type #}
+		<div class="row" style="margin-bottom: 30px;">
+			<div class="col-md-6">
+				<div class="form-group {% if field.errors %}has-error{% endif %}">
+					{% include "partials/form_field_label.html" with field=field %}
+					<div class="input-group">
+						<div class="input-group-addon"><i class="fa fa-bookmark"></i></div>
+						{% include "partials/form_field_input.html" with field=field inputaddon=1 %}
+					</div>
+				</div>
+			</div>
+		</div>		
+	{% else %}
+		{% if field.is_desc %}
+		<div class="customs-item-container">
+			 <div class="row">
+				<div class="col-md-6">
+					<div class="form-group {% if field.errors %}has-error{% endif %}">
+						{% include "partials/form_field_label.html" with field=field %}
+						<div class="input-group">
+							<div class="input-group-addon"><i class="fa fa-tag"></i></div>
+							{% include "partials/form_field_input.html" with field=field inputaddon=1 %}
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+		
+		{% if field.is_quantity %}
+			<div class="row">
+				<div class="col-md-3">
+					<div class="form-group {% if field.errors %}has-error{% endif %}">
+						{% include "partials/form_field_label.html" with field=field %}
+						<div class="input-group">
+							<div class="input-group-addon"><i class="fa fa-shopping-cart"></i></div>
+							{% include "partials/form_field_input.html" with field=field inputaddon=1 %}
+						</div>
+					</div>
+				</div>
+		{% endif %}
+		
+		{% if field.is_value %}
+				<div class="col-md-3">
+					<div class="form-group {% if field.errors %}has-error{% endif %}">
+						{% include "partials/form_field_label.html" with field=field %}
+						<div class="input-group">
+							<div class="input-group-addon"><i class="fa fa-dollar"></i></div>
+							{% include "partials/form_field_input.html" with field=field inputaddon=1 %}
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+		{% endif %}
+	{% endif %}
+{% endfor %}

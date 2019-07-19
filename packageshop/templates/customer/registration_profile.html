@@ -1,0 +1,330 @@
+﻿{% extends 'layout.html' %}
+{% load url from future %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block title %}
+	{% trans 'Plan Ahead &amp; Save Big On International Shipping' %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="complete-settings">
+                        <h3>{% trans "Set up your USendHome account" %}</h3>
+                        <p>
+                            {% blocktrans %}
+                                We offer extras that make your US package forwarding service more reliable and affordable.
+                                Select the extra services you want on all incoming packages now and save even more money with added discounts.
+                            {% endblocktrans %}
+                        </p>
+                        <div class="settings-form">
+                            <form id="account-setup" action="." method="post">
+                                {% csrf_token %}
+                                <div class="profile-settings">
+                                    {% if form.is_bound and not form.is_valid %}
+                                        <div class="alert alert-danger">
+                                            <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
+                                        </div>
+                                    {% endif %}
+
+                                    {% if form.non_field_errors %}
+                                        {% for error in form.non_field_errors %}
+                                            <div class="alert alert-danger">
+                                                <i class="fa fa-exclamation-circle"></i> {{ error }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% include "partials/form_field_input.html" with field=form.mixpanel_anon_id %}
+									<div class="form-group {% if form.first_name.errors %}has-error{% endif %}">
+                                        <label for="id_first_name" class="control-label required">
+                                            {% trans "First name" %}
+                                             <span>*</span>
+                                        </label>
+										<div class="input-group">
+											<input type="text" name="first_name" value="{{ form.first_name.value|default_if_none:"" }}" maxlength="30" class="form-control" id="id_first_name">
+											{% for error in form.first_name.errors %}
+												<span class="error-block">{{ error }}</span>
+											{% endfor %}
+										</div>
+									</div>
+									<div class="form-group {% if form.last_name.errors %}has-error{% endif %}">
+                                        <label for="id_last_name" class="control-label required">
+                                            {% trans "Last name" %}
+                                             <span>*</span>
+                                        </label>
+										<div class="input-group">
+											<input type="text" name="last_name" value="{{ form.last_name.value|default_if_none:"" }}" maxlength="30" class="form-control" id="id_last_name">
+											{% for error in form.last_name.errors %}
+												<span class="error-block">{{ error }}</span>
+											{% endfor %}
+										</div>
+									</div>
+									<div class="form-group {% if form.email.errors %}has-error{% endif %}">
+                                        <label for="id_email" class="control-label required">
+                                            {% trans "Email address" %}
+                                             <span>*</span>
+                                        </label>
+										<div class="input-group">
+											<input type="text" name="email" value="{{ form.email.value|default_if_none:"" }}" class="form-control" id="id_email">
+											{% for error in form.email.errors %}
+												<span class="error-block">{{ error }}</span>
+											{% endfor %}
+										</div>
+									</div>
+                                    {% if form.password %}
+                                        <div class="form-group {% if form.password.errors %}has-error{% endif %}">
+                                            <label for="id_password" class="control-label required">
+                                                {% trans "Password" %}
+                                                 <span>*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <input type="password" name="password" class="form-control" id="id_password">
+                                                {% for error in form.password.errors %}
+                                                    <span class="error-block">{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-group {% if form.country.errors %}has-error{% endif %}">
+                                        {% include "partials/form_field_label.html" with field=form.country %}
+                                        <div class="input-group">
+                                            {% include "partials/form_field_input.html" with field=form.country inputaddon=1 %}
+                                        </div>
+                                    </div>
+                                    <div style="display: none">
+                                        <input id="package-consolidation" name="is_consolidate_every_new_package" type="checkbox" />
+                                        <input id="customs-declaration" name="is_filling_customs_declaration" type="checkbox" />
+                                        <input id="repackaging" name="is_repackaging" type="checkbox" />
+                                        <input id="extra-protection" name="is_extra_protection" type="checkbox" />
+                                        <input id="express-checkout" name="is_express_checkout" type="checkbox" />
+                                        <input id="remove-invoice" name="is_remove_invoice" type="checkbox" />
+                                        <input id="three-photos" name="is_three_photos" type="checkbox" />
+                                        <input id="one-photo" name="is_one_photo" type="checkbox" />
+                                        <input id="package-tracking" name="package_tracking" type="checkbox" />
+										<textarea id="customized-services" name="is_custom_requests"></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% if not is_post_signup %}
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <button id="extras" class="btn btn-info btn-save btn-block btn-lg" style="margin-top:30px;"><i class="fa fa-star"></i> {% trans "Select Extras" %}</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    <section id="section-connect">
+        <div class="container">
+            <div class="extras-settings" {% if not is_post_signup %}style="display: none"{% endif %}>
+                <h4>
+                    {% blocktrans %}
+                        Select extra services on all incoming packages and get <strong>20%</strong> off standard rates
+                    {% endblocktrans %}
+                </h4>
+                <div class="connect-list">
+                    <ul>
+                        <li class="item cmonitor recommended" data-input-id="#package-consolidation">
+                            <div class="item-inner-1">
+                                <div class="item-inner-2">
+                                    <div class="connect-icon"><i class="fa fa-cubes"></i></div>
+                                    <div class="connect-title">{% trans "Consolidation" %}<span>{% trans "$2/package" %}</span></div>
+                                    <div class="connect-info">{% trans "Consolidate multiple packages into one container." %}</div>
+                                    <a class="connect-link">{% trans "Select" %}</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item ccontact recommended" data-input-id="#customs-declaration">
+                            <div class="item-inner-1">
+                                <div class="item-inner-2">
+                                    <div class="connect-icon"><i class="fa fa-file-text-o"></i></div>
+                                    <div class="connect-title">{% trans "Customs Paperwork" %}<span>{% trans "$4" %}</span></div>
+                                    <div class="connect-info">{% trans "Customs declarations have to be filled out; we'll do it for you." %}</div>
+                                    <a class="connect-link">{% trans "Select" %}</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item marketo recommended" data-input-id="#one-photo">
+                            <div class="item-inner-1">
+                                <div class="item-inner-2">
+                                    <div class="connect-icon"><i class="fa fa-camera"></i></div>
+                                    <div class="connect-title">{% trans "1 Content Photo" %}<span>{% trans "$1.6" %}</span></div>
+                                    <div class="connect-info">{% trans "Ensure you got exactly what you ordered with content snapshots." %}</div>
+                                    <a class="connect-link">{% trans "Select" %}</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item twitter recommended" data-input-id="#package-tracking">
+                            <div class="item-inner-1">
+                                <div class="item-inner-2">
+                                    <div class="connect-icon"><i class="fa fa-plane"></i></div>
+                                    <div class="connect-title">{% trans "Package Tracking" %}<span>{% trans "Free" %}</span></div>
+                                    <div class="connect-info">{% trans "Know where your package is with our automated tracking system." %}</div>
+                                    <a class="connect-link">{% trans "Select" %}</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item safari" data-input-id="#three-photos">
+                            <div class="item-inner-1">
+                                <div class="item-inner-2">
+                                    <div class="connect-icon"><i class="fa fa-camera"></i></div>
+                                    <div class="connect-title">{% trans "3 Content Photos" %}<span>{% trans "$4" %}</span></div>
+                                    <div class="connect-info">{% trans "Ensure you got exactly what you ordered with content snapshots." %}</div>
+                                    <a class="connect-link">{% trans "Select" %}</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item facebook" data-input-id="#repackaging">
+                            <div class="item-inner-1">
+                                <div class="item-inner-2">
+                                    <div class="connect-icon"><i class="fa fa-recycle"></i></div>
+                                    <div class="connect-title">{% trans "Repacking" %}<span>{% trans "$4" %}</span></div>
+                                    <div class="connect-info">{% trans "Have us repack your order into cost-saving containers." %}</div>
+                                    <a class="connect-link">{% trans "Select" %}</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item hubspot" data-input-id="#express-checkout">
+                            <div class="item-inner-1">
+                                <div class="item-inner-2">
+                                    <div class="connect-icon"><i class="fa fa-rocket"></i></div>
+                                    <div class="connect-title">{% trans "Express Checkout" %}<span>{% trans "$1.6" %}</span></div>
+                                    <div class="connect-info">{% trans "Move your packages to the head of the shipping line." %}</div>
+                                    <a class="connect-link">{% trans "Select" %}</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item mailchimp" data-input-id="#remove-invoice">
+                            <div class="item-inner-1">
+                                <div class="item-inner-2">
+                                    <div class="connect-icon"><i class="fa fa-tag"></i></div>
+                                    <div class="connect-title">{% trans "Remove Invoice" %}<span>{% trans "$0.8" %}</span></div>
+                                    <div class="connect-info">{% trans "We'll remove the original invoice out of your package." %}</div>
+                                    <a class="connect-link">{% trans "Select" %}</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item mailchimp" data-input-id="#extra-protection">
+                            <div class="item-inner-1">
+                                <div class="item-inner-2">
+                                    <div class="connect-icon"><i class="fa fa-shield"></i></div>
+                                    <div class="connect-title">{% trans "Extra Protection" %}<span>{% trans "$1.6" %}</span></div>
+                                    <div class="connect-info">{% trans "Add layers of protection to ensure breakables make it safely overseas." %}</div>
+                                    <a class="connect-link">{% trans "Select" %}</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item twitter" id="customized-services-item">
+                            <div class="item-inner-1">
+                                <div class="item-inner-2">
+                                    <div class="connect-icon"><i class="fa fa-magic"></i></div>
+                                    <div class="connect-title">{% trans "Customized Services" %}<span>{% trans "$4" %}</span></div>
+                                    <div class="connect-info">{% trans "Want something special to suit your specific needs? Just ask." %}</div>
+                                    <a class="connect-link">{% trans "Select" %}</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="section-end">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    {% if show_terms %}
+                        <label>
+                            <input type="checkbox" class="js-enable-on-checked">
+                            {% url 'terms' as terms_url %}
+                            {% url 'privacy' as privacy_url %}
+                            {% blocktrans %}
+                                I agree to USendHome <a href="{{ terms_url }}">Terms of Service</a> and <a href="{{ privacy_url }}">Privacy Policy</a>
+                            {% endblocktrans %}
+                        </label>
+                    {% endif %}
+                    <button id="create-account" class="btn btn-info btn-save btn-block btn-lg" {% if show_terms %}disabled{% endif %}><i class="fa fa-gear"></i> {% if not is_post_signup %}{% trans "Create Account" %}{% else %}{% trans "Finish Setup" %}{% endif %}</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal modal-cp fade contacts" id="customizedServicesModal" tabindex="-1" role="dialog" aria-labelledby=exitModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">{% trans "Customized Services" %}</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body contacts-body" id="customizedServicesModalBody">
+                    <h3>
+                        {% blocktrans %}
+                            Describe the actions you want the operations team to take
+                        {% endblocktrans %}
+                    </h3>
+                    <div class="input-group">
+                        <textarea id="customized-services-modal" class="form-control no-input-addon" rows="5" cols="30"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer" id="customizedServicesModalFooter">
+                    <div class="modal-btns">
+                        <button type="button" data-dismiss="modal" class="btn btn-primary btn-save">{% trans "Save" %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.register();
+{% endblock %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/css/account_setup_2.css" %}">
+{% endblock %}
+
+
+{% block tracking %}
+    {{ block.super }}
+    {% if not debug %}
+        <div style="display: none">
+            <!-- Google Code for Registration Conversion Page -->
+            <script type="text/javascript">
+                /* <![CDATA[ */
+                var google_conversion_id = 953470795;
+                var google_conversion_language = "en";
+                var google_conversion_format = "3";
+                var google_conversion_color = "ffffff";
+                var google_conversion_label = "9cr5CK-u7mYQy57TxgM";
+                var google_remarketing_only = false;
+                /* ]]> */
+            </script>
+            <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+            </script>
+            <noscript>
+                <div style="display:inline;">
+                    <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/953470795/?label=9cr5CK-u7mYQy57TxgM&amp;guid=ON&amp;script=0"/>
+                </div>
+            </noscript>
+        </div>
+    {% endif %}
+{% endblock %}

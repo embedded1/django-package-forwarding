@@ -1,0 +1,39 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}
+{% if issuer == 'purse' %}
+    {% blocktrans with name=user.first_name|title %}
+        Hey {{ name }},
+
+        Thanks for your interesting in shipment forwarding on Purse.io with USendHome.
+
+        We see you created an address, but have yet to finish the sign-up process.
+        Did you know once you're signed up, you can order from Amazon from almost anywhere in the world thanks to USendHome and Purse?
+        Finish the sign-up process and start ordering online without limits, and have your goods shipped to you anywhere on the globe.
+
+        Here's a link to finish the signup process:
+        {{ site }}{{ complete_registration_url }}
+    {% endblocktrans %}
+{% else %}
+    {% blocktrans with name=user.first_name|title %}
+        Hey {{ name }},
+
+        Thanks for your interesting in shipment forwarding with USendHome.
+
+        We see you created an address, but have yet to finish the sign-up process.
+        Did you know once you're signed up, you can order from Amazon from almost anywhere in the world thanks to USendHome?
+        Finish the sign-up process and start ordering online without limits, and have your goods shipped to you anywhere on the globe.
+
+        Here's a link to finish the signup process:
+        {{ site }}{{ complete_registration_url }}
+    {% endblocktrans %}
+{% endif %}
+
+{% if issuer == 'purse' %}
+    {% blocktrans %}
+        Here's a link to Purse.io support page just in case you get lost:
+        https://support.purse.io/general-questions/forward-shipments-usendhome/
+    {% endblocktrans %}
+{% endif %}
+{% endblock %}

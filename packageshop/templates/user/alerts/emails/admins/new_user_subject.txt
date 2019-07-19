@@ -1,0 +1,6 @@
+{% load i18n %}
+{% if is_affiliate %}
+    {% trans "New affiliate registration" %}
+{% else %}
+    {% trans "New registration" %}
+{% endif %}

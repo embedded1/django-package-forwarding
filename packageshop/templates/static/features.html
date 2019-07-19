@@ -1,0 +1,224 @@
+{% extends "layout.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load url from future %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block body_class %}features-body{% endblock %}
+
+{% block title %}
+	{% trans "Amazing features to make your parcel forwarding from USA smooth - USendHome" %}
+{% endblock %}
+
+{% block description %}
+	{% trans "USendHome international shipping services from USA provides package consolidation, package photos, automatic package tracking, international shipping, shipping calculators & many more. Get a Free Forever US Forwarding address and have your items shipped to over 128 countries in the world." %}
+{% endblock %}
+
+{% block header %}{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-1">
+                <div class="text-center width90">
+                    <h1>{% trans "See What Makes USendHome Package and International Shipping Experience Easy & Affordable" %}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+	<section id="feature-1" class="feature-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 hidden-xs">
+                    <img class="img-responsive" src="{% static "usendhome/images/features/control_panel.png" %}" alt="Control panel for package consolidation and tracking" />
+                </div>
+                <div class="col-sm-6">
+                    <div class="aligned-center">
+                        <h3>{% trans "Easy, Breezy Control Panel" %}</h3>
+                        <p>
+							{% blocktrans %}
+								Monitor all of your incoming packages from our user-friendly interface.
+								Order extra services, package consolidation and view your order history with just one click.
+								We've harnessed technology that enables you to deliver your online US purchases directly to your home address anytime, anywhere.
+							{% endblocktrans %}
+						</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="feature-1" class="feature-section feature-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="aligned-center">
+                        <h2>{% trans "Package Consolidation" %}</h2>
+                        <p>
+							{% blocktrans %}
+								Use our efficient service to get affordable international shipping.
+								Consolidate multiple orders into one shipment and cut down 80% on shipping costs.
+								Pay once and have your items delivered all together.
+							{% endblocktrans %}		
+						</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <img class="img-responsive pull-right" src="{% static "usendhome/images/features/consolidation.png" %}" alt="Package consolidation for affordable international shipping" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="feature-3" class="feature-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 hidden-xs">
+                    <img class="img-responsive" src="{% static "usendhome/images/features/tracking.png" %}" alt="Automatic package tracking" />
+                </div>
+                <div class="col-sm-6">
+                    <div class="aligned-center pull-right">
+                        <h3>{% trans "Automatic Package Tracking" %}</h3>
+                        <p>
+							{% blocktrans %}
+								Our automated package tracking system notifies you instantly when each new shipping update arrives.
+								All USendHome shipping methods contain a tracking number so you can always monitor your package route.
+								No need to check for new updates manually, we'll automatically send you the up-to-date status.
+							{% endblocktrans %}
+						</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="feature-4" class="feature-section feature-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="aligned-center">
+                        <h3>{% trans "No Hassle Insurance" %}</h3>
+                        <p>
+							{% blocktrans %}
+								Get your precious items protected with our comprehensive insurance policy.
+								No need to deal with claim forms for lost or damaged goods.
+								Just send us the invoice of the damaged package and receive your cheque in the mail.
+								Insurance is available for all shipping services USendHome offers.
+							{% endblocktrans %}
+						</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <img class="img-responsive pull-right" src="{% static "usendhome/images/features/insurance.png" %}" alt="Insurance cover for international shipping services" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="feature-5" class="feature-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 hidden-xs">
+                    <img class="img-responsive" src="{% static "usendhome/images/features/calculator.png" %}" alt="International shipping calculators – Amazon and Package" />
+                </div>
+                <div class="col-sm-6">
+                    <div class="aligned-center pull-right">
+                        <h3>{% trans "Easy-to-Use International Shipping Calculators" %}</h3>
+                        {% url 'calculators:amazon' as amzn %}
+                        {% url 'calculators:package' as calc %}
+                        <p>
+							{% blocktrans %}
+								We have two convenient international shipping calculators to help you easily decipher the most affordable shipping rates for your packages before you ship them to our distribution center.
+								Also, there is no need to guess the dimensions for items purchased online through Amazon in the USA
+								Just use the <a href="{{ amzn }}">Amazon shipping calculator</a> and let us handle the rest.
+                                For all other US brands you can take a look at our <a href="{{ calc }}">package shipping calculator</a> to find the best rates.
+							{% endblocktrans %}
+						</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="extra-services" class="feature-section feature-bg">
+        <div class="container">
+            <h3>{% trans "Extra Package Forwarding Services You'll Love" %}</h3>
+            <p>
+				{% blocktrans %}
+					Gain full control of your incoming packages.
+					We provide all of our users with a wide range of extra services to create a simple package forwarding experience.
+					Check out our complete list of extra services below.
+				{% endblocktrans %}
+			</p>
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="img-responsive" src="{% static "usendhome/images/features/contents_photos_icon.png" %}" alt="Package content photos service" />
+                    <h3>{% trans "Package Content Photos" %}</h3>
+                    <p>
+						{% blocktrans %}
+							Missing or damaged items are a common - and frustrating - occurrence with the large volume of packages shipped nowadays.
+							We take photos of the items in your packages so you can catch mistakes on the spot.
+                            Please note that this extra service isn't available with package consolidation, you would need to
+                            order it separately for every package you would like us to consolidate.
+                        {% endblocktrans %}
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <img class="img-responsive" src="{% static "usendhome/images/features/repacking_icon.png" %}" alt="Package repacking service" />
+                    <h3>{% trans "Repacking" %}</h3>
+                    <p>
+						{% blocktrans %}
+							Parcel size affects international shipping costs significantly.
+							Larger isn't always better and quite often merchandise is shipped in packaging that is too large.
+							Guess what? This leads to higher shipping rates! We will repack your items into smaller packaging so you can save some cash for additional USA online shopping!
+						{% endblocktrans %}
+					</p>
+                </div>
+                <div class="col-md-4">
+                    <img class="img-responsive" src="{% static "usendhome/images/features/customs_paperwork_icon.png" %}" alt="International package delivery paperwork service" />
+                    <h3>{% trans "Customs Declaration Paperwork" %}</h3>
+                    <p>
+						{% blocktrans %}
+							Don't waste your time filling out tedious official forms;
+							let us do that for you. We can fill out the customs declaration paperwork with the exact information needed to ensure that
+							you comply with your local shipping laws and your parcel delivery doesn't get caught up in red tape.
+						{% endblocktrans %}
+					</p>
+                </div>
+			</div>
+			<div class="row">
+                <div class="col-md-4">
+                    <img class="img-responsive" src="{% static "usendhome/images/features/express_checkout_icon.png" %}" alt="Expedite package processing service" />
+                    <h3>{% trans "Express Checkout" %}</h3>
+                    <p>
+						{% blocktrans %}
+							We process packages in First-In-First-Processed order.
+							This includes extra services and out-for-delivery processing.
+							Expedite your package processing by ordering this extra service and get your package pushed to the top of
+							the list so your shopping gets delivered faster.
+						{% endblocktrans %}							
+					</p>
+                </div>
+                <div class="col-md-4">
+                    <img class="img-responsive" src="{% static "usendhome/images/features/extra_protection_icon.png" %}" alt="Package content extra protection service" />
+                    <h3>{% trans "Extra Protection" %}</h3>
+                    <p>
+						{% blocktrans %}
+							Shipping fragile items? don't worry we got this covered.
+							Add layers of protection to ensure breakables make it safely overseas by ordering this extra service.
+                            We will place the cushioning all around your items to prevent them from shifting for maximum protection.
+						{% endblocktrans %}
+					</p>
+                </div>
+                <div class="col-md-4">
+                    <img class="img-responsive" src="{% static "usendhome/images/features/customized_requests_icon.png" %}" alt="Customized services for affordable international shipping" />
+                    <h3>{% trans "Customized Services" %}</h3>
+                    <p>
+						{% blocktrans %}
+							You can ask our trained operations staff to take specific actions on your items,
+							if you wish. This can be anything from checking that an electronic device you have ordered works correctly,
+							through to a range of more advanced operations.
+						{% endblocktrans %}
+					</p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

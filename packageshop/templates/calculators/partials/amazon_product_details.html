@@ -1,0 +1,52 @@
+{% load i18n %}
+{% load currency_filters %}
+{% load user_agents %}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="product-img">
+            <img class="img-responsive" src="{{ img }}" alt="{{ title }}" />
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="product-details">
+            <h3> {{ title }}</h3>
+            <div class="details-inner">
+                <div>
+                    <span>{% trans "Width" %}</span>
+                    <span class="pull-right">{{ width }} inch</span>
+                </div>
+                <div>
+                    <span>{% trans "Length" %}</span>
+                    <span class="pull-right"> {{ length }} inch</span>
+                </div>
+                <div>
+                    <span>{% trans "Height" %}</span>
+                    <span class="pull-right">{{ height }} inch</span>
+                </div>
+                <div>
+                    <span>{% trans "Weight" %}</span>
+                    <span class="pull-right">{{ weight }} lbs</span>
+                </div>
+                <div>
+                    <span><strong>{% trans "Price" %}</strong></span>
+                    <span class="pull-right"><strong>{{ value|currency }}</strong></span>
+                </div>
+            </div>
+        </div>
+
+        {% comment %}
+        {% if not request.session.added_chrome_extension and not user.get_profile.added_chrome_extension and request|is_pc %}
+            <button id="add-to-chrome" class="btn btn-danger chrome-ext">{% trans "Add our tool to Chrome " %}</button>
+        {% elif request.session.added_chrome_extension or user.get_profile.added_chrome_extension %}
+            <button class="btn btn-danger chrome-ext">{% trans "Added to Chrome " %}</button>
+        {% endif %}
+        {% endcomment %}
+
+        <a href="{{ purchase_url }}" rel="nofollow" target="_blank" class="btn btn-danger">{% trans "BUY NOW" %}</a>
+    </div>
+</div>
+
+
+
+

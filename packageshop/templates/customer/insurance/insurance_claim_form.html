@@ -1,0 +1,64 @@
+{% load i18n %}
+
+{% if form.is_bound and not form.is_valid %}
+    <div class="alert alert-danger">
+        <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
+    </div>
+{% endif %}
+
+
+{% if form.non_field_errors %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <i class="fa fa-exclamation-circle"></i> {{ error }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="js-errors">
+</div>
+
+{% csrf_token %}
+
+<div class="form-group {% if form.invoice.errors %}has-error{% endif %}">
+    {% include "partials/form_field_label.html" with field=form.invoice %}
+    <span class="btn btn-default btn-select-label fileinput-button">
+        <span>{% trans "Upload File" %}</span>
+        <!-- The file input field used as target for the file upload widget -->
+        <input type="file" name="invoice">
+    </span>
+    {% for error in form.invoice.errors %}
+        <span class="error-block">{{ error }}</span>
+    {% endfor %}
+    <span class="help-block">{% trans "Select the invoice of the order you've delivered to us" %}</span>
+</div>
+
+<div class="form-group {% if form.damaged_goods1.errors %}has-error{% endif %}">
+    {% include "partials/form_field_label.html" with field=form.damaged_goods1 %}
+    <span class="btn btn-default btn-select-label fileinput-button">
+        <span>{% trans "Upload File" %}</span>
+        <!-- The file input field used as target for the file upload widget -->
+        <input type="file" name="damaged_goods1">
+    </span>
+    {% for error in form.damaged_goods1.errors %}
+        <span class="error-block">{{ error }}</span>
+    {% endfor %}
+    <span class="help-block">{% trans "Select a photo that shows a clear sign of the damage" %}</span>
+</div>
+
+<div class="form-group {% if form.damaged_goods2.errors %}has-error{% endif %}">
+    {% include "partials/form_field_label.html" with field=form.damaged_goods2 %}
+    <span class="btn btn-default btn-select-label fileinput-button">
+        <span>{% trans "Upload File" %}</span>
+        <!-- The file input field used as target for the file upload widget -->
+        <input type="file" name="damaged_goods2">
+    </span>
+    {% for error in form.damaged_goods2.errors %}
+        <span class="error-block">{{ error }}</span>
+    {% endfor %}
+    <span class="help-block">{% trans "Select another photo if one is not sufficient" %}</span>
+</div>
+
+{% include "partials/form_field.html" with field=form.order_number %}
+{% include "partials/form_field.html" with field=form.incident_details %}
+<button class="btn btn-start-upload js-disable-on-click" data-loading-text="{% trans "Submitting..." %}">{% trans "Submit Claim" %}</button>

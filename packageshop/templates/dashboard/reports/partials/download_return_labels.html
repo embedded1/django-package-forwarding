@@ -1,0 +1,50 @@
+{% extends 'dashboard/reports/index.html' %}
+{% load currency_filters %}
+{% load i18n %}
+
+{% block report %}
+<form action="{% url dashboard:download-return-labels %}" method="post" class="form-inline">
+    {% csrf_token %}
+    <table class="table table-striped table-bordered table-hover">
+        {% if objects %}
+            <tr>
+                <th>{% trans "Select" %}</th>
+                <th>{% trans "Customer suite number" %}</th>
+                <th>{% trans "Customer name" %}</th>
+                <th>{% trans "Package unique ID" %}</th>
+                <th>{% trans "Date placed" %}</th>
+                <th>{% trans "Express checkout?" %}</th>
+                {% if request.user.is_staff %}
+                    <th>{% trans "Partner name" %}</th>
+                {% endif %}
+            </tr>
+        {% for order in objects %}
+            <tr>
+                <td>
+                    <input type="checkbox" name="selected_line" value="{{ order.id }}" />
+                </td>
+                <td>{{ order.user.get_profile.uuid }}</td>
+                <td>{{ order.user }}</td>
+                <td>{{ order.package.upc }}</td>
+                <td>{{ order.date_placed }}</td>
+                <td>{{ order.package.special_requests.express_checkout_done|yesno }}</td>
+                {% if request.user.is_staff %}
+                   <td>{{ package.partner.name }}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr><td>{% trans "No results found." %}</td></tr>
+    {% endif %}
+    </table>
+    <div class="form-actions">
+        <button id="download-return-label" class="btn btn-primary btn-large js-disable-on-click">Download return labels</button>
+    </div>
+</form>
+{% include "partials/pagination.html" %}
+{% endblock %}
+
+{% block onbodyload %}
+{{ block.super }}
+usendhome.dashboard.return_labels.init();
+{% endblock %}

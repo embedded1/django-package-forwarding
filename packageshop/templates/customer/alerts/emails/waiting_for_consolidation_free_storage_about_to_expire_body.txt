@@ -1,0 +1,18 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+    {% blocktrans %}
+        We noticed that you haven't completed the package consolidation request yet and we
+        would like to inform you that your free package storage duration (30 days) is about to expire real soon.
+        Hurry up and complete the package consolidation request now to avoid paying extra fees.
+    {% endblocktrans %}
+
+    {% url "customer:waiting-for-consolidation-packages" as consolidation_url %}
+    {% blocktrans %}
+		Visit the URL link below and click on the Create Consolidated Container button to get your items packed in one container today:
+    {% endblocktrans %}
+    {{ site }}{{ consolidation_url }}
+{% endblock %}
+

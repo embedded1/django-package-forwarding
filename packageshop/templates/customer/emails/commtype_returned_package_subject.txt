@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans %}
+	Package has returned back to your USendHome mailbox
+{% endblocktrans %}

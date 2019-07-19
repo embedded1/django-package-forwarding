@@ -1,0 +1,13 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+
+{% block headersubtext %}
+    <h5>{% trans "Change Settings" %}</h5>
+{% endblock %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block tabcontent %}
+    {% include 'customer/profile/profile_form_inner.html' %}
+{% endblock tabcontent %}

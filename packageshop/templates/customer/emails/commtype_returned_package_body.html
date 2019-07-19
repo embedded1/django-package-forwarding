@@ -1,0 +1,46 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome Returned Package" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Returned Package" %}
+{% endblock %}
+
+{% block body %}
+
+
+{% if return_reason == 'Battery' %}
+    <p>
+        {% blocktrans with package_number=package.upc %}
+            Your package contains lithium batteries that can't be shipped internationally via the selected carrier.
+            The carrier has returned the package to our distribution center.
+	        Package #{{ package_number }} is now available in your control panel for a second delivery.
+        {% endblocktrans %}
+    </p>
+{% else %}
+    <p>
+        {% url 'catalogue:detail' package.slug package.pk as package_url %}
+        {% blocktrans with package_number=package.upc %}
+           The carrier was unable to complete the delivery and returned your package to our distribution center.
+           Package #{{ package_number }} is now available in your control panel for a second delivery.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+            Please ensure that your shipping address is accurate at checkout to avoid having your packages sent back.
+            We recommend our Package Tracking feature in your control panel to receive new shipping information as it comes in
+            while your package is in transit.
+        {% endblocktrans %}
+    </p>
+{% endif %}
+
+<p>
+    {% render_email_button "customer:pending-packages" "View Packages" %}
+</p>
+
+{% endblock %}

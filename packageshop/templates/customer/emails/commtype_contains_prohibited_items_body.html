@@ -1,0 +1,33 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load email_tags %}
+{% load url from future %}
+
+{% block title %}
+    {% trans "USendHome New Package Received" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "New Package Received" %}
+{% endblock %}
+
+{% block body %}
+    <p>
+        {% url 'catalogue:detail' package.slug package.pk as package_url %}
+        {% blocktrans with package_number=package.upc merchant_name=package.title %}
+           Your order from {{ merchant_name }} has arrived.<br/>
+           Package #{{ package_number }} contains prohibited items that can't be shipped internationally and
+           must be returned back to the sender.
+        {% endblocktrans %}
+    </p>
+
+    {% if prohibited_items_msg %}
+        <p>
+            Prohibited items description: {{ prohibited_items_msg }}
+        </p>
+    {% endif %}
+
+    <p>
+        {% render_email_button "customer:pending-packages" "View Packages" %}
+    </p>
+{% endblock %}

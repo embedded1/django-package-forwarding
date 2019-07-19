@@ -1,0 +1,16 @@
+{% load i18n %}
+{% load url from future %}
+
+<input class="gcontacts-search" id="search-google-contacts" name="search" placeholder="{% trans "Search..." %}" type="text" data-list=".gcontacts-list">
+<form action="{% url 'contacts:google-invite' %}" method="post">
+    {% csrf_token %}
+    <div class="gcontacts-list">
+        {% for contact in contacts %}
+            <div class="gcontacts-item">
+                <input type="checkbox" name="google_contact" value="{{ contact.email }}">
+                <span class="gcontacts-name">{{ contact.name }}</span>
+                <span class="gcontacts-email">{{ contact.email }}</span>
+            </div>
+        {% endfor %}
+    </div>
+</form>

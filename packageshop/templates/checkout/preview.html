@@ -1,0 +1,11 @@
+{% extends 'checkout/checkout.html' %}
+
+{% block checkout_nav %}
+    {% include 'checkout/nav.html' with step=5 %}
+{% endblock %}
+
+{% block onbodyload %}
+    {% with 5 as current_step %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock %}

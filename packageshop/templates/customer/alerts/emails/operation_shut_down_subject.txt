@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans  %}
+    USendHome's service will not be available after September 10, 2018
+{% endblocktrans %}

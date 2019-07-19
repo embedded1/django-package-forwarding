@@ -1,0 +1,24 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome Email Address Changed" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Email Address Changed" %}
+{% endblock %}
+
+{% block body %}
+    {% autoescape off %}
+        <p>
+            {% blocktrans with email=new_email %}
+                You're receiving this notice because your email address has been changed to <strong>{{ email }}</strong>.
+            {% endblocktrans %}
+        </p>
+        <p>{% trans "If it was you who changed the email address, you can safely ignore this email." %}</p>
+        <p>{% trans "If it wasn't you who changed it, please reset your password immediately and correct your email address." %}</p>
+        <p>{% render_email_button reset_url "Reset Password" %}</p>
+    {% endautoescape %}
+{% endblock %}

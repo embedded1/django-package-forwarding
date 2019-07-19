@@ -1,0 +1,114 @@
+{% load i18n %}
+{% load catalogue_filters %}
+
+<table class="table table-responsive package-details">
+    <tbody>
+        <tr>
+            <td>{% trans "#Package:" %}</td>
+            <td>
+                <span class="label label-info">
+                    {% if product.is_returned_package %}
+                        {% blocktrans with upc=product.upc%}
+                            {{ upc }} Returned Package
+                        {% endblocktrans %}
+                    {% else %}
+                        {{ product.upc }}
+                    {% endif %}
+                </span>
+            </td>
+        </tr>
+        <tr>
+            {% if product.is_consolidated %}
+                <td>{% trans "Merchants:" %}</td>
+                <td>{{ product.title|truncatechars:100 }}</td>
+            {% else %}
+                <td>{% trans "Merchant:" %}</td>
+                 <td>{{ product.title|title|truncatechars:30 }}</td>
+            {% endif %}
+        </tr>
+        {% if product.is_consolidated %}
+            <td>{% trans "Number of packages:" %}</td>
+            <td>{{ product.combined_products.all|length }}</td>
+        {% endif %}
+        <tr>
+            <td>{% trans "Package receiver:" %}</td>
+            <td>
+                {% with receivers_names=product.all_additional_receivers_names %}
+                    {% if receivers_names|length > 1 %}
+                        {% trans "Multiple receivers" %}
+                        <a class="popover-top" data-container="body" data-toggle="popover" data-placement="top" title="{% trans "Receivers" %}" data-content="{{ receivers_names|join:","|truncatechars:100 }}"><i class="fa fa-info-circle"></i></a>
+                    {% elif receivers_names|length == 1 %}
+                        {{ receivers_names|join:","|truncatechars:30 }}
+                    {% else %}
+                        {{ product.owner.get_full_name|title }}
+                    {% endif %}
+                {% endwith %}
+            </td>
+        </tr>
+        <tr>
+            <td>{% trans "Date received:" %}</td>
+            <td>{{ product.date_created|date:"M d, Y" }}</td>
+        </tr>
+        {% if product.date_consolidated %}
+            <tr>
+                <td style="width: 50%;">{% trans "Package consolidation completed on:" %}</td>
+                <td>{{ product.date_consolidated|date:"M d, Y" }}</td>
+            </tr>
+        {% endif %}
+        <tr>
+            <td>{% trans "Package condition:" %}</td>
+            <td>{{ product.condition|create_condition_label }}</td>
+        </tr>
+        <tr>
+            <td>{% trans "Free storage:" %}</td>
+            <td>
+                {% with latest_order=product.latest_order %}
+                    {% if latest_order and latest_order.status != 'Cancelled' %}
+                        {% trans "N/A" %}
+                    {% else %}
+                        {{ product.number_of_free_storage_days_left|create_storage_label }}
+                    {% endif %}
+                {% endwith %}
+            </td>
+        </tr>
+        {% if product.date_consolidated %}
+            <tr>
+                <td>{% trans "Delivery due date:" %}</td>
+                <td>
+                    {% with latest_order=product.latest_order %}
+                        {% if latest_order and latest_order.status != 'Cancelled' %}
+                            {% trans "N/A" %}
+                        {% else %}
+                            {{ product.number_of_post_consolidation_delivery_days|create_storage_label }}
+                        {% endif %}
+                    {% endwith %}
+                </td>
+            </tr>
+        {% endif %}
+        <tr>
+            <td>{% trans "Contains prohibited items:" %}</td>
+            <td>{{ product.is_contain_prohibited_items|yesno|title }}</td>
+        </tr>
+        <tr>
+            <td>{% trans "Battery status:" %}</td>
+            <td>{{ product.battery_status }}</td>
+        </tr>
+        <tr>
+            <td>{% trans "Width:" %}</td>
+            <td>{{ product.width }} inch</td>
+        </tr>
+        <tr>
+            <td>{% trans "Length" %}:</td>
+            <td>{{ product.length }} inch</td>
+        </tr>
+        <tr>
+            <td>{% trans "Height:" %}</td>
+            <td>{{ product.height }} inch</td>
+        </tr>
+        <tr>
+            <td>{% trans "Weight:" %}</td>
+            <td>{{ product.weight }} lbs</td>
+        </tr>
+    </tbody>
+</table>
+

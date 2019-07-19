@@ -1,0 +1,29 @@
+id,product_class_id,name,code,type,option_group_id,entity_type_id,required
+1,1,package weight,weight,float,,,t
+2,1,package height,height,float,,,t
+3,1,package length,length,float,,,t
+4,1,package width,width,float,,,t
+10,1,content type,content_type,option,1,,f
+11,1,package girth,package_girth,float,,,f
+15,1,content value2,content_value2,float,,,f
+16,1,content value3,content_value3,float,,,f
+17,1,content value4,content_value4,float,,,f
+18,1,content value5,content_value5,float,,,f
+12,1,content description4,content_description4,text,,,f
+8,1,content description2,content_description2,text,,,f
+9,1,content description3,content_description3,text,,,f
+7,1,content description1,content_description1,text,,,f
+13,,content description5,content_description5,text,,,f
+14,1,content value1,content_value1,float,,,f
+21,1,usps track summary,usps_track_summary,text,,,f
+23,1,local post track summary,local_post_track_summary,text,,,f
+25,1,content quantity1,content_quantity1,integer,,,f
+26,1,content quantity2,content_quantity2,integer,,,f
+27,1,content quantity3,content_quantity3,integer,,,f
+28,1,content quantity4,content_quantity4,integer,,,f
+29,1,content quantity5,content_quantity5,integer,,,f
+6,1,tracking number,tracking_num,text,,,f
+30,11,total quantity,total_quantity,integer,,,f
+31,11,basket quantity,basket_quantity,integer,,,f
+33,5,method code,method_code,text,,,f
+34,1,is pending alert sent,is_pending_alert_sent,boolean,,,f

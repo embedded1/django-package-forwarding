@@ -1,0 +1,24 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+    {% blocktrans with name=customer.get_full_name|title %}
+        Hello {{ name }},
+        We wanted to let you know that we've updated the missing mailbox number surcharge rate, the new rate is
+        $5 not including the first miss.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        Shipments lacking this information make it harder to identify the proper recipient and delay processing your package.<br/>
+        Make sure you include your complete shipping address when you deliver items to your private mailbox.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        As always, if you have any questions, don't hesitate to contact us at the URL below.
+        Thank you for being part of the USendHome experience!
+    {% endblocktrans %}
+
+    {{ site }}{% url 'contact' %}
+{% endblock %}
+

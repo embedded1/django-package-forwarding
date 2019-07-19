@@ -1,0 +1,23 @@
+{% load shipping_calculator_filters %}
+
+<RateV4Request USERID="{{ userid }}">
+<Revision>2</Revision>
+<Package ID="products">
+    <Service>ONLINE</Service>
+    <ZipOrigination>{{ org_zip }}</ZipOrigination>
+    <ZipDestination>{{ dst_zip }}</ZipDestination>
+    <Pounds>{{ weight|pounds }}</Pounds>
+    <Ounces>{{ weight|ounces }}</Ounces>
+    <Container>
+        {% if size == 'LARGE' %}
+            RECTANGULAR
+        {% endif %}
+    </Container>
+    <Size>{{ size }}</Size>
+    <Width>{{ width }}</Width>
+    <Length>{{ length }}</Length>
+    <Height>{{ height }}</Height>
+    <Value>{{ value_of_content }}</Value>
+    <Machinable>true</Machinable>
+</Package>
+</RateV4Request>

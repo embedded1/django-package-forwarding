@@ -1,0 +1,5 @@
+id,name,slug,requires_shipping,track_stock
+1,package,package,f,f
+3,shipping insurance,shipping-insurance,f,f
+5,shipping method,shipping-method,f,f
+11,fee,fee,f,f

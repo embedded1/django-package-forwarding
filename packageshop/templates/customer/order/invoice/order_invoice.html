@@ -1,0 +1,135 @@
+{% extends "customer/order/invoice/base.html" %}
+{% load currency_filters %}
+{% load discount_filters %}
+
+{% block customer-details %}
+    {% with user=order.user %}
+		{{ user.get_full_name }}
+		<br/>
+		{{ user.email }}
+    {% endwith %}
+{% endblock %}
+
+{% comment %}
+{% block billing-address %}
+    {% with address=order.billing_address %}
+		{% if address %}
+			{% if address.title %}{{ address.title }}{% endif %}
+			{% if address.first_name %}{{ address.first_name }}{% endif %}
+			{% if address.last_name %}{{ address.last_name }}{% endif %}
+			<br/>
+			{{ address.line1 }}<br/>
+			{% if address.line2 %}
+				{{ address.line2 }}<br/>
+			{% endif %}
+			{% if address.line3 %}
+				{{ address.line3 }}<br/>
+			{% endif %}
+			{{ address.line4 }} {{ address.state }} {{ address.postcode }}<br/>
+			{{ address.country.printable_name|truncatechars:30 }}
+			{% if address.phone_number %}
+				Phone: {{ address.phone_number }}<br/>
+			{% endif %}
+		{% else %}
+			N/A
+		{% endif %}
+    {% endwith %}
+{% endblock %}
+{% endcomment %}
+
+{% block shipping-address %}
+    {% with address=order.shipping_address %}
+		{% if address %}
+			{% if address.title %}{{ address.title }}{% endif %}
+			{% if address.first_name %}{{ address.first_name }}{% endif %}
+			{% if address.last_name %}{{ address.last_name }}{% endif %}
+			<br/>
+			{{ address.line1 }}<br/>
+
+			{% if address.line2 %}
+			{{ address.line2 }}<br/>
+			{% endif %}
+
+			{% if address.line3 %}
+				{{ address.line3 }}<br/>
+			{% endif %}
+
+			{{ address.line4 }} {{ address.state }} {{ address.postcode }}<br/>
+		    {{ address.country.printable_name|truncatechars:30 }}
+			{% if address.phone_number %}
+				<br/>
+				Phone: {{ address.phone_number }}
+			{% endif %}
+		{% else %}
+			As stated on the return label
+		{% endif %}
+    {% endwith %}
+{% endblock %}
+
+{% block payment-method %}
+    {{ order.sources.all.0.label|default:_("PayPal Account") }}
+{% endblock %}
+
+
+{% block order-details %}
+    <p style="text-align: right;">
+        Order Number: {{ order.number }}
+    </p>
+    <p style="text-align: right;">
+        Purchase Date: {{ order.date_placed|date:"jS M Y" }}
+    </p>
+{% endblock %}
+
+{% block product-table %}
+	{% with max_following=9 %}
+		{% for line in order.lines.all %}
+			{% if forloop.first or forloop.counter|divisibleby:max_following %}
+				{% if not forloop.first %}
+					</table>
+					{% if forloop.counter|divisibleby:max_following %}
+						<pdf:nexttemplate name="nextPage">
+						<pdf:nextpage>
+						<pdf:spacer height='115mm'>
+					{% endif %}
+				{% endif %}
+				<table class="product-table">
+					<tr>
+						<th width="50%" style="text-align: left;">Description</th>
+						<th width="25%" style="text-align: center;">Quantity</th>
+						<th width="25%" style="text-align: right;">Price</th>
+					</tr>
+			{% endif %}			
+			<tr>
+				<td style="text-align: left;">{{ line.description }}</td>
+				<td style="text-align: center;">{{ line.quantity }}</td>
+				<td style="text-align: right; padding-right:2mm">{{ line.line_price_before_discounts_incl_tax|currency:order.currency }}</td>
+			</tr>
+			{% if forloop.last %}
+				</table>
+			{% endif %}
+		{% endfor %}
+	{% endwith %}
+{% endblock %}
+
+{% block order-sums %}
+    <pdf:spacer height='10mm'>
+    <table class="sums-table">
+        {% if order.basket_discounts %}
+            <tr>
+                <td width="60%">&nbsp;</td>
+                <td width="20%" style="text-align: right;">Subtotal:</td>
+                <td width="20%"style="text-align: right;">{{ order.basket_total_before_discounts_incl_tax|currency }}</td>
+            </tr>
+            <tr>
+                <td width="60%">&nbsp;</td>
+                <td width="20%" style="text-align: right;">Discount:</td>
+                <td width="20%" style="text-align: right;">- {{ order|total_order_discounts|currency }}</td>
+            </tr>
+        {% endif %}
+        <tr>
+            <td width="60%">&nbsp;</td>
+            <td width="20%" style="text-align: right;">Total:</td>
+            <td width="20%" style="text-align: right;">{{ order.total_incl_tax|currency }}</td>
+        </tr>
+    </table>
+{% endblock %}

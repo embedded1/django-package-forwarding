@@ -1,0 +1,48 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome is updating their shipping rates! new and more affordable rates coming soon!" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "USendHome is updating their shipping rates! new and more affordable rates coming soon!" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    {% blocktrans with name=customer.get_full_name|title %}
+        Hello {{ name }},
+    {% endblocktrans %}
+</p>
+<p>
+    {% blocktrans %}
+        USendHome is in a process of moving to a new and larger facility that can safely store the huge number of
+        packages we receive each day.
+        The new facility is equipped with a state-of-the-art logistics services which will speed up
+        the package processing and dispatching operations.
+    {% endblocktrans %}
+</p>
+
+<p><strong>
+    In addition, new and more affordable shipping rates are coming and will be available
+    at the new facility so don't forget to get your shopping lists ready!
+</strong></p>
+
+<p>
+    {% blocktrans %}
+        We'll notify you once your personal US address at the new facility is up and ready to receive your goods.
+        We promise a quick and smooth move!
+    {% endblocktrans %}
+</p>
+
+<p><strong>In the meanwhile, please don't deliver new orders to our current facility to help us with the transition.</strong></p>
+
+<p>
+    {% blocktrans %}
+       We apologize for any inconvenience or delays this process may have caused you and thank you for your cooperation.
+    {% endblocktrans %}
+</p>
+
+{% endblock %}

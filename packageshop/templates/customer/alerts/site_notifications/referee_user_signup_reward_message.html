@@ -1,0 +1,31 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome User Signed Up Credit" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Shipping Credit Available" %}
+{% endblock %}
+
+{% block body %}
+    <p>
+        {% blocktrans %}
+            We would like to thank you for joining the USendHome family!
+            A shipping credit has already been applied to your account.
+            It will automatically appear in a form of a coupon on the package delivery checkout page.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+            We've created a dedicated referrals page where you can invite your friends over and view
+            your available shipping credit.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% render_email_button "customer:referrals-index" "View Referrals Page" %}
+    </p>
+{% endblock %}
+

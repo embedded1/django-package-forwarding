@@ -1,0 +1,17 @@
+{% extends "oscar/customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}{% autoescape off %}
+
+    {% blocktrans with package_number=package.upc merchant_name=package.title|title %}
+       We wanted to let you know that package #{{ package_number }} is on the
+       way back to {{ merchant_name }}.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+       It's expected to arrive in several days. We recommend you contact the seller directly
+       to take further actions.
+    {% endblocktrans %}
+
+{% endautoescape %}
+{% endblock %}

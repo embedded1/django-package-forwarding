@@ -1,0 +1,38 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "Amazon Worldwide Shipping with USendHome" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Amazon Worldwide Shipping with USendHome" %}
+{% endblock %}
+
+{% block body %}
+    <p>
+        {% blocktrans with full_name=user.get_full_name|title %}
+            Hello {{ full_name }},
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+            We noticed that you recently signed up for USendHome and though that you may want to hear about our new tool for Chrome.
+            This handy tool calculates the optimal international shipping solution for ALL products in your Amazon cart.
+            The system picks the most appropriate boxes for your items.
+            our goal is to get you the lowest international shipping rates possible while keeping your items well protected in transit.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+            No more "Sorry, this item can't be shipped to your selected address."
+            messages at Amazon.com checkout process.
+            Deliver all Amazon products to us and we will forward them to you anywhere in the world.
+            Be able to buy more items and pay less for international shipping.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% render_email_button 'chrome-ext' "Add to Chrome" %}
+    </p>
+{% endblock %}

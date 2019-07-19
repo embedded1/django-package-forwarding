@@ -1,0 +1,490 @@
+{% extends 'dashboard/layout.html' %}
+{% load i18n %}
+
+{% block body_class %}create-page catalogue{% endblock %}
+
+{% block title %}
+{{ title }} | {% trans "Product management" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+    <li>
+        <a href="{% url dashboard:index %}">{% trans "Dashboard" %}</a>
+
+    </li>
+    <li>
+        <a href="{% url dashboard:catalogue-product-list %}">{% trans "Product management" %}</a>
+
+    </li>
+    <li class="active">{{ title }}</li>
+
+</ul>
+{% endblock %}
+
+{% block headertext %}{{ title }}{% endblock %}
+
+{% block dashboard_content %}
+<form action="{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}" method="post" class="form-stacked fixed-actions" enctype="multipart/form-data" data-behaviour="affix-nav-errors" autocomplete="off">
+    {% csrf_token %}
+    <div class="row-fluid">
+        <div class="span3">
+            <div data-spy="affix" class="affix-top" data-offset-top="200">
+                <div class="table-header">
+                    <h3>{% trans "Sections" %}</h3>
+                </div>
+                <ul class="nav nav-list bs-docs-sidenav" id="product_update_tabs">
+                    {% if product %}
+                    <li class="active"><a href="#overview" data-toggle="tab">{% trans 'Overview' %}</a></li>
+                    {% endif %}
+                    <li{% if not product %} class="active"{% endif %}><a href="#product_details" data-toggle="tab">{% trans 'Package details' %}</a></li>
+                    {% if request.user.is_superuser %}
+                        {% with variants=product.variants.all %}
+                            {% if variants|length > 0 %}
+                                <li><a href="#product_variants" data-toggle="tab">{% trans 'Fees' %}</a></li>
+                            {% endif %}
+                        {% endwith %}
+                    {% endif %}
+                    <li id="special_requests_tab" {% if not show_special_requests_tab %}style="display:none"{% endif %}>
+                        <a href="#product_additional_intake" data-toggle="tab">{% trans 'Extra services data' %}</a>
+                    </li>
+                    <li id="attrs_tab" {% if not show_package_dim_and_weight_tab %}style="display:none"{% endif %}>
+                        <a href="#product_attributes" data-toggle="tab">{% trans 'Package dimensions & weight' %}</a>
+                    </li>
+                    <li id="location_tab" {% if not show_package_location_tab %}style="display:none"{% endif %}>
+                        <a href="#product_location" data-toggle="tab">{% trans 'Package location in warehouse' %}</a>
+                    </li>
+                    <li id="customs_form_tab" {% if not show_customs_form_tab %}style="display:none" {% endif %}>
+                        <a href="#product_customs_form" data-toggle="tab">{% trans "Customs declaration" %}</a>
+                    </li>
+                    <li id="images_tab" {% if not show_images_tab %}style="display:none"{% endif %}>
+                        <a href="#product_images" data-toggle="tab">{% trans 'Package contents photos' %}</a>
+                    </li>
+                    {% comment %}
+                    <li id="packaging_images_tab">
+                        <a href="#product_packaging_images" data-toggle="tab">{% trans "Packaging photos" %}</a>
+                    </li>
+                    {% endcomment %}
+                    {% if request.user.is_superuser %}
+                        {% if product.is_consolidated %}
+                            <li><a href="#product_consolidation_requests" data-toggle="tab">{% trans 'Consolidated package special requests' %}</a></li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="span9">
+            <div class="tab-content">
+                {% if product %}
+                <div class="tab-pane active" id="overview">
+                    <div class="table-header">
+                        <h3>{% trans "Overview" %}</h3>
+                    </div>
+                    <div class="well">
+                        <h3>{{ product.get_title }}</h3>
+                        <hr />
+                        <div class="row-fluid">
+                            <div class="span9" id="pending_special_requests">
+                                <table class="table table-striped table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th>{% trans "Pending Special Requests" %}</th>
+                                            <td>{{ product.special_requests.pending_special_requests_summary|default:"None" }}</td>
+                                        </tr>
+                                        {% if product.is_consolidated %}
+                                            <tr>
+                                                <th>{% trans "Pending Consolidation Requests" %}</th>
+                                                <td>{{ product.consolidation_requests.pending_requests_summary|default:"None" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>{% trans "Date package consolidation completed" %}</th>
+                                                <td>{{ product.date_consolidated|date:"M d, Y"|default:"None" }}</td>
+                                            </tr>
+                                        {% endif %}
+                                        <tr>
+                                            <th>{% trans "Package Type" %}</th>
+                                            <td>{{ product.get_type }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>{% trans "Date Received" %}</th>
+                                            <td>{{ product.date_created|date:"M d, Y" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>{% trans "Additional Receiver" %}</th>
+                                            <td>{{ product.additional_receiver.get_full_name|title|default:"None" }}</td>
+                                        </tr>
+                                        {% if request.user.is_superuser %}
+                                            <tr>
+                                                <th>{% trans "Order" %}</th>
+                                                {% with latest_order=product.latest_order %}
+                                                    {% if latest_order %}
+                                                        <td><a href="{% url dashboard:order-detail number=latest_order.number %}">{{ latest_order.number }}</a></td>
+                                                    {% else %}
+                                                        <td>{% trans "No order placed" %}</td>
+                                                    {% endif %}
+                                                {% endwith %}
+                                            </tr>
+                                            <tr>
+                                                <th>{% trans "Partner" %}</th>
+                                                <td>{{ product.partner.name }}</td>
+                                            </tr>
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <div class="table-header">
+                                <h3>{% trans "Ranges" %}</h3>
+                            </div>
+                            <table class="table table-striped table-bordered">
+                                {% if ranges.count > 0 %}
+                                {% for range in ranges %}
+                                <tr><td><a href="{% url dashboard:range-update range.id %}">{{ range.name }}</a></td></tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr><td>{% trans "No ranges currently include this product for this product" %}</td></tr>
+                                {% endif %}
+                            </table>
+                        </div>
+                        <div class="span4">
+                            <div class="table-header">
+                                <h3>{% trans "Offers" %}</h3>
+                            </div>
+                            <table class="table table-striped table-bordered">
+                                {% if offers.count > 0 %}
+                                {% for offer in offers %}
+                                <tr><td>{{ offer.name }}</td></tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr><td>{% trans "No offers currently include this product" %}</td></tr>
+                                {% endif %}
+                            </table>
+                        </div>
+                        <div class="span4">&nbsp;</div>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="tab-pane {% if not product %}active{% endif %}" id="product_details">
+                    <div class="table-header">
+                        <h3>{% trans "Product Details" %}</h3>
+                    </div>
+                    <div class="well product-details">
+                        <span class="help-block">{{ form.non_field_errors }}</span>
+                        {% for field in form %}
+                        {% if field.is_hidden %}
+                        {{ field }}
+                        {% else %}
+                        {% if 'attr' not in field.id_for_label %}
+                        <div class="control-group {% for error in field.errors %}error{% endfor %}">
+                            {% if field.is_hidden %}
+                            {{ field }}
+                            {% else %}
+                            <label for="{{ field.auto_id }}" class="control-label {% if field.field.required %}required{% endif %}">{{ field.label }}{% if field.field.required %} <span>*</span>{% endif %}</label>
+                            <div class="controls">
+                                {{ field }}
+                                {% for error in field.errors %}
+                                <span class="help-block">
+                                    {{ error }}
+                                </span>
+                                {% endfor %}
+                                {% if field.help_text %}
+                                <span class='help-block'>
+                                    {{ field.help_text }}
+                                </span>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                            {% if 'owner' in field.name %}
+                                <div class="owner_name">Customer Name:<span>{{ owner_name }}</span></div>
+                            {% endif %}
+                            {% if 'combined_products' in field.name %}
+                                {{ extra_consolidation_packages_formset.management_form }}
+                                {{ extra_consolidation_packages_formset.non_form_errors }}
+                                {% for extra_consolidation_packages_form in extra_consolidation_packages_formset %}
+                                    {% include "partials/form_fields_dashboard.html" with form=extra_consolidation_packages_form %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+
+                        {% comment %}
+                            we must include this formset even though we're not configuring a
+                            consolidated package
+                        {% endcomment%}
+
+                        {% if not product.is_consolidated %}
+                            <div style="display: none">
+                                {{ extra_consolidation_packages_formset.management_form }}
+                                {{ extra_consolidation_packages_formset.non_form_errors }}
+                                {% for extra_consolidation_packages_form in extra_consolidation_packages_formset %}
+                                    {% include "partials/form_fields_dashboard.html" with form=extra_consolidation_packages_form %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        {% include "partials/form_fields_dashboard.html" with form=shipping_name_validator_form %}
+                        <div id="additional-receiver" {% if not shipping_name_validator_form.is_bound and not product.additional_receiver %}style="display: none;"{% endif %}>
+                            {% include "partials/form_fields_dashboard.html" with form=additional_package_receiver_form %}
+                        </div>
+
+                        {% with parent=product.parent %}
+                        {% if parent %}
+                        <div class="control-group">
+                            <label class="control-label">{% trans "Parent" %}</label>
+                            <div class="controls">
+                                <a href="{% url dashboard:catalogue-product parent.id %}" title="Edit {{ parent.title }}">{{ parent.title }}</a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
+
+                {% if request.user.is_superuser %}
+                    {% with variants=product.variants.all %}
+                        {% if variants|length > 0 %}
+                        <div class="tab-pane" id="product_variants">
+                            <table class='table table-striped table-bordered'>
+                                <caption>{% trans "Variants" %}</caption>
+                                {% with parent=product.parent %}
+                                {% if parent %}
+                                <tr>
+                                    <th>{% trans "Parent" %}</th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <td>{{ parent.title }}</td>
+                                    <td><a href="{% url dashboard:catalogue-product parent.id %}" class="btn btn-primary" title="Edit {{ parent.title }}">{% trans "Edit" %}</a></td>
+                                </tr>
+                                {% endif %}
+                                {% endwith %}
+                                <tr>
+                                    <th>{% trans "Children" %}</th>
+                                    <th></th>
+                                </tr>
+
+                                {% for variant in variants %}
+                                <tr>
+                                    <td>{{ variant.title }}</td>
+                                    <td><a href="{% url dashboard:catalogue-product variant.id %}" class="btn btn-primary">{% trans "Edit" %}</a></td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+
+                <div class="tab-pane" id="product_attributes">
+                    {% comment %}
+                    <div id="predefined-parcel-alert" {% if not product.is_initial_consolidated_package_status %}style="display:none"{% endif %}>
+                        <p>
+                            {% blocktrans %}
+                                USPS envelopes have the following limitation:
+                                <ul>
+                                    <li>Value of contents can not exceed $400.00</li>
+                                    <li>Maximum weight 4 pounds</li>
+                                </ul>
+                                Select the next suitable option if any limitation can not be enforced.
+                            {% endblocktrans %}
+                        </p>
+                    </div>
+                    {% endcomment %}
+
+                    <table class="table table-striped table-bordered">
+                        <tr>
+                            <th width="20%">{% trans "Name" %}</th>
+                            <th>{% trans "Value" %}</th>
+                        </tr>
+                        {% for field in form %}
+                        {% if 'attr' in field.id_for_label %}
+                        <tr>
+                            <td>
+                                {{ field.label }}{% if field.field.required %} <span>*</span>{% endif %}
+                            </td>
+                            <td>
+                                {% if field.is_hidden %}
+                                {{ field }}
+                                {% else %}
+                                {{ field }}
+                                {% for error in field.errors %}
+                                <span class="error">
+                                    {{ error }}
+                                </span>
+                                {% endfor %}
+                                {% if field.help_text %}
+                                <span class='help-block'>
+                                    {{ field.help_text }}
+                                </span>
+                                {% endif %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                        {% if product.is_initial_consolidated_package_status %}
+                            <tr>
+                                <td>{% trans "length and girth combined:" %}</td>
+                                <td><span style="font-size: 15px; font-weight: bold; color: red;" id="girth-and-length"></span></td>
+                            </tr>
+                        {% endif %}
+                    </table>
+                    {% if product.is_initial_consolidated_package_status %}
+                        {% include "partials/form_fields_inline.html" with form=predefined_parcels_form %}
+                    {% else %}
+                        <div id="predefined_parcels" style="display:none">
+                            {% include "partials/form_fields_inline.html" with form=predefined_parcels_form %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="tab-pane" id="product_images">
+                    <div class="table-header">
+                        <h3>{% trans "Upload, change or remove images" %}</h3>
+                    </div>
+                    <div class="well">
+                        {{ image_formset.management_form }}
+                        {{ image_formset.non_form_errors }}
+                        <ol class='upload-image'>
+                            {% for image_form in image_formset %}
+                            {% include "dashboard/partials/product_images.html" with form=image_form %}
+                            {% endfor %}
+                        </ol>
+                    </div>
+                </div>
+                {% comment %}
+                <div class="tab-pane" id="product_packaging_images">
+                    <div class="table-header">
+                        <h3>{% trans "Upload, change or remove images" %}</h3>
+                    </div>
+                    <div class="well">
+                        {{ packaging_image_formset.management_form }}
+                        {{ packaging_image_formset.non_form_errors }}
+                        <ol class='upload-image'>
+                            {% for packaging_image_form in packaging_image_formset %}
+                            {% include "dashboard/partials/product_images.html" with form=packaging_image_form %}
+                            {% endfor %}
+                        </ol>
+                    </div>
+                </div>
+                {% endcomment %}
+
+                <div class="tab-pane" id="product_customs_form">
+                    {{ customs_form.non_field_errors }}
+                    <table class="table table-striped table-bordered">
+                        <caption>{% trans "Customs form info" %}</caption>
+                        <tr>
+                            <td>
+                                {% include "partials/form_fields_inline.html" with form=customs_form %}
+                            </td>
+                            {{ customs_item_formset.management_form }}
+                            {{ customs_item_formset.non_form_errors }}
+                            {% for customs_item_form in customs_item_formset %}
+                                <td>
+                                    {% include "partials/form_fields_inline.html" with form=customs_item_form %}
+                                </td>
+                                {% if forloop.counter|divisibleby:5 %}
+                                    </tr>
+                                    <tr>
+                                {% endif %}
+                            {% endfor %}
+                        {% if not customs_item_formset.management_form.total_form_count|divisibleby:5 %}
+                            </tr>
+                        {% endif %}
+                    </table>
+                </div>
+
+
+                <div class="tab-pane" id="product_additional_intake">
+                    <table class="table table-striped table-bordered form-inline">
+                        <caption>{% trans "Extra services" %}</caption>
+                        <tr>
+                            <td>
+                                {% include "partials/form_fields_dashboard.html" with form=special_requests_form %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="tab-pane" id="product_location">
+                    <table class="table table-striped table-bordered form-inline">
+                        <caption>{% trans "Package Location" %}</caption>
+                        <tr>
+                            <td>
+                                {% include "partials/form_fields_dashboard.html" with form=package_location_form %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                {% if product.is_consolidated %}
+                    <div class="tab-pane" id="product_consolidation_requests">
+                        <table class="table table-striped table-bordered form-inline">
+                            <caption>{% trans "Product consolidation requests" %}</caption>
+                            <tr>
+                                <td>
+                                    {% include "partials/form_fields_dashboard.html" with form=consolidation_requests_form %}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="fixed-actions-group">
+        <div class="form-actions">
+            <div class="pull-center">
+                <a href="{% if request.session.REPORT_REFERER %}{{ request.session.REPORT_REFERER }}{% else %}{% url dashboard:catalogue-product-list %}{% endif %}">{% trans "Cancel" %}</a>
+                {% trans "or" %}
+                {% comment %}
+                <button class="btn btn-secondary btn-large" name="action" type="submit" value="continue">{% trans "Save and continue editing" %}</button>
+                {% endcomment %}
+                <button class="btn btn-secondary btn-xlarge" name="action" type="submit" value="save">{% trans "Save" %}</button>
+            </div>
+        </div>
+    </div>
+
+        <!-- Modal -->
+    <div class="modal fade" id="envelopeRestrictionsModal" tabindex="-1" role="dialog" aria-labelledby="envelopeRestrictionsModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h3 class="modal-title" id="envelopeRestrictionsModalLabel">
+                USPS Envelope restrictions
+            </h3>
+        </div>
+        <div class="modal-body">
+            <p>
+                First-Class Mail Large Envelopes are subject to First-Class Package International <br/>
+                Service prices if any one of the following apply: (please select all that apply)
+            </p>
+            {% include "partials/form_fields_dashboard.html" with form=envelope_restrictions_form %}
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+                Close
+            </button>
+            <button type="button"class="btn btn-primary" id="envelope-restrictions-save" data-dismiss="modal">
+                Save
+            </button>
+        </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</form>
+{% endblock dashboard_content %}
+
+{% block onbodyload %}
+{{ block.super }}
+usendhome.dashboard.product.init();
+{% endblock %}

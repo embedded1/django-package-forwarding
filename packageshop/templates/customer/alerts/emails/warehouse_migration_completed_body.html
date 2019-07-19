@@ -1,0 +1,54 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "New USendHome Address" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "New USendHome Address" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    {% blocktrans with name=customer.get_full_name|title %}
+        Hello {{ name }},
+    {% endblocktrans %}
+</p>
+<p>
+    {% blocktrans %}
+        USendHome is in a process of moving to a new and larger facility that can safely store the huge number of
+        packages we receive each day.
+        The new facility is equipped with a state-of-the-art logistics services which will speed up
+        the package processing and dispatching operations.
+        We performed this transition to carry out our day to day efforts to cut down on international shipping costs,
+        increase speed and efficiency and lastly, provide you with a wide range of shipping carriers for your online orders.
+    {% endblocktrans %}
+</p>
+
+<p>
+    {% blocktrans %}
+        Your account has already been updated with the new shipping address.
+        Please use this address for all new orders you send to our warehouse.
+        We've got you covered in case you have packages already in transit addressed to your previous address -
+        All those packages will also be available in your control panel as well.
+    {% endblocktrans %}
+</p>
+<p>
+    {% blocktrans %}
+        We apologize for any inconvenience or delays this process may have caused you and thank you for your cooperation.
+    {% endblocktrans %}
+</p>
+<p>
+    {% render_email_button "customer:profile-view" "View New Address" %}
+</p>
+{% comment %}
+<p>
+    {% blocktrans %}
+        We'll email you as soon as your personal US address at the new facility is ready to receive your goods.<br/>
+        <strong>In the meanwhile please don't deliver new orders to our current facility in NJ as we won't be able to process them.</strong>
+    {% endblocktrans %}
+</p>
+{% endcomment %}
+{% endblock %}

@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans %}
+    Your friend {{ friend_name }} just gave you $5 to try USendHome
+{% endblocktrans %}

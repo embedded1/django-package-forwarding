@@ -1,0 +1,37 @@
+{% extends "customer/emails/base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+
+	{% blocktrans %}
+		We've completed handling your extra services request.
+	{% endblocktrans %}
+
+    {% if fulfilled_special_requests %}
+        {% trans "The following is the list of the completed services you ordered" %}
+        {% for fulfilled_special_request in fulfilled_special_requests %}
+            {{ fulfilled_special_request }}
+        {% endfor %}
+    {% endif %}
+
+    {% if customized_services %}
+        {% trans "This is what you've asked us to take on your items:" %}
+        {{ customized_services }}
+    
+		{% if customized_services_brief %}
+		    {% if customized_services_done %}
+                {% trans "This is a short brief of the actions we've taken on your items:" %}
+                {{ customized_services_brief|striptags }}
+            {% else %}
+               {% trans "Unfortunately, we couldn't complete your request but don't worry, we will not charge you on that one though. This is what our operations staff had to say:" %}
+               {{ customized_services_brief|striptags }}
+            {% endif %}
+        {% endif %}
+	{% endif %}
+
+	{% blocktrans %}
+		Visit the URL link below to go directly to your pending packages section and begin your checkout so you can receive your packages:
+	{% endblocktrans %}
+	{{ site }}{% url "customer:pending-packages" %}
+{% endblock %}

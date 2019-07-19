@@ -1,0 +1,29 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "USendHome Extra Service" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Extra Services Request" %}
+{% endblock %}
+
+{% block body %}
+	<p>
+		{% blocktrans %}
+			Our operations staff is already handling your extra services request.<br/>
+			The following is the list of the services you ordered:
+		{% endblocktrans %}
+    </p>
+    <ul>
+        {% for pending_special_request in pending_special_requests %}
+            <li>{{ pending_special_request|safe }}</li>
+        {% endfor %}
+    </ul>
+	<p>
+		{% blocktrans %}
+			We'll send you an email once we're done processing your request.
+		{% endblocktrans %}
+	</p>
+{% endblock %}

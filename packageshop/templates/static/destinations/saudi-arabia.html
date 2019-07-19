@@ -1,0 +1,150 @@
+{% extends "layout.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load staticfiles %}
+{% load honeypot %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block body_class %}
+    destination
+{% endblock %}
+
+{% block title %}
+        تسوق في الولايات المتحدة الأمريكية، واشحن إلى المملكة العربية السعودية بأقل الأجور
+{% endblock %}
+
+{% block description %}
+        تسوق عبر الإنترنت في الولايات المتحدة الأمريكية واشحن موادك إلى المملكة العربية السعودية.
+        احصل على عنوان أمريكي مجاني واستفد من أقل أجور للشحن في هذه الصناعة.
+{% endblock %}
+
+{% block nav-extra-class %}
+    flip pull-left
+{% endblock %}
+
+{% block content %}
+    <section id="section-local-0">
+        <div class="container">
+            <span class="flag-icon {{ flag_icon }} pull-right"></span>
+            <div class="text-center">
+                <h1>
+                            وفر الكثير عند الشحن من الولايات المتحدة إلى المملكة العربية السعودية
+                </h1>
+                <h2 style="margin-bottom:15px; font-weight: 600;" class="lead">
+                       عنوان  أمريكي مجاني وخدمة تدعيم العبوة
+                </h2>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-local-1">
+        <div class="container">
+            <div class="row">
+                <div class="localbox col-sm-4">
+                    <div class="localbox-inner">
+                        <div class="localbox-img">
+                            <img src="{% static "usendhome/images/package_delivery.jpg" %}" alt="توصيل من الباب إلى الباب">
+                        </div>
+                        <div class="localbox-header">
+                            <h3>
+                                أقل الأجور إلى المملكة العربية السعودية
+                            </h3>
+                        </div>
+                        <div class="localbox-subheader">
+                            <ul>
+                                <li>عنوان شحن مجاني في الولايات المتحدة </li>
+                                <li>بدون رسوم على العضوية</li>
+                                <li>مجموعة واسعة من الخدمات الإضافية</li>
+                            </ul>
+                        </div>
+                        <a href="{% url 'calculators:package' %}" class="btn localbox-btn localbox-btn-nephritis">التحقق من الأسعار</a>
+                    </div>
+                </div>
+                <div class="localbox col-sm-4">
+                    <div class="localbox-inner">
+                        <div class="localbox-img">
+                            <img src="{% static "usendhome/images/warehouse.jpg" %}" alt="خدمة تدعيم العبوة">
+                        </div>
+                        <div class="localbox-header">
+                            <h3>خدمة تدعيم العبوة</h3>
+                        </div>
+                        <div class="localbox-subheader">
+                            <ul>
+                                <li>أقل حتى 80٪ من أجور الشحن القياسية</li>
+                                <li>متاح لجميع العملاء</li>
+                                <li>التعبئة الأمثل</li>
+                            </ul>
+                        </div>
+                        <a href="{% url "pricing" %}" class="btn localbox-btn localbox-btn-green-sea">انظر الأسعار</a>
+                    </div>
+                </div>
+                <div class="localbox col-sm-4">
+                    <div class="localbox-inner">
+                        <div class="localbox-img">
+                            <img src="{% static "usendhome/images/amazon-box.jpg" %}" alt="تسليم أمازون">
+                        </div>
+                        <div class="localbox-header">
+                            <h3>تقنية فريدة من نوعها</h3>
+                        </div>
+                        <div class="localbox-subheader">
+                            <ul>
+                                <li>النظام الآلي لتتبع العبوة</li>
+                                <li>الكثير من حاسبات الشحن </li>
+                                <li>أحد التطبيقات التي تعزز عناصر أمازون المتعددة إلى عدد مثالي من الصناديق</li>
+                            </ul>
+                        </div>
+                        <a href="{% url "chrome-ext" %}" class="btn localbox-btn localbox-btn-turquoise">شاهد الفيديو</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-local-2">
+        <div class="container">
+            <div class="text-center">
+                <div class="social-login">
+                    <a href="{% url 'social:begin' "facebook" %}" class="btn btn-social-block btn-social btn-social-lg btn-facebook">
+                        <i class="fa fa-facebook"></i> اشترك عبر الفيسبوك
+                    </a>
+                    <a href="{% url 'social:begin' "twitter" %}" class="btn btn-social-block btn-social-lg btn-social btn-twitter">
+                        <i class="fa fa-twitter"></i> اشترك عبر تويتر
+                    </a>
+                </div>
+            </div>
+            <span>أو أنشئ حسابًا يدويا</span>
+            <form id="create-account" class="form-inline" action="{% url 'customer:register' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                {% render_honeypot_field "gender" %}
+                <input type="hidden" name="homepage_create_account">
+                <input type="hidden" name="redirect_url" value="{% url 'customer:register-settings' %}">
+                <div class="form-group form-group-lg rlt">
+                    <label class="sr-only">عنوان البريد الإلكتروني</label>
+                    <input type="email" name="email" class="form-control" placeholder="عنوان البريد الإلكتروني" value="">
+                </div>
+                <div class="form-group form-group-lg">
+                    <label class="sr-only">كلمه السر</label>
+                    <input type="password" name="password1" class="form-control" placeholder="كلمه السر" value="">
+                </div>
+                <button type="submit" class="btn btn-default btn-lg">أنشئ حساب</button>
+            </form>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.isotope.shippingMethodsInit();
+{% endblock %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/css/destination_1.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/assets/bootstrap-social/bootstrap-social-rtl.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/assets/flag-icon/flag-icon.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/assets/boostrap-rtl/bootstrap-rtl.min.css" %}">
+{% endblock %}

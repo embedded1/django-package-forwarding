@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+{% load url from future %}
+{% load i18n %}
+
+{% block livechat %}
+{% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block title %}
+    {% blocktrans with upc=product.upc%}
+         Package #{{ upc }}
+    {% endblocktrans %}
+
+{% endblock %}
+
+{# no footer in control panel pages #}
+{% block footer %}
+{% endblock %}
+
+{% block content %}
+	{% include "catalogue/partials/product_details.html" %}
+{% endblock %}
+
+{% block extrascripts %}
+    {{ block.super }}
+    <script src="{% static "usendhome/assets/fancybox/lib/jquery.mousewheel-3.0.6.pack.js" %}"></script>
+    <script src="{% static "usendhome/assets/fancybox/source/jquery.fancybox.pack.js" %}?v=2.1.5"></script>
+    <script src="{% static "usendhome/assets/fancybox/source/helpers/jquery.fancybox-buttons.js" %}?v=1.0.5"></script>
+{% endblock %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/assets/fancybox/source/jquery.fancybox.css" %}?v=2.1.5" media="screen" />
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/assets/fancybox/source/helpers/jquery.fancybox-buttons.css" %}?v=1.0.5" media="screen" />
+{% endblock %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.packages.initProductImages();
+{% endblock %}

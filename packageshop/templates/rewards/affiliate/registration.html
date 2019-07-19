@@ -1,0 +1,137 @@
+{% extends "layout.html" %}
+{% load url from future %}
+{% load i18n %}
+{% load honeypot %}
+{% load staticfiles %}
+
+{% block title %}
+	{% trans 'Open New USendHome Account' %}
+{% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block body_class %}body-dark-blue{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="logo-container">
+            <a class="usend-logo" href="{% url 'promotions:home' %}">
+                <img src="{% static "usendhome/images/logo.png" %}" alt="USendHome">
+            </a>
+        </div>
+		<div class="dashboard-login-form">
+			<div class="or-login">
+
+			</div>
+			<div class="login-form">
+                <form action="." method="post">
+                    {% if form.is_bound and not form.is_valid %}
+                        <div class="alert alert-danger">
+                            <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
+                        </div>
+                    {% endif %}
+
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <i class="fa fa-exclamation-circle"></i> {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% csrf_token %}
+                    {% render_honeypot_field "gender" %}
+                    <input type="hidden" name="redirect_url" value="{% url 'customer:profile-view' %}">
+                    <div class="form-group {% if form.first_name.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                            <input type="text" name="first_name" value="{{ form.first_name.value|default_if_none:"" }}" maxlength="30" class="form-control" id="id_first_name" placeholder="First Name">
+                            {% for error in form.first_name.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group {% if form.last_name.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                            <input type="text" name="last_name" value="{{ form.last_name.value|default_if_none:"" }}" maxlength="30" class="form-control" id="id_last_name" placeholder="Last Name">
+                            {% for error in form.last_name.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
+                            <input type="text" name="email" value="{{ form.email.value|default_if_none:"" }}" class="form-control" id="id_email" placeholder="Email Address">
+                            {% for error in form.email.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group {% if form.password1.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-key"></i></div>
+                            <input type="password" name="password1" class="form-control" id="id_password1" placeholder="Password">
+                            {% for error in form.password1.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group {% if form.line1.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-key"></i></div>
+                            <input type="text" name="line1" value="{{ form.line1.value|default_if_none:"" }}" class="form-control" id="id_line1" placeholder="Address">
+                            {% for error in form.line1.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group {% if form.city.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-key"></i></div>
+                            <input type="text" name="city" value="{{ form.city.value|default_if_none:"" }}" class="form-control" id="id_city" placeholder="City">
+                            {% for error in form.city.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group {% if form.postcode.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-key"></i></div>
+                            <input type="text" name="postcode" value="{{ form.email.postcode|default_if_none:"" }}" class="form-control" id="id_postcode" placeholder="Postal Code (if available)">
+                            {% for error in form.postcode.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group {% if form.country.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-key"></i></div>
+                            {% include "partials/form_field_input.html" with field=form.country %}
+                        </div>
+                    </div>
+                    <p>
+						<label>
+							<input type="checkbox" class="js-enable-on-checked">
+                            {% url 'terms' as terms_url %}
+                            {% url 'privacy' as privacy_url %}
+							{% blocktrans %}
+								I agree to USendHome <a href="{{ terms_url }}" target="_blank">Terms of Service</a> and <a href="{{ privacy_url }}" target="_blank">Privacy Policy</a>
+							{% endblocktrans %}
+						</label>
+                    </p>
+                    <button type="submit" class="btn btn-danger btn-login" disabled>{% trans 'SIGN UP' %}</button>
+                </form>
+            </div>
+            <div class="no-account">
+            	<p>{% trans "Already have an account?" %} <a href="{% url 'customer:login' %}">{% trans "Sign in here" %}</a></p>
+            </div>
+		</div>
+	</div>
+{% endblock content %}
+

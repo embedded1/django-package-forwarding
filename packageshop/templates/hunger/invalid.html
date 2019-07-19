@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+{% load url from future %}
+{% load i18n %}
+
+
+{% block title %}
+    {{ block.super }} {% trans 'Invalid Beta Code' %}
+{% endblock %}
+
+
+{% block content %}
+    {% url "contact" as support_url %}
+    <section class="main-wrapper grey-wrapper">
+        <div class="container">
+            <div class="email-confirm">
+                <h3 class="bold-text">{% trans 'Beta Confirmation Unsuccessful' %}</h3>
+                <p>
+                    {% blocktrans %}
+                        The beta confirmation link was invalid, possibly because it has already been used.<br/>
+                        Please contact <a href="{{ support_url }}">customer support</a> and let us take it from there.
+                    {% endblocktrans %}
+                </p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

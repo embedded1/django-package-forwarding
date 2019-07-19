@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans %}
+    Enjoying Amazon Worldwide Shipping tool?
+{% endblocktrans %}

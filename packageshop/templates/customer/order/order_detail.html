@@ -1,0 +1,163 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load url from future %}
+{% load currency_filters %}
+{% load address_filters %}
+{% load discount_filters %}
+{% load shipping_methods_tags %}
+{% load i18n %}
+
+
+{% block content %}
+    <section class="page_inner body-grey-light">
+        <div class="container">
+            <div class="row order-history-details">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+						<li><a href="{% url 'promotions:home' %}"><i class="fa fa-home"></i>{% trans "Home" %}</a></li>
+						<li><a href="{% url 'customer:profile-view' %}">{% trans "Control Panel" %}</a></li>
+                        <li><a href="{% url 'customer:order-list' %}">{% trans "Order History" %}</a></li>
+                        <li class="active">{% trans "Order Details" %}</li>
+                    </ol>
+                    <h3 class="heading">
+                        {% blocktrans with order_num=order.number %}
+                            Order #{{ order_num }} Details
+                        {% endblocktrans %}
+                    </h3>
+                    <div class="details-table">
+                        <div class="table-responsive">
+                            <table class="table margin-bot-40">
+                                <thead>
+                                    <tr>
+										<td>{% trans 'Description' %}</td>
+										<td>{% trans 'Quantity' %}</td>
+										<td>{% trans 'Price' %}</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+									{% for line in order.lines.all %}
+										<tr>
+											<td>{{ line.description }}</td>
+											<td>{{ line.quantity }}</td>
+											<td>{{ line.line_price_before_discounts_excl_tax|currency:order.currency }}</td>
+										</tr>
+									{% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row total-table">
+                        <div class="col-md-4 col-md-offset-8">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tbody>
+									{% with discounts=order.basket_discounts %}
+										{% if discounts %}
+											<tr>
+												<td>{% trans "Subtotal:" %}</td>
+												<td>{{ order.basket_total_before_discounts_excl_tax|currency:order.currency }}</td>
+											</tr>
+											<tr>
+												<td>{% trans "Discount:" %}</td>
+												<td>-{{ order|total_order_discounts|currency }}</td>
+											</tr>
+                                            {% if order.total_tax %}
+                                            <tr>
+                                                <td>VAT (17%):</td>
+                                                <td>+{{ order.total_tax|currency }}</td>
+                                            </tr>
+                                            {% endif %}
+											<tr>
+												<td>{% trans "Total:" %}</td>
+												<td>{{ order.total_incl_tax|currency:order.currency }}</td>
+											</tr>
+										{% else %}
+                                            {% if order.total_tax %}
+                                            <tr>
+                                                <td>{% trans "Subtotal:" %}</td>
+                                                <td>{{ order.basket_total_before_discounts_excl_tax|currency }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>VAT (17%):</td>
+                                                <td>+{{ order.total_tax|currency }}</td>
+                                            </tr>
+                                            {% endif %}
+											<tr>
+												<td>{% trans "Total:" %}</td>
+												<td>{{ order.total_incl_tax|currency:order.currency }}</td>
+											</tr>
+										{% endif %}
+									{% endwith %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="track-table">
+                        <h3 class="heading">{% trans 'Track Your Order' %}</h3>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+										<td>{% trans 'Tracking Number' %}</td>
+										<td>{% trans 'Shipping Method' %}</td>
+										<td>{% trans 'Action' %}</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+										{% with tracking=order.tracking %}
+											<td>
+                                                {% if order.is_shipped %}
+                                                    {{ tracking.tracking_number|default:"-" }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </td>
+											<td>{% if order.shipping_method != 'No shipping required' %}{{ tracking.display_carrier|default:tracking.carrier }} {{ order.shipping_method }}{% else %}{% trans "As listed on the prepaid return label" %}{% endif %}</td>
+											<td>
+												{% if tracking.tracking_number and order.is_shipped %}
+                                                    {% render_shipping_method_tracking_url tracking.carrier tracking.tracking_number as tracking_url %}
+													<a class="btn btn-danger btn-track" href="{{ tracking_url }}" target="_blank">{% trans "Track Order" %}</a>
+												{% else %}
+													-
+												{% endif %}
+											</td>
+										{% endwith %}                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="track-table">
+                        <h3 class="heading">{% trans 'Shipping Address' %}</h3>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+										<td>{% trans 'Address' %}</td>
+										<td>{% trans 'Contact Number' %}</td>
+										<td>{% trans 'Shipping Notes' %}</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            {% if order.shipping_address.summary %}
+                                                {{ order.shipping_address.summary }}
+                                            {% else %}
+											    {% trans "As listed on the prepaid return label" %}
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ order.shipping_address.phone_number|default:"-" }}</td>
+                                        <td>{{ order.shipping_address.notes|default:"-"|linebreaks }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

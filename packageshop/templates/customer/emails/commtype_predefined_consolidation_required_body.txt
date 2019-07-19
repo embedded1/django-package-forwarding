@@ -1,0 +1,19 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+	{% blocktrans with merchant_name=package.title %}
+		 Your items ordered from {{ merchant_name }} have arrived.
+	{% endblocktrans %}
+
+    {% url 'customer:waiting-for-consolidation-packages' as consolidation_url %}
+	{% blocktrans %}
+		You've instructed us to consolidate all of your incoming items into one shipment.
+		You can see everything that has been delivered by visiting the following URL link:
+        {{ site }}{{ consolidation_url }}
+        Make sure to notify us that all of your items are here by clicking on the Create Consolidation Container button.
+		Once you're done that, we'll get your package consolidated and on its way.
+	{% endblocktrans %}
+
+{% endblock %}

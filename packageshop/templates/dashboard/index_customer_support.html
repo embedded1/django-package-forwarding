@@ -1,0 +1,24 @@
+{% extends 'dashboard/layout.html' %}
+{% load url from future %}
+{% load i18n %}
+{% load thumbnail %}
+{% load staticfiles %}
+{% load sorting_tags %}
+
+{% block body_class %}catalogue{% endblock %}
+
+{% block title %}
+    {% trans "Customer support dashboard" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block header %}
+    <div class="page-header action">
+        <h1>{% trans "Welcome to the USendHome customer support dashboard" %}</h1>
+    </div>
+{% endblock header %}
+
+{% block dashboard_content %}
+{% endblock dashboard_content %}

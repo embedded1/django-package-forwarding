@@ -1,0 +1,28 @@
+{% extends "error.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load url from future %}
+
+{% block title %}
+    {% trans 'Permission Denied' %}
+{% endblock %}
+
+{% block error_image %}
+    <img src="{% static "usendhome/images/denied.png" %}" alt="permission-denied-error"/>
+{% endblock %}
+
+{% block error_heading %}
+{% trans "Permission Denied!" %}
+{% endblock %}
+
+{% block error_sub_heading %}
+{% endblock %}
+
+{% block error_message %}
+    <p>
+        {% url "promotions:home" as home %}
+        {% blocktrans %}
+            We're sorry but you are not permitted to access this page. <a href="{{ home }}">Return Home</a>
+        {% endblocktrans %}
+    </p>
+{% endblock %}

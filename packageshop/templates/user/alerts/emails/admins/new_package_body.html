@@ -1,0 +1,16 @@
+{% load i18n %}
+
+<p>
+    {% blocktrans with username=package.owner.get_full_name eshop=package.title|title partner_name=package.partner.name %}
+        Package addressed to {{ username }} that was ordered from {{ eshop }} has just
+        arrived at {{ partner_name }} warehouse.
+    {% endblocktrans %}
+</p>
+
+{% if package.shopify_store_id %}
+    <p>
+        Package was sent from Shopify store:
+        <a href="https://shopify.usendhome.com/admin/shop/authappshopuser/{{ package.shopify_store_id }}/change/" target="_blank">{{ package.shopify_store_id }}</a>
+    </p>
+{% endif %}
+

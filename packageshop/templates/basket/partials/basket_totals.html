@@ -1,0 +1,129 @@
+{% load i18n %}
+{% load currency_filters %}
+{% load url from future %}
+
+<div class="row payment-confirm">
+    <div class="col-md-12 visible-sm visible-xs">
+        <table class="table total-table">
+            <tbody>
+                {% with offer_discounts=basket.offer_discounts voucher_discounts=basket.grouped_voucher_discounts %}
+                    {% if offer_discounts or voucher_discounts %}
+                        <tr>
+                            <td>{% trans "Subtotal:" %}</td>
+                            <td>{{ basket.total_excl_tax_excl_discounts|currency }}</td>
+                        </tr>
+                        {% for discount in offer_discounts %}
+                            <tr>
+                                <td>{{ discount.name|title }}:</td>
+                                <td>-{{ discount.discount|currency:basket.currency }}</td>
+                            </tr>
+                        {% endfor %}
+                        {% for discount in voucher_discounts %}
+                            <tr>
+                                <td>{{ discount.voucher.name|title }}:</td>
+                                <td>-{{ discount.discount|currency:basket.currency }}</td>
+                            </tr>
+                        {% endfor %}
+                        {% if basket.total_tax %}
+                            <tr>
+                                <td>VAT (17%):</td>
+                                <td>+{{ basket.total_tax|currency }}</td>
+                            </tr>
+                        {% endif %}
+                    {% else %}
+                        {% if basket.total_tax %}
+                            <tr>
+                                <td>{% trans "Subtotal:" %}</td>
+                                <td>{{ basket.total_excl_tax_excl_discounts|currency }}</td>
+                            </tr>
+                            <tr>
+                                <td>VAT (17%):</td>
+                                <td>+{{ basket.total_tax|currency }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endif %}
+                {% endwith %}
+                <tr>
+                    <td class="green">{% trans "Total:" %}</td>
+                    <td class="green">{{ basket.total_incl_tax|currency }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+	
+	{# voucher code #}
+	{% if show_voucher_form %}
+		<div class="col-md-4">
+			<p id="voucher_form_link">
+				<a href="#voucher" class="btn btn-primary">
+					<i class="fa fa-barcode"></i>
+					{% trans "I have a coupon code" %}
+				</a>
+			</p>
+			<div id="voucher_form_container" style="display:none">
+				<form action="{% url "checkout:vouchers-add" %}" method="post">
+					{% csrf_token %}
+					<div class="form-group no-padding">
+						{% include "partials/form_field_label.html" with field=voucher_form.code %}
+						<div class="input-group">
+							{% include "partials/form_field_input.html" with field=voucher_form.code %}
+						</div>
+					</div>
+					<button type="submit" class="btn btn-info btn-coupon">Apply Coupon</button>
+					<a href="#" id="voucher_form_cancel" class="btn btn-default btn-cancel">Cancel</a>
+				</form>
+			</div>
+		</div>
+	{% endif %}
+
+    <div class="col-md-4 {% if show_voucher_form %}col-md-offset-4{% else %}col-md-offset-8{% endif %} hidden-sm hidden-xs">
+        <table class="table total-table">
+            <tbody>
+                {% with offer_discounts=basket.offer_discounts voucher_discounts=basket.grouped_voucher_discounts %}
+                    {% if offer_discounts or voucher_discounts %}
+                        <tr>
+                            <td>{% trans "Subtotal:" %}</td>
+                            <td>{{ basket.total_excl_tax_excl_discounts|currency }}</td>
+                        </tr>
+                        {% for discount in offer_discounts %}
+                            <tr>
+                                <td>{{ discount.name|title }}:</td>
+                                <td>-{{ discount.discount|currency:basket.currency }}</td>
+                            </tr>
+                        {% endfor %}
+                        {% for discount in voucher_discounts %}
+                            <tr>
+                                <td>{{ discount.voucher.name|title }}:</td>
+                                <td>-{{ discount.discount|currency:basket.currency }}</td>
+                            </tr>
+                        {% endfor %}
+                        {% if basket.total_tax %}
+                            <tr>
+                                <td>VAT (17%):</td>
+                                <td>+{{ basket.total_tax|currency }}</td>
+                            </tr>
+                        {% endif %}
+                    {% else %}
+                        {% if basket.total_tax %}
+                            <tr>
+                                <td>{% trans "Subtotal:" %}</td>
+                                <td>{{ basket.total_excl_tax_excl_discounts|currency }}</td>
+                            </tr>
+                            <tr>
+                                <td>VAT (17%):</td>
+                                <td>+{{ basket.total_tax|currency }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endif %}
+                {% endwith %}
+
+                <tr>
+                    <td class="green">{% trans "Total:" %}</td>
+                    <td class="green">{{ basket.total_incl_tax|currency }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

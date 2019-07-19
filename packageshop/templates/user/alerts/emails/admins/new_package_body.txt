@@ -1,0 +1,6 @@
+{% load i18n %}
+
+{% blocktrans with username=package.owner.get_full_name eshop=package.title|title partner_name=package.partner.name %}
+    Package addressed to {{ username }} that was ordered from {{ eshop }}
+     has just arrived at {{ partner_name }} warehouse.
+{% endblocktrans %}

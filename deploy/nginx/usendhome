@@ -1,0 +1,213 @@
+upstream usendhome_app_server {
+  # fail_timeout=0 means we always retry an upstream even if it failed
+  # to return a good HTTP response (in case the Unicorn master nukes a
+  # single worker for timing out).
+
+  server unix:/webapps/us_shipping_oscar/run/gunicorn.sock fail_timeout=0;
+}
+
+
+server {
+    listen 80;
+    server_name  usendhome.com www.usendhome.com;
+    return 301 https://usendhome.com$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name www.usendhome.com;
+    return 301 https://usendhome.com$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443;
+
+    #include /etc/nginx/cloudflare-allow.conf;
+    #deny all;
+
+    server_name usendhome.com;
+
+    gzip on;
+    gzip_proxied any;
+    gzip_static on;
+    gzip_types text/plain text/xml application/javascript application/xml+rss text/javascript text/css application/x-json application/json;
+
+    #Max upload size
+    client_max_body_size 20M;
+
+    keepalive_timeout 0;
+    sendfile on;
+
+    error_page 401 403 404 /404.html;
+    error_page 500 502 503 504 /500.html;
+
+    access_log /webapps/us_shipping_oscar/logs/nginx-access.log;
+    error_log /webapps/us_shipping_oscar/logs/nginx-error.log;
+	
+    pagespeed MapOriginDomain "http://localhost" "https://usendhome.com";
+    pagespeed LoadFromFile "https://usendhome.com/static" "/webapps/us_shipping_oscar/static/";
+    pagespeed LoadFromFile "https://usendhome.com/media" "/webapps/us_shipping_oscar/media/";
+
+    # let's speed up PageSpeed by storing it in the super duper fast memcached
+    pagespeed MemcachedThreads 1;
+    pagespeed MemcachedServers "localhost:11211";
+
+    # Filter settings
+    pagespeed RewriteLevel CoreFilters;
+    pagespeed EnableFilters rewrite_images;
+    pagespeed EnableFilters combine_css;
+    pagespeed EnableFilters combine_javascript;
+    pagespeed EnableFilters collapse_whitespace,remove_comments;
+    pagespeed EnableFilters make_google_analytics_async;
+
+    pagespeed RespectVary on;
+    #  Ensure requests for pagespeed optimized resources go to the pagespeed
+    #  handler and no extraneous headers get set.
+    location ~ "\.pagespeed\.([a-z]\.)?[a-z]{2}\.[^.]{10}\.[^.]+" {
+	    add_header "" "";
+    }
+
+    location ~ "^/pagespeed_static/" {
+    }
+
+    location ~ "^/ngx_pagespeed_beacon$" {
+    }
+
+    location /ngx_pagespeed_statistics {
+	    allow 127.0.0.1;
+	    deny all;
+    }
+
+    location /ngx_pagespeed_global_statistics {
+   	    allow 127.0.0.1;
+	    deny all;
+    }
+
+    location /ngx_pagespeed_message {
+	    allow 127.0.0.1;
+	    deny all;
+    }
+
+    location /pagespeed_console {
+	    allow 127.0.0.1;
+	    deny all;
+    }
+
+    location ^~ /blog {
+        alias /webapps/blog;
+        index index.php;
+
+        #try_files $uri $uri/ /index.php?$args;
+        if (!-e $request_filename) { rewrite ^ /blog/index.php last; }
+
+        location ~ /wp-content/uploads/ { expires 30d; }
+
+        location ~ \.php$ {
+                #try_files $uri =404;
+                if (!-f $request_filename) { rewrite ^ /blog/index.php last; }
+                fastcgi_split_path_info ^(.+\.php)(/.+)$;
+                include fastcgi.conf;
+                fastcgi_index index.php;
+                fastcgi_param SCRIPT_FILENAME $request_filename;
+                #include fastcgi_params;
+                fastcgi_pass unix:/var/run/php5-fpm.sock;
+        }
+
+        location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+            if (!-f $request_filename) { rewrite ^ /blog/index.php last; }
+            expires 30d;
+        }
+    }
+
+
+    location =/robots.txt {
+        alias /webapps/us_shipping_oscar/static/robots.txt;
+        expires max;
+    }
+
+    location =/favicon.ico {
+        alias /webapps/us_shipping_oscar/static/favicon.ico;
+        expires max;
+    }
+
+    location =/dashboard/reports/qz-print_jnlp.jnlp {
+        alias /webapps/us_shipping_oscar/static/jzebra/qz-print_jnlp.jnlp;
+        expires max;
+    }
+
+    location =/sitemap.xml.gz {
+        alias /webapps/us_shipping_oscar/media/sitemap.xml.gz;
+        expires modified +24h;
+    }
+
+    # cache.appcache, your document html and data
+    location ~* \.(?:manifest|appcache|html?|xml|json)$ {
+      expires -1;
+      # access_log logs/static.log; # I don't usually include a static log
+    }
+
+    # Feed
+    location ~* \.(?:rss|atom)$ {
+        expires 1h;
+        access_log off;
+        log_not_found off;
+        add_header Cache-Control "public";
+    }
+
+    # CSS and Javascript
+    location ~* \.(?:css|js)$ {
+        expires 1M;
+        access_log off;
+        log_not_found off;
+        add_header Cache-Control "public";
+    }
+
+    location /static/ {
+        alias   /webapps/us_shipping_oscar/static/;
+    }
+
+    location /media/ {
+        alias   /webapps/us_shipping_oscar/media/;
+    }
+
+    location / {
+        # an HTTP header important enough to have its own Wikipedia entry:
+        #   http://en.wikipedia.org/wiki/X-Forwarded-For
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+        # enable this if and only if you use HTTPS, this helps Rack
+        # set the proper protocol for doing redirects:
+        proxy_set_header X-Forwarded-Proto https;
+
+        # pass the Host: header from the client right along so redirects
+        # can be set properly within the Rack application
+        proxy_set_header Host $http_host;
+
+        # we don't want nginx trying to do something clever with
+        # redirects, we set the Host: header above already.
+        proxy_redirect off;
+
+         # set "proxy_buffering off" *only* for Rainbows! when doing
+        # Comet/long-poll stuff.  It's also safe to set if you're
+        # using only serving fast clients with Unicorn + nginx.
+        # Otherwise you _want_ nginx to buffer responses to slow
+        # clients, really.
+        # proxy_buffering off;
+
+        # Media: images, icons, video, audio, HTC
+        location ~* \.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc|woff)$ {
+            expires 1y;
+            access_log off;
+            log_not_found off;
+            add_header Cache-Control "public";
+        }
+
+        # Try to serve static files from nginx, no point in making an
+        # *application* server like Unicorn/Rainbows! serve static files.
+        if (!-f $request_filename) {
+            proxy_pass http://usendhome_app_server;
+            break;
+        }
+    }
+}

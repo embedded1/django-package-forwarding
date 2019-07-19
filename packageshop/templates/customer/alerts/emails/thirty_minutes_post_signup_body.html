@@ -1,0 +1,20 @@
+{% extends "customer/emails/base.html" %}
+{% load i18n %}
+
+{% block body %}
+    <p>
+        {% blocktrans with name=user.first_name|title %}
+            Hey {{ name }},<br/>
+            I'm Leo, Co-founder of USendHome. I wanted to reach out to see if you need any help getting started.
+        {% endblocktrans %}
+    </p>
+{% endblock %}
+
+{% block footer %}
+    <p>
+        {% blocktrans %}
+            Cheers,<br/>
+            Leo
+        {% endblocktrans %}
+    </p>
+{% endblock %}

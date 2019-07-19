@@ -1,0 +1,40 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+{% trans "20% Off Shipping + 40% Off Extra Services" %}
+
+
+{% blocktrans with name=customer.first_name|title %}
+    Hello {{ name }},
+{% endblocktrans %}
+
+{% trans "How are you? I know that you count down the seconds until Black Friday starts" %}
+
+{% blocktrans %}
+    We at USendHome have big news for you - We have decided to throw in a great 20% discount on shipping and
+    40% discount on extra services just to make international shipping even more affordable during the upcoming shopping rush.
+    Our deal is simple, just do the shopping, forward the invoices to us and save big on the shipping.
+{% endblocktrans %}
+
+{% blocktrans %}
+    Check out the promotion details - don't worry it's straightforward:
+{% endblocktrans %}
+
+{% blocktrans %}
+    Forward invoice of any order you placed online in the US during this weekend (25-29) to this email address: blkfriday@usendhome.com
+{% endblocktrans %}
+{% blocktrans %}
+    Include your USH number in the subject (you can find the number in your control panel)
+{% endblocktrans %}
+{% blocktrans %}
+    Discounts will be applied automatically at the Package Delivery checkout.
+{% endblocktrans %}
+{% blocktrans %}
+    This promotion is only valid until 10/12/2016 (23:59:59 PST), discounts will not be applied to packages released after this expiration date.
+{% endblocktrans %}
+
+{% trans "Please note, the 40% extra services discount applies only to services that were ordered in advance (before we receive the package)" %}
+
+{% endblock %}

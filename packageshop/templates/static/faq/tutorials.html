@@ -1,0 +1,77 @@
+{% extends "static/faq/base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block description %}
+	{% trans "Start your US online shopping and international shipping quickly and easily by following along with one of our comprehensive tutorials." %}
+{% endblock %}
+
+{% block title %}
+    {% trans "USendHome Tutorials" %}
+{% endblock %}
+
+
+{% block messages %}
+    <div class="container">
+        <div id="promo-messages">
+            <div class="alert alert-safe alert-noicon alert-info fade in">
+                <h1>{% trans "Tutorials" %}</h1>
+                <p class="align-message-text">
+                    {% blocktrans %}
+                        Follow along with one of our detailed tutorials to get you started shopping and shipping from the USA quickly and easily
+                    {% endblocktrans %}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block faq_section %}
+<div id="tutorials" class="faq-content active">
+    <div class="faq-content-inner" id="tutorial-q1">
+        {% include "static/tutorials/onboarding-video.html" %}
+    </div>
+    <div class="faq-content-inner" id="tutorial-q2">
+        {% include "static/tutorials/how-to-use-amazon-app.html" %}
+    </div>
+    <div class="faq-content-inner" id="tutorial-q3">
+        {% include "static/tutorials/how-to-order-extra-services.html" %}
+    </div>
+    <div class="faq-content-inner" id="tutorial-q4">
+        {% include "static/tutorials/how-to-order-extra-services-in-advance-for-every-incoming-package.html" %}
+    </div>
+    <div class="faq-content-inner" id="tutorial-q5">
+        {% include "static/tutorials/how-to-return-package-back-to-merchant.html" %}
+    </div>
+    <div class="faq-content-inner" id="tutorial-q6">
+        {% include "static/tutorials/package-consolidation-service-explained.html" %}
+    </div>
+    <div class="faq-content-inner" id="tutorial-q7">
+        {% include "static/tutorials/repacking-service-explained.html" %}
+    </div>
+    <div class="faq-content-inner" id="tutorial-q8">
+        {% include "static/tutorials/how-to-file-shipping-insurance-claim.html" %}
+    </div>
+    <div class="faq-content-inner" id="tutorial-q9">
+        {% include "static/tutorials/how-to-fill-customs-declaration.html" %}
+    </div>
+    <div class="faq-content-inner" id="tutorial-q10">
+        {% include "static/tutorials/how-to-deliver-orders-to-our-export-hub.html" %}
+    </div>
+    <div class="faq-content-inner" id="tutorial-q11">
+        {% include "static/tutorials/taking-photos-service-explained.html" %}
+    </div>
+    <div class="faq-content-inner" id="tutorial-q12">
+        {% include "static/tutorials/shipment-tracking-explained.html" %}
+    </div>
+    <div class="faq-content-inner" id="tutorial-q13">
+        {% include "static/tutorials/extra-protection.html" %}
+    </div>
+    <div class="faq-content-inner" id="tutorial-q14">
+        {% include "static/tutorials/express_checkout.html" %}
+    </div>
+    <div class="faq-content-inner" id="tutorial-q15">
+        {% include "static/tutorials/customs_declaration.html" %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+    {% blocktrans %}
+        Hello {{ user_name }},
+    {% endblocktrans %}
+
+    {% if is_verified %}
+        {% blocktrans %}
+            Congratulations! {{ additional_receiver_name }} has been successfully verified.
+            You can now order extra services, consolidate and release for delivery all packages
+            under {{ additional_receiver_name }} name.
+        {% endblocktrans %}
+    {% else %}
+        {% if more_documents %}
+            {% url 'customer:additional-receiver-verify' additional_receiver.pk as additional_receiver_verify_url %}
+            {% blocktrans %}
+                We are unable to verify {{ additional_receiver_name }} based on the documents you provided us with.
+                Use the URL link below to provide additional documents, make sure all documents contain a
+                clear and visible photo.
+                {{ site }}{{ additional_receiver_verify_url }}
+            {% endblocktrans %}
+        {% else %}
+            {% blocktrans %}
+                We're sorry but we couldn't verify {{ additional_receiver_name }} identity based on the documents you
+                provided us with.
+                Please don't deliver additional orders under this additional receiver's name, we can't receive such
+                orders and we will send them back to the sender immediately.
+            {% endblocktrans %}
+            {% blocktrans %}
+                You can always contact us to supply additional information
+                that will help us verify the additional receiver's identity.
+            {% endblocktrans %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

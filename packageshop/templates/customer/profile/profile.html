@@ -1,0 +1,1276 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load url from future %}
+{% load currency_filters %}
+{% load address_filters %}
+{% load notifications_filters %}
+{% load staticfiles %}
+{% load order_tags %}
+{% load account_tags %}
+{% load user_agents %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+    {% if not email_confirmed %}
+        <div class="confirm-email">
+            <div class="txt">Confirm your email <strong>{{ user.email }}</strong></div>
+            <a class="btn resend" href="{% url "customer:email-confirmation-send" %}">RESEND</a>
+            <a class="change modalRemoteLoad" data-modal-name="settingsModal" data-load-url="{% url "customer:settings-update" %}">{% trans "Change Email" %}</a>
+        </div>
+    {% elif not addresses %}
+        <div class="confirm-email">
+            <div class="txt">Want to add your home address now for fast checkout?</div>
+            <a class="btn resend" href="{% url 'customer:address-create' %}">SURE!</a>
+            <a class="change" onclick="this.parentNode.remove();">{% trans "Not Now" %}</a>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <section {% if operation_shut_down %}class="cover blur-in"{% endif %}>
+        {% if request|is_pc %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel-item" id="manage-packages-tour">
+                            <div class="panel-header">
+                                <h3>{% trans "Packages in Warehouse" %}</h3>
+                                <div class="right-buttons">
+                                    <a class="btn btn-default tooltip-social" id="welcome-video" type="button" data-toggle="tooltip" data-placement="bottom" title="{% trans "Watch Welcome Video" %}"><i class="fa fa-video-camera"></i></a>
+                                    <a class="btn btn-default tooltip-social" id="control-panel-tour" type="button" data-toggle="tooltip" data-placement="bottom" title="{% trans "Take Tour" %}"><i class="fa fa-bus"></i></a>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div role="tabpanel">
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active fade in" id="incoming-packages">
+                                            <div id="incoming-counter" data-count="{{ num_incoming_packages|add:num_pending_extra_services_requests }}" class="circle">
+                                                <span>{{ num_incoming_packages|add:num_pending_extra_services_requests }}</span>
+                                                {% if not is_affiliate %}
+                                                    <div><a style="font-size: 12px; font-weight: 900; color: #1abc9c;" href="{% url 'customer:referrals-index' %}">Invite friends, Earn $5</a></div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="circle-details">
+                                                <h3>{% trans "Incoming Packages" %}</h3>
+                                                {% if num_incoming_packages > 0 %}
+                                                    <p>{% trans "Manage your incoming packages " %}</p>
+                                                    <p>{% trans "and have them prepared for delivery." %}</p>
+                                                    <a href="{% url 'customer:pending-packages' %}" class="btn btn-info">{% trans "Manage Packages" %}</a>
+                                                    {% if num_pending_extra_services_requests > 0 %}
+                                                        <p class="pending-requests">
+                                                            {% blocktrans count counter=num_pending_extra_services_requests %}
+                                                                There is one package waiting for extra services.
+                                                                {% plural %}
+                                                                There are {{ counter }} packages waiting for extra services.
+                                                            {% endblocktrans %}
+                                                        </p>
+                                                    {% endif %}
+                                                {% else %}
+                                                    {% if num_pending_extra_services_requests > 0 %}
+                                                        <p>
+                                                            {% blocktrans count counter=num_pending_extra_services_requests %}
+                                                                There is one package waiting for extra services.
+                                                                {% plural %}
+                                                                There are {{ counter }} packages waiting for extra services.
+                                                            {% endblocktrans %}
+                                                        </p>
+                                                        <p>{% trans "We'll notify you once extra services handling is complete." %}</p>
+                                                    {% else %}
+                                                        <p>{% trans "You don't have any packages waiting for delivery." %}</p>
+                                                        <p class="hidden-xs hidden-sm">
+                                                            {% trans "Keep using your personal US delivery address and" %}<br/>
+                                                            {% trans "unleash its power today." %}
+                                                        </p>
+                                                    {% endif %}
+                                                {% endif %}
+                                            </div>
+                                            <span class="delivery-notice">
+                                                Warehouse receiving hours are 08:00 to 16:00 US Pacific Time Monday through Friday.
+                                                Packages received after 16:00 will be input the following day.
+                                                Packages received on Saturdays or Sundays will be entered the following Monday as the warehouse is closed on weekends.
+                                            </span>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane fade" id="waiting-consolidation">
+                                            <div id="consolidation-counter" data-count="{{ num_packages_waiting_for_consolidation }}" class="circle">
+                                                <span>{{ num_packages_waiting_for_consolidation }}</span>
+                                                {% if not is_affiliate %}
+                                                    <div><a style="font-size: 12px; font-weight: 900; color: #1abc9c;" href="{% url 'customer:referrals-index' %}">Invite friends, Earn $5</a></div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="circle-details">
+                                                <h3>{% trans "Package Consolidation" %}</h3>
+                                                {% if num_packages_waiting_for_consolidation > 0 %}
+                                                    <p>{% trans "Consolidate multiple packages into one" %}</p>
+                                                    <p>{% trans "box with a single click." %}</p>
+                                                    <a href="{% url 'customer:waiting-for-consolidation-packages' %}" class="btn btn-info">{% trans "Consolidate Packages" %}</a>
+                                                {% else %}
+                                                    <p>{% trans "You don't have any packages to consolidate."%}</p>
+                                                    <p class="hidden-xs hidden-sm">
+                                                        {% trans "Just remember that shipping multiple items in one" %}<br/>
+                                                        {% trans "box saves you a lot of money!" %}
+                                                    </p>
+                                                {% endif %}
+                                                {% if num_pending_consolidation_requests > 0 %}
+                                                    <p class="pending-requests">
+                                                        {% blocktrans count counter=num_pending_consolidation_requests %}
+                                                            There is 1 pending consolidation request.
+                                                            {% plural %}
+                                                            There are {{ counter }} pending consolidation requests.
+                                                        {% endblocktrans %}
+                                                    </p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer two-buttons clearfix">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#incoming-packages" aria-controls="incoming-packages" role="tab" data-toggle="tab">{% trans "INCOMING PACKAGES" %}
+                                        {% if num_incoming_packages or num_pending_extra_services_requests %}
+                                            <span class="badge">{{ num_incoming_packages|add:num_pending_extra_services_requests }}</span>
+                                        {% endif %}
+                                    </a>
+                                    </li>
+                                    <li role="presentation"><a href="#waiting-consolidation" aria-controls="waiting-consolidation" role="tab" data-toggle="tab">{% trans "PACKAGE CONSOLIDATION" %}
+                                        {% if num_packages_waiting_for_consolidation %}
+                                            <span class="badge">{{ num_packages_waiting_for_consolidation }}</span>
+                                        {% endif %}
+                                    </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="panel-item" id="usendhome-address-tour">
+                            <div class="panel-header">
+                                <h3>{% trans "My US Address" %}</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="address-panel">
+                                    <p>
+                                        {% comment %}
+                                            hide the warehouse address for partners, this gives us the freedome
+                                            to migrate to new facility without the partner to know
+                                        {% endcomment %}
+                                        {% if perms.partner.dashboard_access and not user.is_staff %}
+                                            {% trans "No Address found" %}
+                                        {% elif hide_us_address %}
+                                             USendHome is in a process of suspending it's cross-border shipping from the US service.<br>
+                                             During this time the US address is unavailable.
+                                            {% comment %}
+                                                USendHome is in a process of moving to a new and larger facility.<br>
+                                                We will notify you once your private US shipping address at the new facility is up and running.
+                                                <br>
+                                                We apologize for the temporary inconvenience this process may have caused you and thank you for your cooperation.
+                                                <br>
+                                                Big improvement is on it's way and we're sure you're going to enjoy it.
+                                            {% endcomment %}
+                                        {% else %}
+                                            {% if virtual_addresses %}
+                                                <strong>Name:</strong><span data-toggle="tooltip" title="Copy to Clipboard" id="address-name" data-clipboard-text="{{ user.get_full_name|title }}">{{ user.get_full_name|title }}</span>
+                                                <span class="copied" id="address-name-action"></span><br/>
+                                                {% for virtual_address in virtual_addresses %}
+                                                    <strong>Address line1:</strong><span data-toggle="tooltip" title="Copy to Clipboard" id="address-line1" data-clipboard-text="{{ virtual_address.line1 }}">{{ virtual_address.line1 }}</span>
+                                                    <span class="copied" id="address-line1-action"></span><br/>
+                                                    <strong>Address line2:</strong><span data-toggle="tooltip" title="Copy to Clipboard" id="address-line2" data-clipboard-text="{{ virtual_address.line2 }}">{{ virtual_address.line2 }}</span>
+                                                    <span class="copied" id="address-line2-action"></span><br/>
+                                                    <strong>City:</strong><span data-toggle="tooltip" title="Copy to Clipboard" id="address-city" data-clipboard-text="{{ virtual_address.city }}">{{ virtual_address.city }}</span>
+                                                    <span class="copied" id="address-city-action"></span><br/>
+                                                    <strong>State:</strong><span data-toggle="tooltip" title="Copy to Clipboard" id="address-state" data-clipboard-text="{{ virtual_address.state }}">{{ virtual_address.state }}</span>
+                                                    <span class="copied" id="address-state-action"></span><br/>
+                                                    <strong>Zip code:</strong><span data-toggle="tooltip" title="Copy to Clipboard" id="address-zip" data-clipboard-text="{{ virtual_address.postcode }}">{{ virtual_address.postcode }}</span>
+                                                    <span class="copied" id="address-zip-action"></span><br/>
+                                                    <strong>Country:</strong><span data-toggle="tooltip" title="Copy to Clipboard" id="address-country" data-clipboard-text="{{ virtual_address.country }}">{{ virtual_address.country }}</span>
+                                                    <span class="copied" id="address-country-action"></span><br/>
+                                                    <strong>Phone number:</strong><span data-toggle="tooltip" title="Copy to Clipboard" id="address-phone" data-clipboard-text="{{ virtual_address.phone_number.as_national }}">{{ virtual_address.phone_number.as_national }}</span>
+                                                    <span class="copied" id="address-phone-action"></span>
+                                                 {% endfor  %}
+                                            {% else %}
+                                                {% trans "An error occured, please contact customer support" %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-item" id="address-book-tour">
+                            <div class="panel-header">
+                                <h3>{% trans "Address Book" %}</h3>
+                                <a href="{% url 'customer:address-create' %}" class="btn btn-default tooltip-social" type="button" data-toggle="tooltip" data-placement="bottom" title="{% trans "Add Address" %}"><i class="fa fa-plus-square"></i></a>
+                            </div>
+                            {% if addresses %}
+                                <div class="panel-body no-padding">
+                                    <div class="table-responsive">
+                                        <table class="table stat-table address-table">
+                                            <thead>
+                                                <tr>
+                                                    <td>{% trans "Address" %}</td>
+                                                    <td>{% trans "Type" %}</td>
+                                                    <td>{% trans "Action" %}</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for address in addresses %}
+                                                    <tr>
+                                                        <td>{{ address.summary }}</td>
+                                                        <td class="large-td">
+                                                            {% if address.is_merchant %}
+                                                                <span class="label red">{% trans "Merchant" %}</span>
+                                                            {% else %}
+                                                                <span class="label green">{% trans "Personal" %}</span>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td class="large-td">
+                                                            <div>
+                                                                <a href="{% url 'customer:address-detail' pk=address.id %}" class="tooltip-social" data-toggle="tooltip" data-placement="top" title="{% trans "Edit" %}"><span class="label label-primary"><i class="fa fa-pencil"></i></span></a>
+                                                                <a class="modalRemoteLoad tooltip-social" data-toggle="tooltip" data-placement="top" title="{% trans "Delete" %}" data-modal-name="deleteAddress{{ address.pk }}Modal" data-load-url="{% url "customer:address-delete" pk=address.pk %}"><span class="label red"><i class="fa fa-trash"></i></span></a>
+                                                                {% if not address.is_default_for_shipping %}
+                                                                    <a href="{% url 'customer:address-change-status' pk=address.id action='default_for_shipping' %}" class="tooltip-social" data-toggle="tooltip" data-placement="top" title="{% trans "Make Default" %}"><span class="label green"><i class="fa fa-bookmark"></i></span></a>
+                                                                {% else %}
+                                                                    <span class="label green tooltip-social" data-toggle="tooltip" data-placement="top" title="{% trans "Default Address" %}"><i class="fa fa-bookmark"></i></span>
+                                                                {% endif %}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="panel-footer clearfix">
+                                    <a href="{% url 'customer:address-list' %}"><i class="fa fa-eye"></i>{% trans "VIEW ALL ADDRESSES" %}</a>
+                                </div>
+                            {% else %}
+                                <div class="panel-body">
+                                    <p class="no-info">{% trans "Your address book is empty " %}</p>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="panel-item" id="order-history-tour">
+                            <div class="panel-header">
+                                <h3>{% trans "Order History" %}</h3>
+                            </div>
+                            {% if orders %}
+                                <div class="panel-body no-padding table-responsive">
+                                    <table class="table stat-table">
+                                        <thead>
+                                            <tr>
+                                                <td>{% trans "#Order" %}</td>
+                                                <td>{% trans "Total" %}</td>
+                                                <td>{% trans "Status" %}</td>
+                                                <td>{% trans "Date Submitted" %}</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for order in orders %}
+                                                <tr>
+                                                    <td><a href="{% url 'customer:order' order_number=order.number %}">{{ order.number }}</a></td>
+                                                    <td>{{ order.total_incl_tax|currency:order.currency }}</td>
+                                                    <td>
+                                                        {% render_order_status_label order.status %}
+                                                    </td>
+                                                    <td>{{ order.date_placed|date:"d M Y" }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="panel-footer clearfix">
+                                    <a href="{% url 'customer:order-list' %}"><i class="fa fa-eye"></i>{% trans "VIEW ALL ORDERS" %}</a>
+                                </div>
+                            {% else %}
+                                <div class="panel-body">
+                                    <p class="no-info">{% trans "You haven't placed any orders yet" %}</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="panel-item" id="account-tour">
+                            <div class="panel-header">
+                                <h3 class="center-panel-header">{% trans "Account Information" %}</h3>
+                                <div class="right-buttons">
+                                    <div class="dropdown notification-drop">
+                                        <button class="btn btn-default dropdown-toggle drop-button tooltip-social" type="button" id="notificationsdropdownMenu" data-toggle="dropdown" aria-expanded="true">
+                                            <i class="fa fa-bell"></i>
+                                            {% if num_unread_notifications > 0 %}
+                                                <span>{{ num_unread_notifications }}</span>
+                                            {% endif %}
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="notificationsdropdownMenu">
+                                            <span>{% trans "Latest Notifications" %}</span>
+                                            {% for notification in notifications %}
+                                                <li {% if not notification.is_read %}class="unread"{% endif %} role="presentation">
+                                                    <p role="menuitem" tabindex="-1">{{ notification.subject|safe }}</p>
+                                                    <span>{{ notification.date_sent|date:"M d, Y" }}</span>
+                                                </li>
+                                                {% if forloop.last %}
+                                                    <li role="presentation">
+                                                        <a role="menuitem" tabindex="-1" href="{% url 'customer:notifications-inbox' %}">
+                                                            <p>{% trans "See all notifications" %}</p>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            {% empty %}
+                                                <li role="presentation"><p role="menuitem" tabindex="-1">{% trans "No notifications" %}</p></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% if is_affiliate %}
+                                        <a href="{% url 'customer:affiliates-index' %}" class="tooltip-social" data-toggle="tooltip" data-placement="bottom" title="{% trans "Affiliates" %}"><i class="fa fa-usd"></i></a>
+                                    {% else %}
+                                        <a style="color: #ff6c60;" href="{% url 'customer:referrals-index' %}" class="tooltip-social" data-toggle="tooltip" data-placement="bottom" title="{% trans "Invite friends, earn $5" %}"><i class="fa fa-heart"></i></a>
+                                    {% endif %}
+                                    <a href="{% url 'customer:insurance-claim' %}" class="tooltip-social" data-toggle="tooltip" data-placement="bottom" title="{% trans "File Insurance Claim" %}"><i class="fa fa-shield"></i></a>
+                                    <a href="{% url 'customer:logout' %}" class="tooltip-social" data-toggle="tooltip" data-placement="bottom" title="{% trans "Log Out" %}"><i class="fa fa-power-off"></i></a>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table account-table">
+                                    <tbody>
+                                        <tr>
+                                            <td>{% trans 'Name' %}</td>
+                                            <td>
+                                                {{ user.get_full_name|title }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td> {% trans 'Email Address' %}</td>
+                                            <td>
+                                                {% if email_confirmed %}
+                                                    <span class="label label-success"><i class="fa fa-check-circle"></i> {% trans "Confirmed" %}</span>
+                                                {% else %}
+                                                    <span class="label label-danger"><i class="fa fa-exclamation-circle"></i> <a href="{% url "customer:email-confirmation-send" %}">{% trans "Confirm Address" %}</a></span>
+                                                {% endif %}
+                                                {{ user.email }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                {% trans "Additional Receivers" %}
+                                                <span class="tooltip-social" data-toggle="tooltip" data-placement="top" title="{% trans "Names of other people who are verified to receive packages to your account. You have to complete the additional receiver verification process before you can release such packages for delivery." %}"><i class="fa fa-info-circle"></i></span>
+                                            </td>
+                                            <td>
+                                                {% if request.user.additional_receivers.exists %}
+                                                    <span class="label label-primary additional-receiver"><i class="fa fa-eye"></i> <a href="{% url "customer:additional-receiver-list" %}">{% trans "View Receivers" %}</a></span>
+                                                {% endif %}
+                                                <span class="label label-primary"><i class="fa fa-plus"></i> <a href="{% url "customer:additional-receiver-create" %}">{% trans "Add Receiver" %}</a></span>
+                                            </td>
+                                        </tr>
+                                        {% if account_status.verification_required %}
+                                            <tr>
+                                                <td>{% trans "Account Status" %}</td>
+                                                <td><span class="label label-danger"><i class="fa fa-exclamation-circle"></i> <a href="{% url "customer:account-verify" pk=account_status.pk %}">{% trans "Verify Account" %}</a></span></td>
+                                            </tr>
+                                        {% elif account_status.verification_started %}
+                                            <tr>
+                                                <td>{% trans "Account Status" %}</td>
+                                                <td>{% render_account_verification_status_label account_status.verification_status %}</td>
+                                            </tr>
+                                        {% endif %}
+                                        <tr>
+                                            <td>{% trans 'Date Registered' %}</td>
+                                            <td>{{ user.date_joined|date:"M d, Y" }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="panel-footer clearfix">
+                                <button class="footer-button modalRemoteLoad" data-modal-name="settingsModal" data-load-url="{% url "customer:settings-update" %}"><i class="fa fa-edit"></i>{% trans "CHANGE EMAIL" %}</button>
+                                <button class="footer-button modalRemoteLoad"  data-modal-name="passwordModal" data-load-url="{% url "customer:change-password" %}"><i class="fa fa-key"></i>{% trans "CHANGE PASSWORD" %}</button>
+                                <button class="footer-button modalRemoteLoad" data-modal-name="trackModal" data-load-url="{% url "customer:package-tracking" %}"><i class="fa fa-search"></i>{% trans "PACKAGE TRACKING" %}</button>
+                            </div>
+                        </div>
+
+                        <div class="panel-item" id="referral-program-tour">
+                            <div class="panel-header">
+                                <h3>{% trans "Give $5, Get $5" %}</h3>
+                            </div>
+                            <div class="panel-body">
+                                <p>
+                                    We are sure, you must have friends that would want to use a service like USendHome.
+                                    Invite your friends to USendHome and:
+                                 </p>
+                                <ul>
+                                    <li><strong>Your friend gets a FREE US Forwarding Address and earn $5 in instant shipping credit.</strong></li>
+                                    <li><strong>You earn $5 in shipping credit when your friend forwards their first package, simple as that.</strong></li>
+                                </ul>
+                            </div>
+                            <div class="panel-footer clearfix">
+                                <a type="button" class="btn btn-primary btn-block referral-program-cta" href="/accounts/referrals/">Invite my friends now</a>
+                            </div>
+                        </div>
+
+                        <div class="panel-item extra-services-panel" id="extra-services-tour">
+                            <div class="panel-header">
+                                <h3>{% trans "Order Extra Services in Advance" %}</h3>
+                                <span>
+                                    {% blocktrans %}
+                                        Get <strong>20%</strong> off standard rates below
+                                    {% endblocktrans %}
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <form action="." method="post">
+                                    {% csrf_token %}
+                                    {% include "partials/form_fields.html" with extraclass='invisible' %}
+                                </form>
+                            </div>
+                            <div class="panel-footer two-buttons clearfix">
+                                <button class="btn-more-services">{% trans "SHOW MORE" %} <i class="fa fa-caret-down"></i></button>
+                                <button class="submit"><i class="fa fa-save"></i>{% trans "SAVE" %}</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel-item" id="manage-packages-tour">
+                            <div class="panel-header">
+                                <h3>{% trans "Packages in Warehouse" %}</h3>
+                                <a class="btn btn-default tooltip-social" id="welcome-video" type="button" data-toggle="tooltip" data-placement="bottom" title="{% trans "Watch Welcome Video" %}"><i class="fa fa-video-camera"></i></a>
+                            </div>
+                            <div class="panel-body">
+                                <div role="tabpanel">
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active fade in" id="incoming-packages">
+                                            <div id="incoming-counter" data-count="{{ num_incoming_packages|add:num_pending_extra_services_requests }}" class="circle">
+                                                <span>{{ num_incoming_packages|add:num_pending_extra_services_requests }}</span>
+                                                {% if not is_affiliate %}
+                                                    <div><a style="font-size: 12px; font-weight: 900; color: #1abc9c;" href="{% url 'customer:referrals-index' %}">Invite friends, Earn $5</a></div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="circle-details">
+                                                <h3>{% trans "Incoming Packages" %}</h3>
+                                                {% if num_incoming_packages > 0 %}
+                                                    <p>{% trans "Manage your incoming packages " %}</p>
+                                                    <p>{% trans "and have them prepared for delivery." %}</p>
+                                                    <a href="{% url 'customer:pending-packages' %}" class="btn btn-info">{% trans "Manage Packages" %}</a>
+                                                    {% if num_pending_extra_services_requests > 0 %}
+                                                        <p class="pending-requests">
+                                                            {% blocktrans count counter=num_pending_extra_services_requests %}
+                                                                There is one package waiting for extra services.
+                                                                {% plural %}
+                                                                There are {{ counter }} packages waiting for extra services.
+                                                            {% endblocktrans %}
+                                                        </p>
+                                                    {% endif %}
+                                                {% else %}
+                                                    {% if num_pending_extra_services_requests > 0 %}
+                                                        <p>
+                                                            {% blocktrans count counter=num_pending_extra_services_requests %}
+                                                                There is one package waiting for extra services.
+                                                                {% plural %}
+                                                                There are {{ counter }} packages waiting for extra services.
+                                                            {% endblocktrans %}
+                                                        </p>
+                                                        <p>{% trans "We'll notify you once extra services handling is complete." %}</p>
+                                                    {% else %}
+                                                        <p>{% trans "You don't have any packages waiting for delivery." %}</p>
+                                                        <p class="hidden-xs hidden-sm">
+                                                            {% trans "Keep using your personal US delivery address and" %}<br/>
+                                                            {% trans "unleash its power today." %}
+                                                        </p>
+                                                    {% endif %}
+                                                {% endif %}
+                                            </div>
+                                            <span class="delivery-notice">
+                                                Warehouse receiving hours are 08:00 to 16:00 US Pacific Time Monday through Friday.
+                                                Packages received after 16:00 will be input the following day.
+                                                Packages received on Saturdays or Sundays will be entered the following Monday as the warehouse is closed on weekends.
+                                            </span>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane fade" id="waiting-consolidation">
+                                            <div id="consolidation-counter" data-count="{{ num_packages_waiting_for_consolidation }}" class="circle">
+                                                <span>{{ num_packages_waiting_for_consolidation }}</span>
+                                                {% if not is_affiliate %}
+                                                    <div><a style="font-size: 12px; font-weight: 900; color: #1abc9c;" href="{% url 'customer:referrals-index' %}">Invite friends, Earn $5</a></div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="circle-details">
+                                                <h3>{% trans "Package Consolidation" %}</h3>
+                                                {% if num_packages_waiting_for_consolidation > 0 %}
+                                                    <p>{% trans "Consolidate multiple packages into one" %}</p>
+                                                    <p>{% trans "box with a single click." %}</p>
+                                                    <a href="{% url 'customer:waiting-for-consolidation-packages' %}" class="btn btn-info">{% trans "Consolidate Packages" %}</a>
+                                                {% else %}
+                                                    <p>{% trans "You don't have any packages to consolidate."%}</p>
+                                                    <p class="hidden-xs hidden-sm">
+                                                        {% trans "Just remember that shipping multiple items in one" %}<br/>
+                                                        {% trans "box saves you a lot of money!" %}
+                                                    </p>
+                                                {% endif %}
+                                                {% if num_pending_consolidation_requests > 0 %}
+                                                    <p class="pending-requests">
+                                                        {% blocktrans count counter=num_pending_consolidation_requests %}
+                                                            There is 1 pending consolidation request.
+                                                            {% plural %}
+                                                            There are {{ counter }} pending consolidation requests.
+                                                        {% endblocktrans %}
+                                                    </p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer two-buttons clearfix">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#incoming-packages" aria-controls="incoming-packages" role="tab" data-toggle="tab">{% trans "INCOMING PACKAGES" %}
+                                        {% if num_incoming_packages or num_pending_extra_services_requests %}
+                                            <span class="badge">{{ num_incoming_packages|add:num_pending_extra_services_requests }}</span>
+                                        {% endif %}
+                                    </a>
+                                    </li>
+                                    <li role="presentation"><a href="#waiting-consolidation" aria-controls="waiting-consolidation" role="tab" data-toggle="tab">{% trans "PACKAGE CONSOLIDATION" %}
+                                        {% if num_packages_waiting_for_consolidation %}
+                                            <span class="badge">{{ num_packages_waiting_for_consolidation }}</span>
+                                        {% endif %}
+                                    </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="panel-item" id="account-tour">
+                            <div class="panel-header">
+                                <h3 class="center-panel-header">{% trans "Account Information" %}</h3>
+                                <div class="right-buttons">
+                                    <div class="dropdown notification-drop">
+                                        <button class="btn btn-default dropdown-toggle drop-button tooltip-social" type="button" id="notificationsdropdownMenu" data-toggle="dropdown" aria-expanded="true">
+                                            <i class="fa fa-bell"></i>
+                                            {% if num_unread_notifications > 0 %}
+                                                <span>{{ num_unread_notifications }}</span>
+                                            {% endif %}
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="notificationsdropdownMenu">
+                                            <span>{% trans "Latest Notifications" %}</span>
+                                            {% for notification in notifications %}
+                                                <li {% if not notification.is_read %}class="unread"{% endif %} role="presentation">
+                                                    <p role="menuitem" tabindex="-1">{{ notification.subject|safe }}</p>
+                                                    <span>{{ notification.date_sent|date:"M d, Y" }}</span>
+                                                </li>
+                                                {% if forloop.last %}
+                                                    <li role="presentation">
+                                                        <a role="menuitem" tabindex="-1" href="{% url 'customer:notifications-inbox' %}">
+                                                            <p>{% trans "See all notifications" %}</p>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            {% empty %}
+                                                <li role="presentation"><p role="menuitem" tabindex="-1">{% trans "No notifications" %}</p></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% if is_affiliate %}
+                                        <a href="{% url 'customer:affiliates-index' %}" class="tooltip-social" data-toggle="tooltip" data-placement="bottom" title="{% trans "Affiliates" %}"><i class="fa fa-usd"></i></a>
+                                    {% else %}
+                                        <a style="color: #ff6c60;" href="{% url 'customer:referrals-index' %}" class="tooltip-social" data-toggle="tooltip" data-placement="bottom" title="{% trans "Invite friends, earn $5" %}"><i class="fa fa-heart"></i></a>
+                                    {% endif %}
+                                    <a href="{% url 'customer:insurance-claim' %}" class="tooltip-social" data-toggle="tooltip" data-placement="bottom" title="{% trans "File Insurance Claim" %}"><i class="fa fa-shield"></i></a>
+                                    <a href="{% url 'customer:logout' %}" class="tooltip-social" data-toggle="tooltip" data-placement="bottom" title="{% trans "Log Out" %}"><i class="fa fa-power-off"></i></a>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table account-table">
+                                    <tbody>
+                                        <tr>
+                                            <td>{% trans 'Name' %}</td>
+                                            <td>
+                                                {{ user.get_full_name|title }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td> {% trans 'Email Address' %}</td>
+                                            <td>
+                                                {% if email_confirmed %}
+                                                    <span class="label label-success"><i class="fa fa-check-circle"></i> {% trans "Confirmed" %}</span>
+                                                {% else %}
+                                                    <span class="label label-danger"><i class="fa fa-exclamation-circle"></i> <a href="{% url "customer:email-confirmation-send" %}">{% trans "Confirm Address" %}</a></span>
+                                                {% endif %}
+                                                {{ user.email }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                {% trans "Additional Receivers" %}
+                                                <span class="tooltip-social" data-toggle="tooltip" data-placement="top" title="{% trans "Names of other people who are verified to receive packages to your account. You have to complete the additional receiver verification process before you can release such packages for delivery." %}"><i class="fa fa-info-circle"></i></span>
+                                            </td>
+                                            <td>
+                                                {% if request.user.additional_receivers.exists %}
+                                                    <span class="label label-primary additional-receiver"><i class="fa fa-eye"></i> <a href="{% url "customer:additional-receiver-list" %}">{% trans "View Receivers" %}</a></span>
+                                                {% endif %}
+                                                <span class="label label-primary"><i class="fa fa-plus"></i> <a href="{% url "customer:additional-receiver-create" %}">{% trans "Add Receiver" %}</a></span>
+                                            </td>
+                                        </tr>
+                                        {% if account_status.verification_required %}
+                                            <tr>
+                                                <td>{% trans "Verification Status" %}</td>
+                                                <td><span class="label label-danger"><i class="fa fa-exclamation-circle"></i> <a href="{% url "customer:account-verify" pk=account_status.pk %}">{% trans "Verify Account" %}</a></span></td>
+                                            </tr>
+                                        {% elif account_status.verification_started %}
+                                            <tr>
+                                                <td>{% trans "Verification Status" %}</td>
+                                                <td>{% render_account_verification_status_label account_status.verification_status %}</td>
+                                            </tr>
+                                        {% endif %}
+                                        <tr>
+                                            <td>{% trans 'Date Registered' %}</td>
+                                            <td>{{ user.date_joined|date:"M d, Y" }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="panel-footer clearfix">
+                                <button class="footer-button modalRemoteLoad" data-modal-name="settingsModal" data-load-url="{% url "customer:settings-update" %}"><i class="fa fa-edit"></i>{% trans "CHANGE EMAIL" %}</button>
+                                <button class="footer-button modalRemoteLoad"  data-modal-name="passwordModal" data-load-url="{% url "customer:change-password" %}"><i class="fa fa-key"></i>{% trans "CHANGE PASSWORD" %}</button>
+                                <button class="footer-button modalRemoteLoad" data-modal-name="trackModal" data-load-url="{% url "customer:package-tracking" %}"><i class="fa fa-search"></i>{% trans "PACKAGE TRACKING" %}</button>
+                            </div>
+                        </div>
+
+                        <div class="panel-item" id="referral-program-tour">
+                            <div class="panel-header">
+                                <h3>{% trans "Give $5, Get $5" %}</h3>
+                            </div>
+                            <div class="panel-body">
+                                <p>
+                                    We are sure, you must have friends that would want to use a service like USendHome.
+                                    Invite your friends to USendHome and:
+                                 </p>
+                                <ul>
+                                    <li><strong>Your friend gets a FREE US Forwarding Address and earn $5 in instant shipping credit.</strong></li>
+                                    <li><strong>You earn $5 in shipping credit when your friend forwards their first package, simple as that.</strong></li>
+                                </ul>
+                            </div>
+                            <div class="panel-footer clearfix">
+                                <a type="button" class="btn btn-primary btn-block referral-program-cta" href="/accounts/referrals/">Invite my friends now</a>
+                            </div>
+                        </div>
+
+                        <div class="panel-item" id="usendhome-address-tour">
+                            <div class="panel-header">
+                                <h3>{% trans "My US Address" %}</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="address-panel">
+                                    <p>
+                                        {% comment %}
+                                            hide the warehouse address for partners, this gives us the freedome
+                                            to migrate to new facility without the partner to know
+                                        {% endcomment %}
+                                        {% if perms.partner.dashboard_access and not user.is_staff %}
+                                            {% trans "No Address found" %}
+                                        {% elif hide_us_address %}
+                                            USendHome is in a process of suspending it's cross-border shipping from the US service.<br>
+                                            During this time the US address is unavailable.
+                                            {% comment %}
+                                                USendHome is in a process of moving to a new and larger facility.<br>
+                                                We will notify you once your private US shipping address at the new facility is up and running.
+                                                <br>
+                                                We apologize for the temporary inconvenience this process may have caused you and thank you for your cooperation.
+                                                <br>
+                                                Big improvement is on it's way and we're sure you're going to enjoy it.
+                                            {% endcomment %}
+                                        {% else %}
+                                            {% if virtual_addresses %}
+                                                <strong>Name:</strong><span data-toggle="tooltip" title="Copy to Clipboard" id="address-name" data-clipboard-text="{{ user.get_full_name|title }}">{{ user.get_full_name|title }}</span>
+                                                <span class="copied" id="address-name-action"></span><br/>
+                                                {% for virtual_address in virtual_addresses %}
+                                                    <strong>Address line1:</strong><span data-toggle="tooltip" title="Copy to Clipboard" id="address-line1" data-clipboard-text="{{ virtual_address.line1 }}">{{ virtual_address.line1 }}</span>
+                                                    <span class="copied" id="address-line1-action"></span><br/>
+                                                    <strong>Address line2:</strong><span data-toggle="tooltip" title="Copy to Clipboard" id="address-line2" data-clipboard-text="{{ virtual_address.line2 }}">{{ virtual_address.line2 }}</span>
+                                                    <span class="copied" id="address-line2-action"></span><br/>
+                                                    <strong>City:</strong><span data-toggle="tooltip" title="Copy to Clipboard" id="address-city" data-clipboard-text="{{ virtual_address.city }}">{{ virtual_address.city }}</span>
+                                                    <span class="copied" id="address-city-action"></span><br/>
+                                                    <strong>State:</strong><span data-toggle="tooltip" title="Copy to Clipboard" id="address-state" data-clipboard-text="{{ virtual_address.state }}">{{ virtual_address.state }}</span>
+                                                    <span class="copied" id="address-state-action"></span><br/>
+                                                    <strong>Zip code:</strong><span data-toggle="tooltip" title="Copy to Clipboard" id="address-zip" data-clipboard-text="{{ virtual_address.postcode }}">{{ virtual_address.postcode }}</span>
+                                                    <span class="copied" id="address-zip-action"></span><br/>
+                                                    <strong>Country:</strong><span data-toggle="tooltip" title="Copy to Clipboard" id="address-country" data-clipboard-text="{{ virtual_address.country }}">{{ virtual_address.country }}</span>
+                                                    <span class="copied" id="address-country-action"></span><br/>
+                                                    <strong>Phone number:</strong><span data-toggle="tooltip" title="Copy to Clipboard" id="address-phone" data-clipboard-text="{{ virtual_address.phone_number }}">{{ virtual_address.phone_number }}</span>
+                                                    <span class="copied" id="address-country-action"></span>
+                                                 {% endfor  %}
+                                            {% else %}
+                                                {% trans "An error occured, please contact customer support" %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="panel-item extra-services-panel" id="extra-services-tour">
+                            <div class="panel-header">
+                                <h3>{% trans "Order Extra Services in Advance" %}</h3>
+                                <span>
+                                    {% blocktrans %}
+                                        Get <strong>20%</strong> off standard rates
+                                    {% endblocktrans %}
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <form action="." method="post">
+                                    {% csrf_token %}
+                                    {% include "partials/form_fields.html" with extraclass='invisible' %}
+                                </form>
+                            </div>
+                            <div class="panel-footer two-buttons clearfix">
+                                <button class="btn-more-services">{% trans "SHOW MORE" %} <i class="fa fa-caret-down"></i></button>
+                                <button class="submit"><i class="fa fa-save"></i>{% trans "SAVE" %}</button>
+                            </div>
+                        </div>
+
+                        <div class="panel-item" id="address-book-tour">
+                            <div class="panel-header">
+                                <h3>{% trans "Address Book" %}</h3>
+                                <a href="{% url 'customer:address-create' %}" class="btn btn-default tooltip-social" type="button" data-toggle="tooltip" data-placement="bottom" title="{% trans "Add Address" %}"><i class="fa fa-plus-square"></i></a>
+                            </div>
+                            {% if addresses %}
+                                <div class="panel-body no-padding">
+                                    <div class="table-responsive">
+                                        <table class="table stat-table address-table">
+                                            <thead>
+                                                <tr>
+                                                    <td>{% trans "Address" %}</td>
+                                                    <td>{% trans "Type" %}</td>
+                                                    <td>{% trans "Action" %}</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for address in addresses %}
+                                                    <tr>
+                                                        <td>{{ address.summary }}</td>
+                                                        <td class="large-td">
+                                                            {% if address.is_merchant %}
+                                                                <span class="label red">{% trans "Merchant" %}</span>
+                                                            {% else %}
+                                                                <span class="label green">{% trans "Personal" %}</span>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td class="large-td">
+                                                            <div>
+                                                                <a href="{% url 'customer:address-detail' pk=address.id %}" class="tooltip-social" data-toggle="tooltip" data-placement="top" title="{% trans "Edit" %}"><span class="label label-primary"><i class="fa fa-pencil"></i></span></a>
+                                                                <a class="modalRemoteLoad tooltip-social" data-toggle="tooltip" data-placement="top" title="{% trans "Delete" %}" data-modal-name="deleteAddress{{ address.pk }}Modal" data-load-url="{% url "customer:address-delete" pk=address.pk %}"><span class="label red"><i class="fa fa-trash"></i></span></a>
+                                                                {% if not address.is_default_for_shipping %}
+                                                                    <a href="{% url 'customer:address-change-status' pk=address.id action='default_for_shipping' %}" class="tooltip-social" data-toggle="tooltip" data-placement="top" title="{% trans "Make Default" %}"><span class="label green"><i class="fa fa-bookmark"></i></span></a>
+                                                                {% else %}
+                                                                    <span class="label green tooltip-social" data-toggle="tooltip" data-placement="top" title="{% trans "Default Address" %}"><i class="fa fa-bookmark"></i></span>
+                                                                {% endif %}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="panel-footer clearfix">
+                                    <a href="{% url 'customer:address-list' %}"><i class="fa fa-eye"></i>{% trans "VIEW ALL ADDRESSES" %}</a>
+                                </div>
+                            {% else %}
+                                <div class="panel-body">
+                                    <p class="no-info">{% trans "Your address book is empty " %}</p>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="panel-item" id="order-history-tour">
+                            <div class="panel-header">
+                                <h3>{% trans "Order History" %}</h3>
+                            </div>
+                            {% if orders %}
+                                <div class="panel-body no-padding table-responsive">
+                                    <table class="table stat-table">
+                                        <thead>
+                                            <tr>
+                                                <td>{% trans "#Order" %}</td>
+                                                <td>{% trans "Total" %}</td>
+                                                <td>{% trans "Status" %}</td>
+                                                <td>{% trans "Date Submitted" %}</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for order in orders %}
+                                                <tr>
+                                                    <td><a href="{% url 'customer:order' order_number=order.number %}">{{ order.number }}</a></td>
+                                                    <td>{{ order.total_incl_tax|currency:order.currency }}</td>
+                                                    <td>
+                                                        {% render_order_status_label order.status %}
+                                                    </td>
+                                                    <td>{{ order.date_placed|date:"d M Y" }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="panel-footer clearfix">
+                                    <a href="{% url 'customer:order-list' %}"><i class="fa fa-eye"></i>{% trans "VIEW ALL ORDERS" %}</a>
+                                </div>
+                            {% else %}
+                                <div class="panel-body">
+                                    <p class="no-info">{% trans "You haven't placed any orders yet" %}</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {# Change password modal #}
+        <div class="modal modal-cp fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="passwordModalLabel">{% trans "Change Password" %}</h4>                        
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body" id="passwordModalBody"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-save modalFormSubmit">{% trans "Save" %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Change email address modal #}
+        <div class="modal modal-cp fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="settingsModalLabel">{% trans "Change Email Address" %}</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                <div class="modal-body" id="settingsModalBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-save modalFormSubmit">{% trans "Save" %}</button>
+                </div>
+             </div>
+            </div>
+        </div>
+
+        {# Tracking modal #}
+        <div class="modal modal-cp fade" id="trackModal" tabindex="-1" role="dialog" aria-labelledby="trackModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="trackModalLabel">{% trans "Automatic Package Tracking" %}</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body" id="trackModalBody"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-save modalFormSubmit">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+		
+		{# delete address modals #}
+		{% for address in addresses %}
+			{% include "customer/address/address_delete_modal.html" with address=address %}
+		{% endfor %}		
+
+        {# referral stats modal #}
+        <div class="modal modal-cp fade" id="referralStatsModal" tabindex="-1" role="dialog" aria-labelledby="trackModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="referralStatsModalLabel">{% trans "Referral Stats" %}</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body" id="referralStatsModalBody"></div>
+                </div>
+            </div>
+        </div>
+
+        {# onboarding modal #}
+        <div class="modal modal-cp fade contacts" id="onboardingModal" tabindex="-1" role="dialog" aria-labelledby=onboardingModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">{% trans "Welcome Video" %}</h2>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body contacts-body" id="onboardingModalBody">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="//www.youtube.com/embed/JqQIi_rzJXU?html5=1&rel=0&showinfo=0&autohide=1" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="modal-footer" id="onboardingModalFooter">
+                        <div class="modal-btns">
+                            <button type="button" data-dismiss="modal" class="btn btn-primary btn-save">{% trans "Close" %}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# package consolidation modal #}
+        <div class="modal modal-cp fade" id="packageConsolidationModal" tabindex="-1" role="dialog" aria-labelledby="packageConsolidationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="packageConsolidationModalLabel">{% trans "Package Consolidation" %}</h4>
+                    </div>
+                    <div class="modal-body" id="packageConsolidationModalBody">
+                        <div class="headline">
+                            <h3>
+                                {% blocktrans %}
+                                    Package Consolidation request has been successfully received.
+                                    We will notify you once your consolidated box is ready for delivery.
+                                {% endblocktrans %}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="modal-footer" id="packageConsolidationModalFooter">
+                        <div class="modal-btns">
+                            <button type="button" data-dismiss="modal" class="btn btn-primary">{% trans "GOT IT" %}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# extra services modal #}
+        <div class="modal modal-cp fade" id="extraServicesModal" tabindex="-1" role="dialog" aria-labelledby="extraServicesModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="extraServicesModalLabel">{% trans "Extra Services Order" %}</h4>
+                    </div>
+                    <div class="modal-body" id="extraServicesModalBody">
+                        <div class="headline">
+                            <h3>
+                                {% blocktrans %}
+                                    Extra Services order has been successfully received.
+                                    We will notify you once processing is complete.
+                                {% endblocktrans %}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="modal-footer" id="extraServicesModalFooter">
+                        <div class="modal-btns">
+                            <button type="button" data-dismiss="modal" class="btn btn-primary">{% trans "GOT IT" %}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# USendHome academy extra services modal #}
+        {% if service_name %}
+            <div class="modal modal-cp fade" id="academyExtraServicesModal" tabindex="-1" role="dialog" aria-labelledby="academyExtraServicesModal" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="academyExtraServicesModalLabel">Extra Service Order Received</h4>
+                        </div>
+                        <div class="modal-body" id="academyExtraServicesModalBody">
+                            <div class="headline">
+                                <h3 style="font-size: 18px; font-weight: 600; width: 100%;">
+                                    {% blocktrans %}
+                                        {{ service_name }} service has been successfully ordered
+                                    {% endblocktrans %}
+                                </h3>
+                            </div>
+                            <p>
+                                You can cancel the extra service order any time by disabling it in the "Order Extra Services
+                                In Advance" section below.
+                            </p>
+                            <p>
+                                Did you know? There's an option to order extra services for packages that are already in the warehouse
+                                by clicking on the "Extras" button that appears next to each incoming package.
+                            </p>
+                        </div>
+                        <div class="modal-footer" id="academyExtraServicesModalFooter">
+                            <div class="modal-btns">
+                                <button type="button" data-dismiss="modal" class="btn btn-primary">{% trans "GOT IT" %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if after_register and not hide_us_address %}
+            {# shipping regulations modal #}
+            <div class="modal modal-cp fade" id="shippingRegulationsModal" tabindex="-1" role="dialog" aria-labelledby=shippingRegulationsModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title">{% trans "So, You've Got a Shiny US Address, Now What?" %}</h2>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body" id="shippingRegulationsModalBody">
+                            <div class="headline">
+                                <p style="margin-bottom: 20px;">
+                                    {% blocktrans %}
+                                        We said that we've created a seamless package forwarding experience and now it's the perfect time
+                                        to stand behind our words.<br>
+                                        Check out the super simple forwarding process to get your purchases from the US delivered to you anywhere in the world.
+                                    {% endblocktrans %}
+                                </p>
+                            </div>
+                            <ul>
+                                <li>Copy your private US address that shows in your control panel</li>
+                                <li>Use the address you just copied as your shipping address to deliver packages to our facility</li>
+                                <li>Have fun and let us notify you once your package arrives (no need to take any action after you've sent tje package to us)</li>
+                                <li>Log into your control panel and release the package for delivery (only now we'll ask you to pay for our service)</li>
+                                <li>Mission Accomplished! Your package is on its way!</li>
+                            </ul>
+                            <p>
+                                If you're looking for a place to learn more about international shipping, check out the following FAQ we recommend reading:
+                            </p>
+                            <ul>
+                                <li><a href="{% url 'faq' 'shipping'%}#shipping-q15" target="_blank">Duty and import tax</a></li>
+                                <li><a href="{% url 'faq' 'shipping'%}#shipping-q1" target="_blank">Shipping package containing lithium battery</a></li>
+                                <li><a href="{% url 'faq' 'shipping'%}#shipping-q2" target="_blank">Prohibited items</a></li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer" id="shippingRegulationsModalFooter">
+                            <div class="modal-btns">
+                                <button type="button" data-dismiss="modal" class="btn btn-primary">{% trans "Got It" %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if show_exclusive_club_popup and not after_register and not hide_us_address %}
+            {# exclusive club modal #}
+            <div class="modal modal-cp fade" id="exclusiveClubModal" tabindex="-1" role="dialog" aria-labelledby=exclusiveClubModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title">{% trans "$7 off every order - only for our club with Purse.io" %}</h2>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body" id="exclusiveClubModalBody">
+                            <div class="headline">
+                                <p style="margin-bottom: 20px;">
+                                    {% blocktrans %}
+                                        USendHome is now integrated with the largest marketplace for Bitcoin! And we're excited to announce an exclusive club with Purse.io.
+                                    {% endblocktrans %}
+                                </p>
+                            </div>
+                            <p style="margin-bottom: 20px;">
+                                <strong>
+                                    As an exclusive treat for you, you'd get $5 off shipping and FREE express checkout service valued at $2 when you use Purse with USendHome.
+                                </strong>
+                            </p>
+                            <p>
+                                That's a total of $7 off every order. Only for members of this club!<br>
+                                <strong>You'll automatically see this discount applied at checkout.</strong>
+                            </p>
+                        </div>
+                        <div class="modal-footer" id="exclusiveClubModalFooter">
+                            <div class="modal-btns">
+                                <button type="button" data-dismiss="modal" class="btn btn-primary">{% trans "GOT IT" %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if hide_us_address and not operation_shut_down  %}
+            <div class="modal modal-cp fade" id="suspendedAddressModal" tabindex="-1" role="dialog" aria-labelledby="suspendedAddressModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" style="font-weight: 800" id="suspendedAddressModalLabel">{% trans "Service Announcement" %}</h4>
+                        </div>
+                        <div class="modal-body" id="suspendedAddressModalBody">
+                            <div class="headline">
+                                <p>
+                                    Today we’re announcing that after 3 years of helping people ship their packages globally, we will be shutting down USendHome on September 10, 2018.
+                                    We’re proud of the service we were able to provide to foreign shoppers around the world.
+                                </p>
+                                <p>
+                                    As you probably know we worked very hard to lower our shipping rates and improve handling time by moving to a new and larger facility.
+                                    Unfortunately, this came up short and we're forced to terminated our current contract.
+                                </p>
+                                <p>
+                                    We want to make this transition as smooth as possible for everyone who uses USendHome.
+                                    Here is a summary of what you need to know:
+                                </p>
+                                    <ul>
+                                        <li><strong>US Address Suspended:</strong> Saturday August 25, 2018</li>
+                                        <li><strong>Last Day for New Packages:</strong> Friday August 31, 2018</li>
+                                        <li><strong>Last Day to Ship:</strong> Monday September 10, 2018</li>
+                                    </ul>
+                                <p>
+                                    And here is the long version with all the details:
+                                </p>
+                                <ul>
+                                    <li>
+                                        Our US facility will not accept any new packages from US merchants after August 31, 2018.
+                                        Packages delivered after this time will be rejected and returned to the sender.
+                                        This means that you need to place any new US orders by August 26, 2018 in order to allow sufficient time for them to be delivered
+                                        by the cut-off date of August 31, 2018.
+                                    </li>
+                                    <li>
+                                        You must ship all existing packages in your US suite account by September 10, 2018. To ease shipping, we are providing
+                                        a promotional code for existing packages at the US Facility. Use <strong>CLEARSUITE</strong> at checkout
+                                        to receive $5 off shipping charges for every shipment.
+                                    </li>
+                                    <li><strong>
+                                        If any items are left in your US suite after September 10, 2018, they will be treated as abandoned goods according to the following modification of USendHome's established policy:
+                                        <ul>
+                                            <li>Any package for which you have not given us shipping instructions by September 10, 2018 will be deemed abandoned, and we may dispose of it in any manner permitted by law.</li>
+                                            <li>
+                                                Should you determine that you no longer wish to ship items stored in your suite, for whatever reason, you are entitled to request their disposal. Where products can be returned to the merchant, USendHome will arrange this at your cost. Any correspondence with the merchant must be conducted by you.
+                                                If the products cannot be returned to the merchant, USendHome will arrange disposal.
+                                            </li>
+                                        </ul>
+                                    </strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-footer" id=suspendedAddressModalLabelFooter">
+                            <div class="modal-btns">
+                                <button type="button" data-dismiss="modal" class="btn btn-primary">{% trans "Got It" %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% comment %}
+            <!-- Modal -->
+            <div class="modal fade" id="closeAccountModal" tabindex="-1" role="dialog" aria-labelledby="CloseAccountModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="CloseAccountModalLabel">{% trans "Close account" %}</h4>
+                  </div>
+                  <div class="modal-body">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">{% trans "No - Get me back to safety" %}</button>
+                    <a href="{% url 'customer:close-account' %}" class="btn btn-danger close-account-button pull-right">{% trans 'Yes :(' %}</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+       {% endcomment %}
+    </section>
+
+    {% if operation_shut_down  %}
+        <div class="modal modal-cp fade" id="operationShutdownModal" tabindex="-1" role="dialog" aria-labelledby="operationShutdownModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" style="font-weight: 800" id="operationShutdownModalLabel">{% trans "USendHome Service is No Longer Available :(" %}</h4>
+                    </div>
+                    <div class="modal-body" id="operationShutdownModalBody">
+                        <div class="headline">
+                            <p>
+                                September 10, 2018 was the last day to ship out packages from our facility.
+                                Any items that left in your suite after September 10, 2018 were treated as abandoned goods according to the following modification
+                                of USendHome's established policy:
+                            </p>
+                            <ul>
+                                <li><strong>Any package for which you have not given us shipping instructions by September 10, 2018 will be deemed abandoned, and we may dispose of it in any manner permitted by law.</strong></li>
+                                <li><strong>
+                                    Should you determine that you no longer wish to ship items stored in your suite, for whatever reason, you are entitled to request their disposal. Where products can be returned to the merchant, USendHome will arrange this at your cost. Any correspondence with the merchant must be conducted by you.
+                                    If the products cannot be returned to the merchant, USendHome will arrange disposal.
+                                </strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer" id="operationShutdownModalFooter">
+                        <div class="modal-btns">
+                            <button type="button" id="operationShutdownModalButton" class="btn btn-primary">{% trans "Got it" %}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.profile.init();
+    {% comment %}
+        {% if not service_name and not after_register and request|is_pc and not tour_played %}
+            usendhome.profile.initTour();
+        {% endif %}
+    {% endcomment %}
+    {% if service_name %}
+        $('#academyExtraServicesModal').modal('show');
+    {% endif %}
+    {% if after_register and not hide_us_address and not tour_played and request|is_pc %}
+        usendhome.profile.initTour();
+    {% endif %}
+    {% if operation_shut_down %}
+        var $page_inner = $('.page_inner');
+        $('#operationShutdownModal').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+        });
+        $page_inner.on('click', '#operationShutdownModalButton', function(e) {
+            window.location = '/accounts/logout/';
+        });
+    {% endif %}
+    {% if hide_us_address and not operation_shut_down %}
+        $('#suspendedAddressModal').modal('show');
+    {% endif %}
+{% endblock %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "usendhome/assets/bootstrap-tour/bootstrap-tour.min.css" %}" type="text/css" />
+{% endblock %}
+
+{% block extrascripts %}
+    {{ block.super }}
+    {# Add MaxMind device tracking javascript code to detect proxy usage on main control panel page #}
+    {% include "partials/maxmind_device_tracking.html" %}
+    <script src="{% static "usendhome/assets/jquery-circle-progress/dist/circle-progress.js" %}"></script>
+    <script src="{% static "usendhome/assets/bootstrap-tour/bootstrap-tour.min.js" %}"></script>
+    <script src="{% static "usendhome/assets/clipboard/clipboard.min.js" %}"></script>
+{% endblock %}
+
+{% block tracking %}
+    {{ block.super }}
+    {% if after_register and not debug %}
+        <div style="display: none">
+            <!-- Google Code for Registration Second Step Conversion Page -->
+            <script type="text/javascript">
+                /* <![CDATA[ */
+                var google_conversion_id = 953470795;
+                var google_conversion_language = "en";
+                var google_conversion_format = "3";
+                var google_conversion_color = "ffffff";
+                var google_conversion_label = "q6LOCOnr8GYQy57TxgM";
+                var google_remarketing_only = false;
+                /* ]]> */
+            </script>
+            <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+            </script>
+            <noscript>
+                <div style="display:inline;">
+                    <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/953470795/?label=q6LOCOnr8GYQy57TxgM&amp;guid=ON&amp;script=0"/>
+                </div>
+            </noscript>
+        </div>
+    {% endif %}
+{% endblock %}

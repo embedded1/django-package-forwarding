@@ -1,0 +1,135 @@
+{% extends "calculators/calculator.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load user_agents %}
+
+{% block extrahead %}
+    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/cajhcjefikhfeodofkmpcnecklngmeln">
+{% endblock %}
+
+{% block promo-messages %}
+    <div class="container">
+        <div id="promo-messages">
+            <div class="alert alert-safe alert-noicon alert-info fade in">
+                <h1>{% trans "Amazon Shipping Calculator" %}</h1>
+                <p>
+                    {% blocktrans %}
+                        Calculate shipping costs for items purchased through Amazon in the USA in 1 click
+                    {% endblocktrans %}
+                </p>
+                {% comment %}
+                <p class="hidden-sm hidden-xs">
+                    {% blocktrans %}
+                        No need to guess package dimensions, enter item URL and let us do the hard work for you
+                    {% endblocktrans %}
+                </p>
+                {% endcomment %}
+                <p class="hidden-sm hidden-xs">
+                    {% if not request.session.added_chrome_extension and not user.get_profile.added_chrome_extension and request|is_pc %}
+                        <button class="chrome-ext" id="add-to-chrome">{% trans "Add to Chrome" %}</button> {% trans "USendHome's extension that finds the optimal shipping solution for all Amazon items in your cart" %}.
+                    {% else %}
+                            <button disabled class="chrome-ext">{% trans "Add to Chrome" %}</button> {% trans "USendHome's extension that finds the optimal shipping solution for all Amazon items in your cart" %}.
+                    {% endif %}
+                </p>
+
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'customer:register' %}" class='btn btn-info'>{% trans "GET YOUR FREE US ADDRESS NOW" %}</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+	{% trans 'Calculate International Shipping Costs from Amazon in The USA' %}
+{% endblock %}
+
+{% block description %}
+	{% trans "Calculate exact shipping costs of your Amazon order with our Amazon shipping calculator that helps you in finding the shipping rates in 1 click." %}
+{% endblock %}
+
+{% block calculator_form %}
+    <form id="amazon-calc" action="{% url 'calculators:amazon' %}" method="post">
+        {% include "calculators/partials/amazon_calculator_form.html" %}
+    </form>
+    {# exit modal #}
+    {% if not request.session.added_chrome_extension and not user.get_profile.added_chrome_extension and request|is_pc %}
+        {% include "partials/amazon_app_modal.html" %}
+    {% endif %}
+{% endblock calculator_form %}
+
+{% block calculator-faq %}
+	{% url "calculators:package" as package_calculator_url %}
+	{% url "calculators:amazon" as amazon_calculator_url %}
+    <h2>{% trans "Amazon Shipping Calculator Frequently Asked Questions" %}</h2>
+	<div class="row">
+		<div class="col-md-4">
+			<h3>{% trans "Amazon shipped my items separately, can you ship them in 1 shipment?" %}</h3>
+            {% url 'faq' 'tutorials' as tut %}
+			<p>
+				{% blocktrans %}
+					Sure, USendHome package consolidation service answers such need.
+					Just let us know what items to merge through your control panel and we will find the most appropriate
+                    box to fit them all.
+					Follow along with the <a href="{{ tut }}#tutorial-q4">package consolidation tutorial</a> to get you started quickly.
+				{% endblocktrans %}
+			</p>
+		</div>	
+		<div class="col-md-4">
+			<h3>{% trans "Will I have to pay sales tax if I send my item to your warehouse?" %}</h3>
+			<p>
+				{% blocktrans %}
+					It depends on so many complicated conditions, the easiest way to determine if sales tax will be applied to your order
+					is to use your USendHome address at checkout then just proceed to the final step just before payment and there you will reveal this great mystery.
+				{% endblocktrans %}
+			</p>
+		</div>
+		<div class="col-md-4">
+			<h3>{% trans "Are there any items you can't ship internationally?" %}</h3>
+			<p>
+                {% url 'faq' 'shipping' as pro_url %}
+				{% blocktrans %}
+					Yes, there are prohibited items that can't be shipped internationally, make sure to review this
+                    <a href="{{ pro_url }}#shipping-q8">question</a> before you deliver any order to your USendHome address.
+                    Please note that restricted items must be returned back to the sender.
+				{% endblocktrans %}
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<h3>{% trans "I don't see any shipping methods for my item, will I be able to ship it anyway?" %}</h3>
+			<p>
+				{% blocktrans %}
+					This usually happens when we couldn't get the required data from Amazon.
+                    You can get the dimensions and weight of your item directly from the seller and then just
+                    run this data through the <a href="{{ package_calculator_url }}">package calculator</a> to find matching methods.
+					Don't ship any item to your USendHome address before you verify that it can be forwarded to your address.
+				{% endblocktrans %}
+			</p>
+		</div>
+		<div class="col-md-4">
+			<h3>{% trans "Can I calculate the shipping costs for Amazon items without leaving Amazon's website?" %}</h3>
+			<p>
+                {% url "chrome-ext" as amazon_app_url %}
+				{% blocktrans %}
+					Yes, this cool feature is now available!
+					The app finds available shipping methods for all items in your Amazon shopping cart and it does it with a single click
+                    while you navigate through Amazon website.
+                    The days where you had to toggle between multiple tabs are finally over!
+                    Click <a href="{{ amazon_app_url }}">here</a> to see how this magic works.
+				{% endblocktrans %}
+			</p>
+		</div>
+		<div class="col-md-4">
+			<h3>{% trans "Amazon suggested a slightly different address than my USendHome address at checkout, which address should I choose?" %}</h3>
+			<p>
+				{% blocktrans %}
+					Using both addresses will end up your item in our warehouse.
+                    Pick the shortest one and don't forget to include your private USendHome mailbox
+                    so we could update the package in your control panel quickly.
+				{% endblocktrans %}
+			</p>
+		</div>
+	</div>
+{% endblock %}

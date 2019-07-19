@@ -1,0 +1,47 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Amazon Worldwide Shipping Feedback" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Amazon Worldwide Shipping Feedback" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    {% blocktrans %}Hello {{ full_name }},{% endblocktrans %}
+</p>
+
+<p>
+    {% blocktrans %}
+        I'm so thrilled that you have added the Amazon Worldwide shipping tool to Chrome.
+    {% endblocktrans %}
+</p>
+
+<p>
+    {% blocktrans %}
+        I really hope the tool saves you both money and time when you shop at Amazon.com
+        We're always looking for ways to improve, so feel free to share your thoughts with us by replying to this email.
+        We promise not to bite :)
+    {% endblocktrans %}
+</p>
+<p>
+    {% blocktrans %}
+        If you have a few moments, we'd be really grateful if you could post a quick review so that others can
+        benefit from your experience. As a growing business, we know how scarce time can be, so we especially appreciate
+        your time and input.
+    {% endblocktrans %}
+</p>
+<p>
+    <a href="https://chrome.google.com/webstore/detail/amazon-worldwide-shipping/cajhcjefikhfeodofkmpcnecklngmeln/reviews" target="_blank" style="display:inline-block;background:#337ab7;padding:10px 15px;color:white;text-decoration:none;border-radius:3px;margin:10px 0;">{% trans "Post Review" %}</a>
+</p>
+{% endblock %}
+
+{% block footer %}
+    <p style="margin-top:20px">
+        {% trans "Cheers," %}<br/>
+        {% trans "Leo Jones | USendHome Co-founder " %}
+    </p>
+{% endblock %}

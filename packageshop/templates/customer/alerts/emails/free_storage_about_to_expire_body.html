@@ -1,0 +1,39 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome Free Storage Runs Out" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Your Free Storage Runs Out" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    {% if days_left == 0 %}
+        {% blocktrans with id=package.upc %}
+            Your free package storage duration for package #{{ id }} is about to expire today.
+            Hurry up and release your package to avoid paying extra fees.
+        {% endblocktrans %}
+    {% else %}
+        {% blocktrans with id=package.upc count days=days_left %}
+            Your free storage duration for package #{{ id }} is about to expire in 1 day.
+            Hurry up and release your package to avoid paying extra fees.
+        {% plural %}
+            Your free storage duration for package #{{ id }} is about to expire in {{ days }} days.
+            Hurry up and release your package to avoid paying extra fees.
+        {% endblocktrans %}
+    {% endif %}
+</p>
+<p>
+    {% blocktrans %}
+		Click on the button below to get your package released for delivery today:
+    {% endblocktrans %}
+</p>
+<p>
+    {% render_email_button "customer:pending-packages" "View Packages" %}
+</p>
+{% endblock %}

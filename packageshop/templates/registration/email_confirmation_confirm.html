@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+{% load url from future %}
+{% load i18n %}
+
+
+{% block title %}
+    {{ block.super }} {% trans 'Email Confirmation' %}
+{% endblock %}
+
+
+{% block content %}
+    <section class="main-wrapper grey-wrapper">
+        <div class="container">
+            <div class="email-confirm">
+                {% if validlink %}
+                    <h3>{% trans 'Email Confirmation Completed Successfully' %}</h3>
+                    <p>{% trans "Your email address has been confirmed." %}<br/>
+                    {% trans "You may log-in into your control panel and release your packages for delivery." %}</p>
+                    <a href="{% url "customer:profile-view" %}" class="btn btn-primary">{% trans 'Manage Packages' %}</a>
+                {% else %}
+                    <h3>{% trans 'Email Confirmation Unsuccessful' %}</h3>
+                    <p>{% trans "The email confirmation link was invalid, possibly because it has already been used." %}<br/>
+                    {% trans "Please log-in into your control panel and request a new email confirmation." %}</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block tracking %}
+    {{ block.super }}
+    {% if validlink and not debug %}
+        <div style="display: none">
+            <!-- Google Code for email confim Conversion Page -->
+            <script type="text/javascript">
+                /* <![CDATA[ */
+                var google_conversion_id = 953470795;
+                var google_conversion_language = "en";
+                var google_conversion_format = "3";
+                var google_conversion_color = "ffffff";
+                var google_conversion_label = "Z-yECPnIo2cQy57TxgM";
+                var google_remarketing_only = false;
+            /* ]]> */
+            </script>
+            <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+            </script>
+            <noscript>
+                <div style="display:inline;">
+                <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/953470795/?label=Z-yECPnIo2cQy57TxgM&amp;guid=ON&amp;script=0"/>
+                </div>
+            </noscript>
+        </div>
+    {% endif %}
+{% endblock %}
+

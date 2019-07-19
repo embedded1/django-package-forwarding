@@ -1,0 +1,58 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome Account Setup" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "USendHome Account Setup" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    {% blocktrans with name=user.first_name|title %}
+        Hey {{ name }},
+    {% endblocktrans %}
+</p>
+
+{% if issuer == 'purse' %}
+    {% blocktrans %}
+        <p>Thanks for your interesting in shipment forwarding on Purse.io with USendHome.</p>
+        <p>
+            We see you created an address, but have yet to finish the sign-up process.
+            Did you know once you're signed up, you can order from Amazon from almost anywhere in the world thanks to USendHome and Purse?
+        </p>
+        <p>
+            Finish the sign-up process and start ordering online without limits, and have your goods shipped to you anywhere on the globe.
+        </p>
+    {% endblocktrans %}
+{% else %}
+    {% blocktrans %}
+        <p>Thanks for your interesting in shipment forwarding with USendHome.</p>
+        <p>
+            We see you created an address, but have yet to finish the sign-up process.
+            Did you know once you're signed up, you can order from Amazon from almost anywhere in the world thanks to USendHome?
+        </p>
+        <p>
+            Finish the sign-up process and start ordering online without limits, and have your goods shipped to you anywhere on the globe.
+        </p>
+    {% endblocktrans %}
+{% endif %}
+
+{% if issuer == 'purse' %}
+    {% blocktrans %}
+        <p>
+            Here's a link to Purse.io support page just in case you get lost:
+            <a href="https://support.purse.io/general-questions/forward-shipments-usendhome/" target="_blank">https://support.purse.io/general-questions/forward-shipments-usendhome/</a>
+        </p>
+    {% endblocktrans %}
+{% endif %}
+
+<p>
+    {% render_email_button complete_registration_url "Finish the Signup Process" %}
+</p>
+
+{% endblock %}
+

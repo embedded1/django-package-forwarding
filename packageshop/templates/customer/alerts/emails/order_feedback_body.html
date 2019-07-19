@@ -1,0 +1,59 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome Order Feedback" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Order Feedback" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    {% blocktrans %}Hello {{ full_name }},{% endblocktrans %}
+</p>
+
+{% if order_delivered %}
+    <p>
+        {% blocktrans %}
+            We're so thrilled that you have received your recent USendHome delivery and hopefully,
+            you're really pleased with it.
+        {% endblocktrans %}
+    </p>
+{% else %}
+    <p>
+        {% blocktrans %}
+            By now you should have received your recent USendHome delivery and hopefully,
+            you're really pleased with it.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+            If it hasn't yet arrived, please follow this link for help:<br/>
+            <a href="{{ site }}{{ contact_url }}" target="_blank">{{ site }}{{ contact_url }}</a>
+        {% endblocktrans %}
+    </p>
+{% endif %}
+<p>
+    {% blocktrans %}
+        We really hope you're happy with your new items. But there's only one way to find out for sure -
+        and that's to ask for your feedback.
+    {% endblocktrans %}
+</p>
+<p>
+    {% blocktrans %}
+        If you have a few moments, we'd be really grateful if you could answer 3 very quick questions
+        about your experience with us, so that we can keep improving the USendHome experience for everyone.
+    {% endblocktrans %}
+</p>
+<p>
+    {% blocktrans %}
+        Just click on the button below to get started:
+    {% endblocktrans %}
+</p>
+<p>
+    {% render_email_button survey_url "Give Feedback" %}
+</p>
+{% endblock %}

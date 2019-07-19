@@ -1,0 +1,32 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}
+    {% blocktrans with name=customer.get_full_name|title %}
+        Hello {{ name }},
+        USendHome is in a process of moving to a new and larger facility that can safely store the huge number of
+        packages we receive each day.
+        The new facility is equipped with a state-of-the-art logistics services which will speed up
+        the package processing and dispatching operations.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        In addition, new and more affordable shipping rates are coming and will be available
+        at the new facility so don't forget to get your shopping lists ready!
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        We'll notify you once your personal US address at the new facility is up and ready to receive your goods.
+        We promise a quick and smooth move!
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        In the meanwhile, please don't deliver new orders to our current facility to help us with the transition.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+       We apologize for any inconvenience or delays this process may have caused you and thank you for your cooperation.
+    {% endblocktrans %}
+
+{% endblock %}
+

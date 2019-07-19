@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load staticfiles %}
+
+{% block page_inner_class %}referral-program{% endblock %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block title %}
+    {% trans "Earn money just by referring people - USendHome Referral Program" %}
+{% endblock %}
+
+{% block description %}
+	{% trans "Signup now for Usendhome referral program and earn instant profits on referring someone to our package forwarding service from USA. Easy to start with great payouts." %}
+{% endblock %}
+
+{% block content %}
+    <section id="section-ref-1">
+        <div class="container">
+            <div class="text-center">
+                <h1>{% trans "USendHome Referral Program" %}</h1>
+                <p class="lead">{% trans "Nobody can tell the USendHome story better than our customers" %}</p>
+                <p class="lead">{% trans "Give your friends $5 in shipping credit and get $5 for each one that signs up" %}</p>
+                {% if user.is_authnticated %}
+				    <a href="{% url 'customer:referrals-index' %}" class="btn btn-primary btn-lg">{% trans "Get Your Referral Link" %}</a>
+                {% else %}
+                    <a href="{% url 'customer:register' %}" class="btn btn-primary btn-lg">{% trans "Get Your Referral Link" %}</a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <section id="section-ref-2">
+        <div class="container">
+            <div class="row text-center">
+                <h2>{% trans "How it Works" %}</h2>
+                <div class="col-sm-4 section-2-icon">
+                    <img src="{% static "usendhome/images/referral_program/invite.png" %}" alt="Invite Friends to USendHome" class="img img-responsive hidden-xs" style="width: 230px;">
+                    <div class="text">
+                        <p>{% trans "Spread the word about USendHome to your friends." %}</p>
+                        <a href="{% url 'faq' 'referral-program' %}" class="more">{% trans "Read More" %}</a>
+                    </div>
+                </div>
+                <div class="col-sm-4 section-2-icon">
+                    <img src="{% static "usendhome/images/referral_program/register.png" %}" alt="Friend Opens a USendHome Account" class="img img-responsive hidden-xs" style="width: 230px;">
+                    <div class="text">
+                        <p>{% trans "Your friend signs up and receives $5 in shipping credit." %}</p>
+                        <a href="{% url 'faq' 'referral-program' %}" class="more">{% trans "Read More" %}</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <img src="{% static "usendhome/images/referral_program/credit.png" %}" alt="You Get Shipping Credit" class="img img-responsive hidden-xs" style="width: 230px;">
+                    <div class="text">
+                        <p>{% trans "You receive $5 after your friend delivers his first package." %}</p>
+                        <a href="{% url 'faq' 'referral-program' %}" class="more">{% trans "Read More" %}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-ref-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p>{% trans "Sign up to get a unique referral link" %}</p>
+                </div>
+
+				<div class="col-xs-12 get-started">
+                    <a href="{% url 'customer:register' %}" class="btn btn-success btn-started">{% trans "Get Started Now" %}</a>
+                    <p><a href="{% url 'customer:referrals-index' %}" rel="nofollow" class="link">{% trans "or log in to access referral program settings" %}</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

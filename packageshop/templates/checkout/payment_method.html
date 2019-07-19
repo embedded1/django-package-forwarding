@@ -1,0 +1,107 @@
+{% extends "checkout/checkout.html" %}
+{% load i18n %}
+{% load currency_filters %}
+{% load url from future %}
+
+{% block title %}
+	{{ block.super }} {% trans "Payment" %}
+{% endblock %}
+
+{% block checkout_nav %}
+    {% include 'checkout/nav.html' with step=4 %}
+{% endblock %}
+
+{% block step_description %}
+	<h2>{% trans "4. Payment" %}</h2>
+{% endblock %}
+
+{% block order_contents %}
+<div class="row">
+    <div class="col-md-12">
+        <table class="table" style="margin-top: 40px; margin-bottom: 40px;">
+            <thead>
+                <tr>
+                    <td>{% trans "Description" %}</td>
+                    <td>{% trans "Quantity" %}</td>
+                    <td>{% trans "Price" %}</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for line in basket.all_lines %}
+                    <tr>
+                        <td>{{ line.description }}</td>
+                        <td>{{ line.quantity }}</td>
+                        <td>{{ line.line_price_excl_tax|currency:basket.currency }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% include 'basket/partials/basket_totals.html' with show_voucher_form=1 %}
+
+{% endblock order_contents %}
+
+{% block payment_method %}
+<div class="checkout-payment-options">
+    <div class="row">
+        <div class="col-sm-offset-4 col-sm-4">
+            <form method="post" action="{% url 'paypal-redirect' %}">
+                {% csrf_token %}
+                <input type="hidden" name="client-id">
+                <button type="submit" class="btn btn-primary btn-paypal" data-loading-text="Please Wait..."><i class="fa fa-paypal" aria-hidden="true"></i>{% trans "Pay with PayPal / Credit Card" %}</button>
+            </form>
+        </div>
+        <div class="col-sm-offset-4 col-sm-4">
+            <form method="post" action="{% if use_bitcoinpay %}{% url 'bitcoinpay-redirect' %}{% else %}{% url 'bitcoin-redirect' %}{% endif %}">
+                {% csrf_token %}
+                <input type="hidden" name="client-id">
+                <button type="submit" class="btn btn-primary btn-paypal" data-loading-text="Please Wait..."><i class="fa fa-btc" aria-hidden="true"></i>{% trans "Pay with Bitcoin" %}</button>
+                {% comment %}
+                <div class="tooltip-wrapper disabled" data-toggle="tooltip" data-placement="top" data-title="{% trans "Bitcoin payment option is temporarily disabled. Extra storage fees will be waived during down time." %}">
+                    <button type="submit" disabled="disabled" class="btn btn-primary btn-paypal" data-loading-text="Please Wait..."><i class="fa fa-btc" aria-hidden="true"></i>{% trans "Pay with Bitcoin" %}</button>
+                </div>
+                {% endcomment %}
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if not is_return %}
+    <div class="modal modal-cp fade" id="customsDutiesModal" tabindex="-1" role="dialog" aria-labelledby="customsDutiesModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="customsDutiesModalLabel">{% trans "Important Notice" %}</h4>
+                </div>
+                <div class="modal-body" id="customsDutiesModalBody">
+                    <div class="headline">
+                        <p>
+                            We wanted to let you know that at the moment USendHome international shipping rates <strong>DON'T</strong> include customs duties, taxes or any other fee besides postage.
+                            USendHome has no control over those charges and they are the sole responsibility of the customer and such will be collected by the shipping carrier if required by law.
+                        </p>
+                        <p><strong>
+                            The good news is that we're working hard on providing end-to-end cross-border solution that will show one total price
+                            for getting any item from the US straight to your doorstep including all fees along the way.
+                            We will let you now once we get this cool feature up and running so stay tuned.
+                        </strong></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-btns">
+                        <button type="button" data-dismiss="modal" class="btn btn-primary btn-save">Got it, thanks</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.voucher.init();
+    usendhome.payment_method.init();
+{% endblock onbodyload %}

@@ -1,0 +1,18 @@
+{% load url from future %}
+
+<div class="delete-address">
+	{% for field in object.full_address_format %}
+		<p>
+			{% if forloop.first %}
+				<strong>{{ field|title }}<br></strong>
+			{% else %}
+				{{ field|title }}<br>
+			{% endif %}
+		</p>
+	{% endfor %}
+        
+	<form method="post" action="{% url 'customer:address-delete' pk=pk %}">
+		{% csrf_token %}
+        <input type="hidden" name="redirect_url" value="{% url 'customer:profile-view' %}">
+	</form>    
+</div>

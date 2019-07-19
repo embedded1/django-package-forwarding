@@ -1,0 +1,173 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load staticfiles %}
+{% load user_agents %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+					<ol class="breadcrumb">
+						<li><a href="{% url 'promotions:home' %}"><i class="fa fa-home"></i>{% trans "Home" %}</a></li>
+						<li><a href="{% url 'customer:profile-view' %}">{% trans "Control Panel" %}</a></li>
+						<li class="active">{% trans "Referrals" %}</li>
+					</ol>
+                    <h3 class="heading">{% trans "Referrals" %}</h3>
+                </div>
+				<div class="col-md-9">
+					<section class="wblock">
+                        <h2>{% trans "Give $5, Get $5" %}</h2>
+                        <p>
+                            {% blocktrans %}
+                                Everyone you refer gets $5 in credit. Once they’ve delivered a package with us, you'll get $5.<br/>
+                                There is no limit to the amount of credit you can earn through referrals.
+                            {% endblocktrans %}
+                        </p>
+                    </section>
+                    <section class="wblock contacts-import">
+                        <h2>{% trans "Refer By Email" %}</h2>
+                        {% if request|is_pc %}
+                            <p>{% trans "Import your contacts from Gmail – or enter your contacts manually – and we’ll invite them for you." %}</p>
+                            <div class="row btn-block">
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-primary btn-block" id="invite-google-contacts" {% if request.GET.show_contacts %}data-show-contacts="true"{% endif %} data-load-url="{% url "contacts:google-invite" %}">{% trans "Invite Gmail Contacts" %}</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <a class="btn btn-default btn-block modalRemoteLoad" data-modal-name="friendsModal" data-load-url="{% url "contacts:friends-invite" %}">{% trans "Enter Contacts Manually" %}</a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <p>{% trans "Import your contacts from Gmail - and we’ll invite them for you." %}</p>
+                            <div class="row btn-block">
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-primary btn-block" id="invite-google-contacts" {% if request.GET.show_contacts %}data-show-contacts="true"{% endif %} data-load-url="{% url "contacts:google-invite" %}">{% trans "Invite Gmail Contacts" %}</button>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </section>
+
+                    <section class="wblock contacts-send">
+                        <h2>{% trans "Share Your Referral Link" %}</h2>
+                        <p>{% trans "Copy your personal referral link and share it with your friends and followers." %}</p>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <label>{% trans "Referral Link" %}</label>
+                                <div class="referral-link-input">
+                                    <input class="form-control" data-toggle="tooltip" title="Copy to Clipboard" id="copy-referral-link" placeholder="Your Referral Link" readonly="readonly" data-clipboard-text="{{ referral_link }}" value="{{ referral_link }}" type="text">
+                                    <span class="copied" id="copy-referral-action"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label>{% trans "Share Via" %}</label>
+                                <a id="twitter-share" href="https://twitter.com/intent/tweet?text={{ twitter_referral_share_text|urlencode }}" class="btn btn-info btn-block" target="_blank" title="Share on Twitter">Twitter</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="wblock ref-stats">
+                        <h2>{% trans "Referrals Stats" %}</h2>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><h6 class="u-mb-0">{% trans "CLICKS" %}</h6></td>
+                                    <td>{% trans "Number of times your link has been clicked" %}</td>
+                                    <td>{{ link_clicked_count }}</td>
+                                </tr>
+                                <tr>
+                                    <td><h6 class="u-mb-0">{% trans "REFERRALS" %}</h6></td>
+                                    <td>{% trans "People who have signed up using your link" %}</td>
+                                    <td>{{ link_signed_up_count }}</td>
+                                </tr>
+                                <tr>
+                                    <td><h6 class="u-mb-0">{% trans "PENDING" %}</h6></td>
+                                    <td>{% trans "Amount you stand to earn when your referrals have delivered a package" %}</td>
+                                    <td>${{ future_package_delivery_credit }}</td>
+                                </tr>
+                                <tr>
+                                    <td><h6 class="u-mb-0">{% trans "EARNED" %}</h6></td>
+                                    <td>{% trans "Amount that has already been applied to your account" %}</td>
+                                    <td>${{ total_unredeemed_credit }}</td>
+                                </tr>
+                                <tr>
+                                    <td><h6 class="u-mb-0">{% trans "REDEEMED" %}</h6></td>
+                                    <td>{% trans "Amount that has already been redeemed" %}</td>
+                                    <td>${{ total_redeemed_credit }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb30">
+                        <p class="small-dark">{% trans "Please note: Bidding on branded keywords which include 'usendhome' for ads is prohibited." %}</p>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal modal-cp fade contacts" id="googleContactsModal" tabindex="-1" role="dialog" aria-labelledby="googleContactsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="googleContactsModal">{% trans "Invite Your Gmail Contacts" %}</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body gcontacts-body" id="googleContactsModalBody">
+                    <div class="headline">
+                        <h3>{% trans "Just click on the contacts you’d like to send a $5 shipping credit to." %}</h3>
+                    </div>
+                    <div class="loading"></div>
+                    <div id="google-contacts"></div>
+                </div>
+                <div class="modal-footer">
+                    <p class="potential"><span class="potential-amount">$<span id="google-contacts-potential-credit">0</span></span> {% trans "in potential shipping credit" %}</p>
+                    <div class="modal-btns">
+                        <button type="button" disabled class="btn btn-primary btn-save btn-invite modalFormSubmit">{% trans "Send" %} <span id="google-contacts-invites">0</span> {% trans "Invites" %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-cp fade contacts" id="friendsModal" tabindex="-1" role="dialog" aria-labelledby=friendsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="friendsModal">{% trans "Invite Your Friends" %}</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body contacts-body" id="friendsModalBody"></div>
+                <div class="modal-footer" id="friendsModalFooter">
+                    <p class="potential"><span class="potential-amount">$<span id="friends-potential-credit">0</span></span> {% trans "in potential shipping credit" %}</p>
+                    <div class="modal-btns">
+                        <button type="button" disabled class="btn btn-primary btn-save btn-invite" id="friendsModalSubmit">{% trans "Send" %} <span id="friends-invites">0</span> {% trans "Invites" %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.referrals.init();
+{% endblock %}
+
+{% block extrascripts %}
+    {{ block.super }}
+    <script src="{% static "usendhome/assets/spin/spin.min.js" %}"></script>
+    <script src="{% static "usendhome/assets/jquery-ui-1.11.2.custom/jquery-ui.min.js" %}"></script>
+    <script src="{% static "usendhome/assets/jQuery-Tag-This/jquery.tagthis.min.js" %}"></script>
+    <script src="{% static "usendhome/assets/clipboard/clipboard.min.js" %}"></script>
+    <script src="{% static "usendhome/assets/hideseek/jquery.hideseek.min.js" %}"></script>
+{% endblock %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "usendhome/assets/jQuery-Tag-This/jquery-tag-this.min.css" %}" type="text/css" />
+    <link rel="stylesheet" href="{% static "usendhome/assets/jquery-ui-1.11.2.custom/jquery-ui.min.css" %}" type="text/css" />
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "403.html" %}
+{% load i18n %}
+
+{% block error_message %}
+    <p>
+		{% url "promotions:home" as home %}
+		{% blocktrans %}
+			This page is only available to users who aren't logged in.<br/>
+			Please log out and try again. <a href="{{ home }}">Return Home</a>
+		{% endblocktrans %}
+    </p>
+{% endblock %}

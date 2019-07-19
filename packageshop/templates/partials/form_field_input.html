@@ -1,0 +1,40 @@
+{% load form_tags %}
+{% load widget_tweaks %}
+{% load i18n %}
+
+{% annotate_form_field field %}
+
+{% if field.widget_type == 'CheckboxInput' %}
+    <span>{{ field.label }}</span>
+    <div class="switch has-switch">
+        <div class="switch-animate {% if field.value %}switch-on{% else %}switch-off{% endif %}">
+            {{ field }}
+            <span class="switch-left">{% trans "YES" %}</span>
+            <label>&nbsp;</label>
+            <span class="switch-right">{% trans "NO" %}</span>
+        </div>
+    </div>
+{% else %}
+	{% if field.widget_type == 'Select' %}
+		{{ field }}
+	{% else %}
+		{% if not inputaddon %}
+			{% render_field field class+="form-control no-input-addon" %}
+		{% else %}
+			{% render_field field class+="form-control" %}	
+		{% endif %}
+	{% endif %}
+{% endif %}
+
+
+{% for error in field.errors %}
+	<span class="error-block">{{ error }}</span>
+{% endfor %}
+
+
+{% if field.help_text %}
+	<span class='help-block'>
+		{# We allow HTML within form help fields #}
+		{{ field.help_text|safe }}
+	</span>
+{% endif %}

@@ -1,0 +1,75 @@
+{% load i18n %}
+
+<h1 class="lead">
+    {% blocktrans count num_of_items=total_num_of_items %}
+        Optimal shipping solution delivering 1 item from USendHome facility to {{ country }} was found
+    {% plural %}
+        Optimal shipping solution delivering {{ num_of_items }} items from USendHome facility to {{ country }} was found
+    {% endblocktrans %}
+    <br/>
+    {% if forwarding_address_exists == 'false' %}
+        <small class="sec-lead">Don't have a USendHome account? <a class="btn btn-primary new-account forwardingModal" data-toggle="modal">Create one here</a></small>
+    {% endif %}
+</h1>
+
+<section class="general-msg">
+    <p>
+        {% blocktrans %}
+            <strong>Don't see your favorite carrier?</strong><br/>
+            Click <a class="go-to-options">here</a>, fill in the shipping city and try again.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+            <strong>Want to ship your items via the USPS but don't see any USPS method?</strong><br/>
+            Click <a class="go-to-options">here</a>, enable the USPS option and try again.
+        {% endblocktrans %}
+    </p>
+</section>
+
+{% if bins|length > 1 %}
+    <section>
+        <p>
+            {% blocktrans %}
+                The system picked the most appropriate boxes for your items. our goal is to get you the lowest international shipping
+                rates possible while keeping your items well protected in transit.
+            {% endblocktrans %}
+        </p>
+    </section>
+{% endif %}
+
+<div style="margin: 20px 0 20px;">
+    {% include "partials/alert_messages.html" %}
+</div>
+
+{% for bin in bins %}
+    {% include "api/chrome/partials/package_data.html" with bin=bin idx=forloop.counter num_items=bin.packages|length %}
+{% endfor %}
+
+<section>
+    <p class="mt-10">
+        {% blocktrans %}
+            To get those shipping rates simply ship the items to your personal USendHome address and we will forward them to you
+            anywhere in the world.
+        {% endblocktrans %}
+        {% if forwarding_address_exists == 'false' %}
+            {% blocktrans %}
+                if you don't have a USendHome address,
+                you can get one <a class="forwardingModal" data-toggle="modal">here</a> for free.
+            {% endblocktrans %}
+        {% endif %}
+    </p>
+ </section>
+
+{% if no_data_items %}
+    <section class="mt-15">
+        <p>{% trans "We were unable to retrieve information for the following items:" %}</p>
+        <ul>
+            {% for item in no_data_items %}
+                <li>{{ item.title }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endif %}
+
+

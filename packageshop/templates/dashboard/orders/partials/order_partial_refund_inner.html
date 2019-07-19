@@ -1,0 +1,8 @@
+{% load url from future %}
+
+<div class="partial-refund-order">
+	<form method="post" action="{% url 'dashboard:order-refund' pk "partial" %}">
+		{% csrf_token %}
+        {% include "partials/form_fields_dashboard.html" %}
+	</form>
+</div>

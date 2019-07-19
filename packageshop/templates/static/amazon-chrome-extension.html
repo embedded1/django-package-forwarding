@@ -1,0 +1,129 @@
+{% extends "layout.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load user_agents %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block body_class %}
+    destination
+{% endblock %}
+
+{% block nav %}
+    {# Top-horizontal bar with account, notifictions, dashboard links #}
+    {% include "partials/nav_accounts.html" %}
+    {% if request.GET.producthunt and 'producthunt.com' in request.META.HTTP_REFERER %}
+        <div class="bottom-banner-big">
+            <div class="container">
+                <div class="item">
+                    <span>
+                        {% blocktrans %}
+                            Welcome Product Hunters! Get 20% off your first shipping with code PRODUCTHUNT20 at checkout
+                        {% endblocktrans %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block extrahead %}
+    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/cajhcjefikhfeodofkmpcnecklngmeln">
+    <meta property="og:title" content="Amazon Worldwide Shipping with USendHome" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://usendhome.com/amazon-worldwide-shipping/" />
+    <meta property="og:description" content="An app that calculates the optimal shipping solution for ALL items in your Amazon cart. Ship items together and save big on shipping." />
+    <meta property="og:image" content="https://usendhome.com/static/usendhome/images/amazon-app.png" />
+    <meta property='og:video' content='https://www.youtube.com/v/VPN-9xVsv3g' />
+    <meta property="fb:app_id" content="1406429682993294" />
+    <meta name="twitter:title" content="Amazon Worldwide Shipping with USendHome">
+    <meta name="twitter:description" content="An app that calculates the optimal shipping solution for ALL items in your Amazon cart. Ship items together and save big on shipping.">
+    <meta name="twitter:image:src" content="https://usendhome.com/static/usendhome/images/amazon-app.png">
+    <meta itemprop="name" content="Amazon Worldwide Shipping with USendHome">
+    <meta itemprop="description" content="An app that calculates the optimal shipping solution for ALL items in your Amazon cart. Ship items together and save big on shipping.">
+    <meta itemprop="image" content="https://usendhome.com/static/usendhome/images/amazon-app.png">
+{% endblock %}
+
+{% block title %}
+    {% blocktrans %}
+        Amazon Worldwide Shipping with USendHome
+    {% endblocktrans %}
+{% endblock %}
+
+{% block description %}
+    {% blocktrans %}
+        Chrome extension that lets you shop at Amazon.com let a US citizen.
+        All items can be shipped together in 1 shipment anywhere in the world.
+    {% endblocktrans %}
+{% endblock %}
+
+{% block content %}
+    <section id="section-ref-1">
+        <div class="container">
+            <div class="text-center">
+                <h1>
+                    {% blocktrans %}
+                        Shop at Amazon.com Like a US Resident
+                    {% endblocktrans %}
+                </h1>
+                <p class="lead">{% trans "All items on Amazon.com can be shipped internationally" %}</p>
+                <p class="lead">{% trans "Get instant shipping quote for all products in your Amazon cart" %}</p>
+                <p class="lead">{% trans "Receive a FREE package forwarding address straight from Amazon.com" %}</p>
+                <p class="lead">{% trans "Ship multiple products in 1 shipment" %}</p>
+                <p class="lead">{% trans "Super easy-to-use tool" %}</p>
+                {% if not request.session.added_chrome_extension and not user.get_profile.added_chrome_extension and request|is_pc %}
+                    <button  class="btn btn-lg btn-primary chrome" id="add-to-chrome">{% trans "Add to Chrome" %}</button>
+                {% elif request.session.added_chrome_extension or user.get_profile.added_chrome_extension %}
+                    <button disabled class="btn btn-success btn-started chrome">{% trans "ADDED TO CHROME" %}</button>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <section id="section-ref-22">
+        <div class="container">
+            <div class="row">
+                <h2 class="text-center">
+                    {% blocktrans %}
+                        Know the shipping rates in advance, Ship all items together and save big
+                    {% endblocktrans %}
+                </h2>
+                <p class="text-center">
+                    {% blocktrans %}
+                        Shipping the minimal number of packages along with USendHome's highly discounted international shipping rates makes it
+                        the ultimate shipping solution for Amazon products.
+                    {% endblocktrans %}
+                </p>
+            </div>
+            <div class="row">
+                <div class="mt-40">
+                    <div class="col-md-offset-2 col-md-8">
+                        <div class="ext-video embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="//www.youtube.com/embed/VPN-9xVsv3g?html5=1&rel=0&showinfo=0&autohide=1" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-ref-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p>{% trans "Get this amazing tool now and change the way you shop at Amazon.com" %}</p>
+                </div>
+				<div class="col-xs-12 get-started">
+                    {% if not request.session.added_chrome_extension and not user.get_profile.added_chrome_extension and request|is_pc %}
+                        <button class="btn btn-success btn-started chrome" id="add-to-chrome">{% trans "ADD TO CHROME" %}</button>
+                    {% elif request.session.added_chrome_extension or user.get_profile.added_chrome_extension %}
+                        <button disabled class="btn btn-success btn-started chrome">{% trans "ADDED TO CHROME" %}</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

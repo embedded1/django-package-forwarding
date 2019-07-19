@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans %}
+    Black Friday Promotion - 40% Discount!
+{% endblocktrans %}

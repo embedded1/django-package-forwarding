@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans  %}
+    You've Got New Shipping Address
+{% endblocktrans %}

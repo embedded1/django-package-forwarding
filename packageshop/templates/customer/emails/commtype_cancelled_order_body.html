@@ -1,0 +1,60 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+    {% trans "USendHome Order Cancelled" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Order Cancelled" %}
+{% endblock %}
+
+{% block body %}
+    {% url 'contact' as contact_url %}
+	<p>
+	    {% if not cancelled_reason %}
+            {% blocktrans %}
+                order #{{ order_number }} was cancelled because our security system has detected an irregularity with it.
+            {% endblocktrans %}
+        {% else %}
+            {% blocktrans %}
+                order #{{ order_number }} was cancelled because {{ cancelled_reason }}
+            {% endblocktrans %}
+        {% endif %}
+
+
+        {% if suspend_account %}
+            {% if account_inactive %}
+                {% blocktrans %}
+                    Consequently, your account has been closed.
+                {% endblocktrans %}
+            {% else %}
+                {% blocktrans %}
+                    Consequently, your account has been placed on hold until our further investigation is completed.
+                {% endblocktrans %}
+            {% endif %}
+        {% endif %}
+    </p>
+
+    {% if refund_url %}
+        Click <a href="{{ refund_url }}">here</a> to request a refund and place a new order to release your package for delivery.
+    {% endif %}
+
+    {% if refund_given %}
+        <p>
+            {% blocktrans %}
+                We've just issued a refund to you, it usually takes 3-5 days for the money to arrive.
+                Please contact <a href="{{ site }}{{ contact_url }}">customer support</a> if you don't see the money
+                after the listed time frame above.
+            {% endblocktrans %}
+        </p>
+    {% endif %}
+
+	<p>
+        {% blocktrans %}
+           If you believe this order was placed incorrectly or by mistake, or if you have any questions or 
+		   concerns, please don't hesitate to contact <a href="{{ site }}{{ contact_url }}">customer support</a>.
+        {% endblocktrans %}
+    </p>
+{% endblock %}

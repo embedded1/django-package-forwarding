@@ -1,0 +1,99 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block breadcrumbs %}
+    {% if customs_info %}
+        <div class="confirm-email">
+            {% if customs_info.1 == -1 %}
+                <div class="txt"><strong>Great news!!! {{ customs_info.3 }} is a duty-free destination. No duties or taxes are collected.</strong></div>
+            {% else %}
+                <div class="txt" style="display: block">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <strong>
+                        Did you know that shipments going to {{ customs_info.3 }} valued below {{ customs_info.2 }} {{ customs_info.0 }}
+                        are fully exempted from customs duty and tax?
+                    </strong>
+                </div>
+                {% if customs_info.2 < customs_info.1 %}
+                   <div class="txt" style="display: block">
+                       <strong>Tax (no duty) will be imposed for shipments valued between {{ customs_info.2 }} - {{ customs_info.1 }} {{ customs_info.0 }}</strong>
+                   </div>
+                {% endif %}
+                <span style="text-align: center; color: #0a0a3c; font-weight: 600; font-size: 12px;">The duty and tax information given above is subject to change, and we cannot guarantee that it is the most up-to-date information.</span>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+	<div id="pending_packages_data">
+		{% block packages %}{% endblock %}
+	</div>
+	{% block extra_content %}{% endblock %}
+    {% if show_first_package_modal %}
+        <div class="modal modal-cp fade contacts" id="firstPackageModal" tabindex="-1" role="dialog" aria-labelledby=firstPackageLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">{% trans "Master Your Control Panel" %}</h2>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body contacts-body" id="firstPackageBody">
+                        <div class="headline">
+                            <h3>
+                                {% blocktrans %}
+                                    Hurray!! your first package has just landed at your personal US address.
+                                    Watch the quick video to master your control panel.
+                                {% endblocktrans %}
+                            </h3>
+                        </div>
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="//www.youtube.com/embed/JqQIi_rzJXU?html5=1&rel=0&showinfo=0&autohide=1" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="modal-footer" id="firstPackageFooter">
+                        <div class="modal-btns">
+                            <button type="button" data-dismiss="modal" class="btn btn-primary btn-save">{% trans "Close" %}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block onbodyload %}
+    {{ block.super }}    
+	var cb = function(data, modal) {
+        $(modal).on('hide.bs.modal', function (e) {
+            if(data.content_html) {
+                $('#pending_packages_data').html(data.content_html);
+                $('#messages').html('');
+                usendhome.messages.addMessages(data.messages);
+                setTimeout(function() {
+                    $("html, body").animate({ scrollTop: 0 }, "slow");
+                }, 100);
+            }
+            else {
+                window.location = data.redirect_url;
+            }
+        })
+	};
+	usendhome.initModalLoad(cb);
+    usendhome.packages.init();
+    usendhome.packages.initProductImages();
+{% endblock %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/css/package.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/assets/fancybox-3/jquery.fancybox.css" %}" media="screen" />
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/assets/fancybox-3/jquery.fancybox-thumbs.css" %}?v=1.0.5" media="screen" />
+{% endblock %}
+
+{% block extrascripts %}
+    {{ block.super }}
+    <script src="{% static "usendhome/assets/fancybox-3/jquery.fancybox.js" %}"></script>
+    <script src="{% static "usendhome/assets/fancybox-3/jquery.fancybox-thumbs.js" %}"></script>
+{% endblock %}

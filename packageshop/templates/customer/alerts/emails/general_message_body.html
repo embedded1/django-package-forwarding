@@ -1,0 +1,25 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Shipping Packages to Old Address" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Shipping Packages to Old Address" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    {% blocktrans with name=customer.get_full_name|title %}
+        Hello {{ name }},<br/>
+        We would like to inform you that we can not longer receive new packages at our old address in New Jersey.
+        All new orders must be shipped to our new location in California.
+    {% endblocktrans %}
+</p>
+<p>
+    {% blocktrans %}
+       Please contact us if you're already expecting a delivery at the old address.
+    {% endblocktrans %}
+</p>
+{% endblock %}

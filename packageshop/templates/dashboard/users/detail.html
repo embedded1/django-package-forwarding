@@ -1,0 +1,299 @@
+{% extends 'dashboard/layout.html' %}
+{% load currency_filters %}
+{% load url from future %}
+{% load i18n %}
+
+{% block body_class %}{{ block.super }} users{% endblock %}
+
+{% block title %}{{ customer.email }} {% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            <span class="divider">/</span>
+        </li>
+        <li>
+            <a href="{% url 'dashboard:users-index' %}">{% trans "Customers" %}</a>
+            <span class="divider">/</span>
+        </li>
+        <li class="active">{{ customer.email }}</li>
+    </ul>
+{% endblock %}
+
+{% block headertext %}{{ customer.email }}{% endblock %}
+
+{% block dashboard_content %}
+    <div class="row-fluid">
+        {% block user_general_info %}
+            <div class="">
+                <div class="table-header">
+                    <h2>{% trans "General" %}</h2>
+                </div>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>{% trans "Name" %}</th>
+                        <td>{{ customer.get_full_name|default:"-" }}</td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Email" %}</th>
+                        <td>{{ customer.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Active" %}?</th>
+                        <td>
+                            {{ customer.is_active|yesno:_("Yes,No") }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Superuser" %}?</th>
+                        <td>{{ customer.is_superuser|yesno:_("True,False") }}</td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Staff" %}?</th>
+                        <td>{{ customer.is_staff|yesno:_("True,False") }}</td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Last login" %}</th>
+                        <td>{{ customer.last_login }}</td>
+                    </tr>
+                    {% with profile=customer.get_profile %}
+                        {% if profile %}
+                            <tr>
+                                <th>{% trans "Country" %}</th>
+                                <td>{{ profile.country|default:'-' }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "City" %}</th>
+                                <td>{{ profile.city|default:'-' }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "UUID" %}</th>
+                                <td>{{ profile.uuid }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "Registration type" %}</th>
+                                <td>{{ profile.registration_type }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "External referer" %}</th>
+                                <td>{{ profile.external_referer|default:'-' }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "Package tracking" %}</th>
+                                <td>{{ profile.package_tracking|yesno:_("Yes,No") }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "Predefined package consolidation" %}</th>
+                                <td>{{ profile.is_consolidate_every_new_package|yesno:_("Yes,No") }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "Predefined customs declaration paperwork" %}</th>
+                                <td>{{ profile.is_filling_customs_declaration|yesno:_("Yes,No") }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "Predefined repacking" %}</th>
+                                <td>{{ profile.is_repackaging|yesno:_("Yes,No") }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "Predefined express checkout" %}</th>
+                                <td>{{ profile.is_express_checkout|yesno:_("Yes,No") }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "Predefined parcel contents photos" %}</th>
+                                <td>{{ profile.is_photos_required|yesno:_("Yes,No") }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "Predefined remove invoice" %}</th>
+                                <td>{{ profile.is_remove_invoice|yesno:_("Yes,No") }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "Predefined extra protection" %}</th>
+                                <td>{{ profile.is_extra_protection|yesno:_("Yes,No") }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "Predefined customized services" %}</th>
+                                <td>{{ profile.is_custom_requests|default:_("None") }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "Welcome tour played?" %}</th>
+                                <td>{{ profile.tour_started|yesno:_("Yes,No") }}</td>
+                            </tr>
+                            {% if profile.tour_started %}
+                                <tr>
+                                    <th>{% trans "Welcome tour end step" %}</th>
+                                    <td>{{ profile.tour_end_step }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endif %}
+                    {% endwith %}
+                    <tr>
+                        <th>{% trans "Date joined" %}</th>
+                        <td>{{ customer.date_joined }}</td>
+                    </tr>
+                    {% with record=customer.userrecord %}
+                        {% if user.is_staff %}
+                            <tr>
+                                <th>{% trans "Number of orders" %}</th>
+                                <td>{{ record.num_orders|default:0 }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "Total spent" %}</th>
+                                <td>{{ record.total_spent|default:0|currency }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if customer.email %}
+                            <tr>
+                                <th>{% trans "Actions" %}</th>
+                                <td>
+                                    <form id="password_reset_form" action="{% url 'dashboard:user-password-reset' pk=customer.id %}" method="post" class="form-horizontal">
+                                        {% csrf_token %}
+                                        {% include 'partials/form_fields.html' %}
+                                        <button type="submit" class="btn btn-primary btn-large">{% trans 'Send password reset email' %}</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endwith %}
+                </table>
+            </div>
+        {% endblock %}
+
+        {% block user_additional_info %}
+            <div class="tabbable dashboard">
+                {% block tab_nav %}
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#user_packages" data-toggle="tab">{% trans "Packages" %}</a></li>
+                        <li><a href="#user_orders" data-toggle="tab">{% trans "Orders" %}</a></li>
+                        <li><a href="#user_addresses" data-toggle="tab">{% trans "Addresses" %}</a></li>
+                        <li><a href="#user_feedbacks" data-toggle="tab">{% trans "Feedbacks" %}</a></li>
+                    </ul>
+                {% endblock %}
+
+                <div class="tab-content">
+                    {% block user_packages %}
+                        <div id="user_packages" class="tab-pane active">
+                            <table class="table table-striped table-bordered table-hover">
+                                <caption>{% trans "Packages" %}</caption>
+                                {% if package_list %}
+                                    <tr>
+                                        <th>{% trans "Package Number" %}</th>
+                                        <th>{% trans "Status" %}</th>
+                                        <th>{% trans "Merchant" %}</th>
+                                        <th>{% trans "Additional receiver" %}</th>
+                                        <th>{% trans "Days in storage" %}</th>
+                                        <th>{% trans "Sent outside of US?" %}</th>
+                                        {% if request.user.is_staff %}
+                                            <th>{% trans "Partner name" %}</th>
+                                        {% endif %}
+                                        <th></th>
+                                    </tr>
+                                    {% for package in package_list %}
+                                        <tr>
+                                            <td>{{ package.upc }}</td>
+                                            <td>{{ package.status }}</td>
+                                            <td>{{ package.title|truncatechars:30 }}</td>
+                                            <td>{{ package.additional_receiver.get_full_name|default:"-" }}</td>
+                                            <td>{{ package.get_storage_days }}</td>
+                                            <td>{{ product.is_sent_outside_usa|yesno }}</td>
+                                            {% if request.user.is_staff %}
+                                                <td>{{ package.partner.name|default:"-" }}</td>
+                                            {% endif %}
+                                            <td><a href="{% url 'dashboard:catalogue-product' pk=package.id %}{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}" class="btn btn-info">{% trans "Edit" %}</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr><td>{% trans "This customer has not placed any orders yet." %}</td></tr>
+                                {% endif %}
+                            </table>
+                        </div>
+                    {% endblock %}
+
+                    {% block user_orders %}
+                        <div id="user_orders" class="tab-pane">
+                            <table class="table table-striped table-bordered table-hover">
+                                <caption>{% trans "Orders" %}</caption>
+                                {% with orders=customer.orders.all %}
+                                    {% if orders %}
+                                        <tr>
+                                            <th>{% trans "Order Number" %}</th>
+                                            <th>{% trans "Num items" %}</th>
+                                            <th>{% trans "Total value" %}</th>
+                                            <th>{% trans "Date placed" %}</th>
+                                            <th>{% trans "Status" %}</th>
+                                            <th></th>
+                                        </tr>
+                                        {% for order in orders %}
+                                            <tr>
+                                                <td>{{ order.number }}</td>
+                                                <td>{{ order.num_items }}</td>
+                                                <td>{{ order.total_incl_tax|currency }}</td>
+                                                <td>{{ order.date_placed|date }}</td>
+                                                <td>{{ order.status }}</td>
+                                                <td><a href="{% url 'dashboard:order-detail' number=order.number %}" class="btn btn-info">{% trans "View" %}</a></td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr><td>{% trans "This customer has not placed any orders yet." %}</td></tr>
+                                    {% endif %}
+                                {% endwith %}
+                            </table>
+                        </div>
+                    {% endblock %}
+
+                    {% block user_addresses %}
+                        <div id="user_addresses" class="tab-pane">
+                            <h2>{% trans "Addresses" %}</h2>
+                            <div class="row-fluid">
+                                {% for address in customer.addresses.all %}
+
+                                    <div class="span3">
+                                        <div class="well well-info">
+                                            {% for field in address.active_address_fields %}
+                                                {{ field }}<br/>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    {% if forloop.counter|divisibleby:4 %}
+                                    </div>
+                                    {% if not forloop.last %}
+                                        <div class="row-fluid">
+                                        {% endif %}
+                                    {% endif %}
+                                {% empty %}
+                                    <p>{% trans "This customer has not saved any addresses." %}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endblock %}
+
+                    {% block user_feedbacks %}
+                        <div id="user_feedbacks" class="tab-pane">
+                            <table class="table table-striped table-bordered table-hover">
+                                <caption>{% trans "Feedbacks" %}</caption>
+                                {% with feedbacks=customer.feedbacks.all %}
+                                    {% if feedbacks %}
+                                        <tr>
+                                            <th>{% trans "Order number" %}</th>
+                                            <th>{% trans "Date created" %}</th>
+                                            <th></th>
+                                        </tr>
+                                        {% for feedback in feedbacks %}
+                                            <tr>
+                                                <td>{{ feedback.order.number }}</td>
+                                                <td>{{ feedback.date_created }}</td>
+                                                <td><a href="{% url 'dashboard:user-feedback' feedback.pk %}" class="btn btn-info">{% trans "View" %}</a></td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr><td>{% trans "This customer has not written any feedbacks yet." %}</td></tr>
+                                    {% endif %}
+                                {% endwith %}
+                            </table>
+                        </div>
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+{% endblock dashboard_content %}

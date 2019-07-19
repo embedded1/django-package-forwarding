@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans %}
+    Help getting started?
+{% endblocktrans %}

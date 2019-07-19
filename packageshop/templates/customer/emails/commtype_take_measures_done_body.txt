@@ -1,0 +1,17 @@
+{% extends "customer/emails/base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+
+	{% blocktrans %}
+		We've completed processing your request and your package is ready for you to return back to the merchant.
+	{% endblocktrans %}
+
+	{% blocktrans %}
+		Visit the URL link below to go directly to your incoming packages section to start the return to merchant checkout process:
+	{% endblocktrans %}
+
+	{{ site }}{% url "customer:pending-packages" %}
+
+{% endblock %}

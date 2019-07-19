@@ -1,0 +1,33 @@
+{% extends "error.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load url from future %}
+
+{% block title %}
+    {% trans 'Server Error' %}
+{% endblock %}
+
+{% block error_image %}
+    <img src="{% static "usendhome/images/ouch.png" %}" alt="server-error"/>
+{% endblock %}
+
+{% block error_heading %}
+    {% trans "Ouch!" %}
+{% endblock %}
+
+{% block error_sub_heading %}
+{% trans "Server Error" %}
+{% endblock %}
+
+
+{% block error_message %}
+    <p>
+        {% url "promotions:home" as home %}
+        {% blocktrans %}
+            We're sorry but something went terribly wrong.<br/>
+            This incident has been logged and will be addressed by an engineer as<br/>
+            soon as possible. <a href="{{ home }}">Return Home</a>
+        {% endblocktrans %}
+    </p>
+{% endblock %}
+

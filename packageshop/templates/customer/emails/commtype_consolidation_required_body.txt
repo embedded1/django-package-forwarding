@@ -1,0 +1,12 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}
+	{% blocktrans %}
+		We've received your package consolidation request and we are processing it immediately.
+	{% endblocktrans %}
+
+	{% blocktrans %}
+		We'll email your as soon as your request is completed and ready for shipment!
+	{% endblocktrans %}
+{% endblock %}

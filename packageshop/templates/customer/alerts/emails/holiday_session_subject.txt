@@ -1,0 +1,5 @@
+{% load i18n %}
+
+{% blocktrans %}
+    2016 USendHome Holiday Reminder
+{% endblocktrans %}

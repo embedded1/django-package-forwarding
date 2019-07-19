@@ -1,0 +1,11 @@
+{% extends "partials/form_field.html" %}
+
+{% block control_group %}
+    {% for radio in field %}
+        <label class="radio">
+            {{ radio.tag }}
+            <i class="rounded-x"></i>
+            {{ radio.choice_label }}
+        </label>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans %}
+	New package has arrived at your USendHome mailbox
+{% endblocktrans %}

@@ -1,0 +1,115 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load notifications_filters %}
+{% load notifications_tags %}
+{% load display_tags %}
+
+{% block content %}
+	<section>
+        <div class="container">
+            <div class="row notifications">
+                <div class="col-md-12">
+					<ol class="breadcrumb">
+						<li><a href="{% url 'promotions:home' %}"><i class="fa fa-home"></i>{% trans "Home" %}</a></li>
+						<li><a href="{% url 'customer:profile-view' %}">{% trans "Control Panel" %}</a></li>
+						<li class="active">{% trans "Notifications" %}</li>
+					</ol>
+                    <h3 class="heading">{% trans "Notifications" %}</h3>
+                    <div class="row">
+                        <div class="col-md-12 notifications-top">
+							{% if not notifications %}
+								<p>{% trans "No notifications" %}
+							{% else %}
+								<div class="notifications-header clearfix">
+									<div class="header-options pull-left">
+										<button class="btn btn-default select-all-btn">{% trans "Select All" %}</button>
+										<!-- Single button -->
+										<div class="btn-group">
+											<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+												{% trans "Action" %} <span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" role="menu">
+												<li><a id="deleteNotifications"><i class="fa fa-trash"></i>{% trans "Delete" %}</a></li>                                            
+											</ul>
+										</div>
+									</div>
+									<div class="header-pages pull-right">
+										<span>
+											{% render_notification_count page_obj.number paginator.count %}
+										</span>
+										{% if paginator.num_pages > 1 %}
+											{% if page_obj.has_previous %}
+												<a href="?{% get_parameters page %}page={{ page_obj.previous_page_number }}"><span class="arrows"><i class="fa fa-angle-left"></i></span></a>
+											{% endif %}
+											{% if page_obj.has_next %}
+												<a href="?{% get_parameters page %}page={{ page_obj.next_page_number }}"><span class="arrows"><i class="fa fa-angle-right"></i></span></a>
+											{% endif %}
+										{% endif %}
+									</div>
+								</div>
+								<div class="table-responsive">
+									<table class="table">
+										<form action="{% url 'customer:notifications-update' %}" method="post">
+											{% csrf_token %}
+											<tbody>
+												{% for notification in notifications %}
+													<tr {% if notification.is_new %}class="unread"{% endif %}>
+														<td>
+															<div class="checkbox">
+															  <label>
+																<input type="checkbox" name="selected_notification" value="{{ notification.id }}"/>
+															  </label>
+															</div>
+														</td>
+														<td>
+															<a class="modalRemoteLoad" data-modal-name="detailNotification{{ notification.pk }}Modal" data-load-url="{% url 'customer:notifications-detail' pk=notification.pk %}">
+																{{ notification.subject|safe }}															
+															</a>
+														</td>
+														<td class="category">{{ notification.category|create_notification_label }}</td>
+														<td>{{ notification.date_sent|date:"M d, Y" }}</td>
+													</tr>  
+												{% endfor %}
+											</tbody>
+											<input type="hidden" name="action" value="delete" />
+										</form>
+									</table>
+								</div>
+							{% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		{# notifications modals #}
+		{% for notification in notifications %}
+			<div class="modal modal-cp fade" id="detailNotification{{ notification.pk }}Modal" tabindex="-1" role="dialog" aria-labelledby="detailNotification{{ notification.pk }}ModalLabel" aria-hidden="true">						
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="detailNotification{{ notification.pk }}ModalLabel">{{ notification.subject|safe }}
+                                <span>{{ notification.date_sent }}</span>
+                            </h4>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body" id="detailNotification{{ notification.pk }}ModalBody">
+						</div>									
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</section>
+{% endblock content %}
+
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.notifications.init();
+{% endblock %}
+
+
+
+

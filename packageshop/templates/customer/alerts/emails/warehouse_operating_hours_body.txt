@@ -1,0 +1,14 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}
+
+    {% blocktrans with name=customer.get_full_name|title %}
+        Hello {{ name }},<br/>
+        We wanted to let you know that our warehouse will be closed today September 28, 2015 in
+        observance of an holiday.
+    {% endblocktrans %}
+
+{% endblock %}
+
+

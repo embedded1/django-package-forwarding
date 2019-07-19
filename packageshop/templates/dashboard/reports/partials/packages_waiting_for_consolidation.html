@@ -1,0 +1,28 @@
+{% extends 'dashboard/reports/index.html' %}
+{% load i18n %}
+
+{% block report %}
+<table class="table table-striped table-bordered table-hover">
+    {% if objects %}
+        <tr>
+            <th>{% trans "Package Unique ID" %}</th>
+            <th>{% trans "Client Special ID" %}</th>
+            <th>{% trans "Client Last Name" %}</th>
+            <th>{% trans "Date Received" %}</th>
+        </tr>
+        {% for package in objects %}
+        <tr>
+            <td>{{ package.upc }}</td>
+            {% with customer=package.owner %}
+                <td>{{ customer.get_profile.uuid }}</td>
+                <td>{{ customer.last_name }}</td>
+            {% endwith %}
+            <td>{{ package.date_created }}</td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr><td>{% trans "No results found." %}</td></tr>
+    {% endif %}
+</table>
+{% include "partials/pagination.html" %}
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome New Package Received" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "New Package Received" %}
+{% endblock %}
+
+{% block body %}
+    <p>
+        {% url 'catalogue:detail' package.slug package.pk as package_url %}
+        {% blocktrans with package_number=package.upc merchant_name=package.title %}
+           Your order from {{ merchant_name }} has arrived.<br/>
+           Package #{{ package_number }} is now available in your control panel.
+        {% endblocktrans %}
+    </p>
+
+    {% if package.condition == "Slightly Damaged" or package.condition == "Damaged" %}
+        <p>
+            {% blocktrans %}
+                Please note that your package was sent with insufficient packaging.
+                Based on the experience of our staff, without repacking or consolidation, your package is in danger of being damaged in transit.
+            {% endblocktrans %}
+        </p>
+    {% endif %}
+
+    {% if 'amazon' in package.title|lower  %}
+        <p>
+            {% blocktrans %}
+                We have a special tip especially for Amazon shoppers just like you --- download our FREE browser extension and give it a whirl.
+                it'll make shopping at Amazon.com super simple and just a click away.
+            {% endblocktrans %}
+        </p>
+        {% if not package.owner.get_profile.added_chrome_extension %}
+            <a href="{{ site }}{% url 'chrome-ext' %}">{% trans "Download the extension" %}</a>
+        {% endif %}
+    {% endif %}
+
+    {% if fulfilled_special_requests %}
+        <p>
+            {% blocktrans %}
+                Per your request to perform extra services on all incoming packages, we've successfully completed the following:
+            {% endblocktrans %}
+        </p>
+
+        <ul>
+            {% for fulfilled_special_request in fulfilled_special_requests %}
+                <li>{{ fulfilled_special_request|safe }}</li>
+            {% endfor %}
+        </ul>
+
+        {% if customized_services %}
+            <p>
+                {% trans "This is what you've asked us to take on your items:" %}
+                {{ customized_services }}
+            </p>
+            {% if customized_services_brief %}
+                <p>
+                    {% trans "This is a short brief of the actions we've taken on your items:" %}
+                    {{ customized_services_brief }}
+                </p>
+            {% else %}
+                <p>
+                    {% blocktrans %}
+                        Unfortunately, we couldn't complete any of the actions you've asked us to take.
+                        Don't worry, we will not charge you on that one though.
+                    {% endblocktrans %}
+                </p>
+            {% endif %}
+        {% endif %}
+
+    {% else %}
+        <p>
+            {% blocktrans %}
+                Check out additional services we offer to reduce shipping costs and eliminate shipping errors.
+                The package content photos service is recommended to detect missing or damaged items before your order is shipped to you.
+                Enjoy great discounts by ordering extra services in advance for every incoming package we receive at your USendHome mailbox.
+            {% endblocktrans %}
+        </p>
+    {% endif %}
+
+    {% if additional_receiver %}
+        <p>
+            {% blocktrans %}
+                The package wasn't addressed to the account holder's name you provided when you joined our service.
+                You must verify this additional receiver before you can release this package for delivery.
+            {% endblocktrans %}
+        </p>
+
+        <p>
+            {% render_email_button "customer:additional-receiver-verify" "Verify Receiver" %}
+        </p>
+    {% else %}
+        <p>
+            {% render_email_button "customer:pending-packages" "Manage Packages" %}
+        </p>
+    {% endif %}
+
+{% endblock %}

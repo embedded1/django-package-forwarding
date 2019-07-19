@@ -1,0 +1,201 @@
+{% extends "layout.html" %}
+{% load url from future %}
+{% load i18n %}
+{% load honeypot %}
+{% load staticfiles %}
+
+{% block title %}
+	{% trans 'Join in Now and Start Generating Affiliate Commission' %}
+{% endblock %}
+
+{% block description %}
+    {% blocktrans %}
+        Join in and enjoy the benefits of USendHome's affiliate program.
+    {% endblocktrans %}
+{% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block body_class %}body-dark-blue{% endblock %}
+
+{% block messages %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+                {% include "partials/alert_messages.html" %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="logo-container">
+            <a class="usend-logo" href="{% url 'promotions:home' %}">
+                <img src="{% static "usendhome/images/logo.png" %}" alt="USendHome">
+            </a>
+            <h1>
+                {% blocktrans %}
+                   Start Generating Affiliate Commission in 10 seconds!
+                {% endblocktrans %}
+            </h1>
+        </div>
+		<div class="dashboard-login-form">
+            <div class="or-login"></div>
+			<div class="login-form">
+                <form action="." method="post">
+                    {% if form.is_bound and not form.is_valid %}
+                        <div class="alert alert-danger">
+                            <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
+                        </div>
+                    {% endif %}
+
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <i class="fa fa-exclamation-circle"></i> {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% csrf_token %}
+                    {% render_honeypot_field "gender" %}
+                    {% include "partials/form_field_input.html" with field=form.mixpanel_anon_id %}
+                    <div class="form-group {% if form.first_name.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                            <input type="text" name="first_name" class="form-control" id="id_first_name" placeholder="First Name" value="{{ form.first_name.value|default_if_none:"" }}">
+                            {% for error in form.first_name.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group {% if form.last_name.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                            <input type="text" name="last_name" class="form-control" id="id_last_name" placeholder="Last Name" value="{{ form.last_name.value|default_if_none:"" }}">
+                            {% for error in form.last_name.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
+                            <input type="text" name="email" class="form-control" id="id_email" placeholder="Email Address" value="{{ form.email.value|default_if_none:"" }}">
+                            {% for error in form.email.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group {% if form.website.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-globe"></i></div>
+                            <input type="text" name="website" class="form-control" id="id_website" placeholder="Website Address" value="{{ form.website.value|default_if_none:"" }}">
+                            {% for error in form.website.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group {% if form.password1.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-key"></i></div>
+                            <input type="password" name="password1" class="form-control" id="id_password1" placeholder="Choose Password">
+                            {% for error in form.password1.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group {% if form.line1.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-map-pin"></i></div>
+                            <input type="text" name="line1" class="form-control" id="id_line1" placeholder="Address" value="{{ form.line1.value|default_if_none:"" }}">
+                            {% for error in form.line1.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group {% if form.city.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-map-pin"></i></div>
+                            <input type="text" name="city" class="form-control" id="id_city" placeholder="City" value="{{ form.city.value|default_if_none:"" }}">
+                            {% for error in form.city.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group {% if form.postcode.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-map-pin"></i></div>
+                            <input type="text" name="postcode" class="form-control" id="id_postcode" placeholder="Zip Code" value="{{ form.postcode.value|default_if_none:"" }}">
+                            {% for error in form.postcode.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group {% if form.country.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            {% include "partials/form_field_input.html" with field=form.country inputaddon=1 %}
+                        </div>
+                    </div>
+                    <p>
+						<label>
+							<input type="checkbox" class="js-enable-on-checked">
+                            {% url 'faq' 'affiliate-program' as affiliate_terms_url %}
+							{% blocktrans %}
+								I agree to USendHome <a href="{{ affiliate_terms_url }}" target="_blank">Affiliate Terms & Conditions</a>
+							{% endblocktrans %}
+						</label>
+                    </p>
+                    <button {% if not operation_suspended %}type="submit"{% endif %} class="btn btn-danger btn-login" disabled>{% trans 'JOIN NOW' %}</button>
+                </form>
+            </div>
+            <div class="no-account">
+            	<p>{% trans "Already have an account?" %} <a href="{% url 'customer:login' %}">{% trans "Sign in here" %}</a></p>
+            </div>
+		</div>
+
+        {% if operation_suspended  %}
+            <div class="modal modal-cp fade" id="signupDisabledModal" tabindex="-1" role="dialog" aria-labelledby="signupDisabledModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" style="font-weight: 800" id="signupDisabledModalLabel">{% trans "New Accounts Disabled :(" %}</h4>
+                        </div>
+                        <div class="modal-body" id="signupDisabledModalBody">
+                            <div class="headline">
+                                <p>
+                                    USendHome is in a process of suspending it's cross-border shipping from the US service.
+                                    New affiliate accounts can't be opened at this time.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="modal-footer" id="signupDisabledModalFooter">
+                            <div class="modal-btns">
+                                <button type="button" id="signupDisabledModalButton" class="btn btn-primary">{% trans "Got it, Take me back" %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+	</div>
+{% endblock content %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    {% if operation_suspended %}
+        var $page_inner = $('.page_inner');
+        $('#signupDisabledModal').modal({
+            show: true
+        });
+        $page_inner.on('click', '#signupDisabledModalButton', function(e) {
+            window.location = '/accounts/logout/';
+            $('#signupDisabledModal').modal('hide');
+        });
+    {% endif %}
+{% endblock %}

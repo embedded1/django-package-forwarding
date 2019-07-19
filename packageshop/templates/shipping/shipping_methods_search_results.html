@@ -1,0 +1,17 @@
+{% load i18n %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="filtering">
+            <h3>{% trans "Sort By" %}</h3>
+            <ul id="filters">
+                <li><a href="#" data-filter="rate" class="active">{% trans "Rate" %}</a></li>
+                <li><a href="#" data-filter="delivery">{% trans "Delivery Time" %}</a></li>
+            </ul>
+        </div>
+    </div>
+ </div>
+<div class="row shipping_methods_container">
+    {% include "shipping/partials/shipping_methods_result_checkout.html" %}
+</div>
+

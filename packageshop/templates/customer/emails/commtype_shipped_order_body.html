@@ -1,0 +1,38 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load shipping_methods_tags %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome Order Shipped" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Your Order Is on Its Way!" %}
+{% endblock %}
+
+{% block body %}
+	<p>
+		{% blocktrans %}
+            The selected shipping method is {{ display_carrier }} {{ shipping_method }}, and your tracking number is {{ tracking_number }}.
+		{% endblocktrans %}
+	</p>
+	
+	<p>
+		{% trans "You can manually check your shipment status by clicking on the URL link below:" %}
+        {% render_shipping_method_tracking_url carrier tracking_number as tracking_url %}
+		<a href="{{ tracking_url }}" target="_blank">{{ tracking_url }}</a>
+	</p>
+	
+	<p>
+		{% blocktrans %}
+			Or, benefit from our advanced tracking system that sends you real time notifications the second new shipping updates come in.
+			Make sure the package tracking functionality is enabled in your control panel.
+		{% endblocktrans %}
+	</p>
+
+    <p>
+        {% render_email_button "customer:profile-view" "Go to Control Panel" %}
+    </p>
+{% endblock %}

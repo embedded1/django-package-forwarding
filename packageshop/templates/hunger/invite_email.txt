@@ -1,0 +1,27 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+    {% url "customer:profile-view" as control_panel_url %}
+    {% url "hunger-verified" as hunger_verified_url %}
+
+    {% if invite_url == hunger_verified_url %}
+        {% blocktrans %}
+            You've successfully joined the USendHome private beta!
+            Visit the URL below to start delivering orders to your private US mailbox:
+            {{ site }}{{ control_panel_url }}
+        {% endblocktrans %}
+    {% else %}
+        {% blocktrans %}
+            Thank you for joining USendHome private beta!
+            You're only a click away from starting your US shopping spree.
+        {% endblocktrans %}
+
+        {% blocktrans %}
+            Visit the URL below to complete the registration process:
+            {{ invite_url }}
+        {% endblocktrans %}
+    {% endif %}
+
+{% endblock %}

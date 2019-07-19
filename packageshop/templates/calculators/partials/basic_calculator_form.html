@@ -1,0 +1,89 @@
+{% load i18n %}
+{% load staticfiles %}
+
+{% csrf_token %}
+{% include "partials/form_field.html" with field=form.mixpanel_anon_id %}
+<div class="main-calculator">
+    <div class="calculator-header">
+        <span>{% trans "Package Shipping Calculator" %}</span>
+    </div>
+    <div class="calculator-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group {% if form.country.errors %}has-error{% endif %}">
+                    <label for="id_country">{% trans "Where do you want to ship?" %}</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                        {% include "partials/form_field_input.html" with field=form.country inputaddon=1 %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group{% if form.city.errors %}has-error{% endif %}">
+                    <label for="id_value">{% trans "City (required to get accurate rates)" %}</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                        {% include "partials/form_field_input.html" with field=form.city inputaddon=1 %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group{% if form.postcode.errors %}has-error{% endif %}">
+                    <label for="id_value">{% trans "Postal Code (only when available)" %}</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                        {% include "partials/form_field_input.html" with field=form.postcode inputaddon=1 %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group clearfix col-md-7 {% if form.weight.errors %}has-error{% endif %}">
+                <label for="id_weight">{% trans "Weight" %}</label>
+                <div class="input-group calc-select-60">
+                    <div class="input-group-addon"><i class="fa fa-cube"></i></div>
+                    {% include "partials/form_field_input.html" with field=form.weight inputaddon=1 %}
+                </div>
+                <div class="input-group calc-select-40">
+                   {{ form.weight_units }}
+                </div>
+            </div>
+            <div class="form-group col-md-5 {% if form.value.errors %}has-error{% endif %}">
+                <label for="id_value">{% trans "Total Value" %}</label>
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-usd"></i></div>
+                    {% include "partials/form_field_input.html" with field=form.value inputaddon=1 %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group clearfix col-md-12 {% if form.length.errors or form.width.errors or form.height.errors%}has-error{% endif %}">
+                <label>{% trans "Dimensions" %}</label>
+                <div class="input-group calc-select-75">
+                    <div class="input-group-addon"><i class="fa fa-arrows-v"></i></div>
+					{% include "partials/form_field_input.html" with field=form.length inputaddon=1 %}
+                    <div class="input-group-addon x-width"><i class="fa fa-remove"></i></div>
+                    {% include "partials/form_field_input.html" with field=form.width inputaddon=1 %}
+                    <div class="input-group-addon x-height"><i class="fa fa-remove"></i></div>
+                    {% include "partials/form_field_input.html" with field=form.height inputaddon=1 %}
+                </div>
+                <div class="input-group calc-select-25">
+                    {{ form.dimension_units }}
+                </div>
+            </div>
+        </div>
+		<div class="row">
+            <div class="col-md-12">
+				<!-- #messages is where the messages are placed inside -->
+				<div class="form-group">					
+					<div id="calculator-messages"></div>					
+				</div>
+			</div>
+		</div>		
+        <button type="submit" class="btn btn-danger" style="margin-top: 50px;" data-loading-text="{% trans "Calculating..." %}" disabled>{% trans "Calculate Shipping Costs" %}</button>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+{% load i18n %}
+
+{% if not pending_packages %}
+    <div class="tag-box tag-box-v2">
+        <p>
+            {% trans "You do not have any packages to consolidate" %}.
+        </p>
+        <p>
+            {% trans "Shipping multiple orders as one shipment will reduce your shipping rates dramatically" %}.
+        </p>
+        <p>
+            {% trans "Head back to incoming packages tab and start saving money" %}.
+        </p>
+    </div>
+{% else %}
+    {% include "catalogue/partials/packages_details.html" %}
+    <div class="consolidation-done">
+        <div class="intro">
+            <h3>{% trans "No new packages to consolidate?" %}</h3>
+            <p>
+                {% trans "Click on the button below and let our trained operational staff combining your orders into one shipment" %}.
+            </p>
+            <p>
+                {% trans "You will be notified once your consolidated package is ready for you to checkout" %}.
+            </p>
+        </div>
+        <button class="btn-u btn-u-dark-blue rounded" data-toggle="modal" data-target="#DoneConsolidationModal">
+            {% trans "Create consolidated shipment" %}
+        </button>
+    </div>
+{% endif %}

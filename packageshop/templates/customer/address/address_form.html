@@ -1,0 +1,35 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load url from future %}
+{% load i18n %}
+
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="add-new-address">
+                <ol class="breadcrumb">
+                  <li><a href="{% url 'promotions:home' %}"><i class="fa fa-home"></i>{% trans "Home" %}</a></li>
+                  <li><a href="{% url 'customer:profile-view' %}">{% trans "Control Panel" %}</a></li>
+                  <li><a href="{% url 'customer:address-list' %}">{% trans "Address Book" %}</a></li>
+                  <li class="active">{{ page_title|title }}</li>
+                </ol>
+                <h3 class="heading">{{ page_title|title }}</h3>
+                <form action="{{ action }}" method="post">
+                    {% csrf_token %}
+                    {% if is_merchant %}
+                        {% include "partials/merchant_address_form.html" %}
+                    {% else %}
+                        {% include "partials/personal_address_form.html" %}
+                    {% endif %}
+                    <button {% if is_merchant %}style="margin-top: 20px;"{% endif %} type="submit" class="btn btn-info btn-save">
+						{% if "Edit" in page_title %}
+							{% trans "Save"%}
+						{% else %}
+							{% trans "Add Address"%}
+						{% endif %}
+					</button>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

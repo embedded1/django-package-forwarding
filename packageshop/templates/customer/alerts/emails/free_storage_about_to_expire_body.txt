@@ -1,0 +1,27 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+    {% if days_left == 0 %}
+        {% blocktrans with id=package.upc %}
+            Your free package storage duration for package #{{ id }} is about to expire today.
+            Hurry up and release your package to avoid paying extra fees.
+        {% endblocktrans %}
+    {% else %}
+        {% blocktrans with id=package.upc count days=days_left %}
+            Your free storage duration for package #{{ id }} is about to expire in 1 day.
+            Hurry up and release your package to avoid paying extra fees.
+        {% plural %}
+            Your free storage duration for package #{{ id }} is about to expire in {{ days }} days.
+            Hurry up and release your package to avoid paying extra fees.
+        {% endblocktrans %}
+    {% endif %}
+
+    {% url "customer:pending-packages" as pending_url %}
+    {% blocktrans %}
+        Visit the URL link below to get your package released for delivery today:
+    {% endblocktrans %}
+    {{ site }}{{ pending_url }}
+{% endblock %}
+

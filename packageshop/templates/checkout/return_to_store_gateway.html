@@ -1,0 +1,100 @@
+{% extends "checkout/checkout.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+    {{ block.super }} {% trans "Return to Merchant" %}
+{% endblock %}
+
+{% block checkout_nav %}
+	{% include 'checkout/nav.html' with step=1 %}
+{% endblock %}
+
+{% block step_description %}
+	<h2>{% trans "1. Return Label" %}</h2>
+{% endblock %}
+
+{% block content %}
+    <section id="checkout-options" class="return-label">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>{% trans "Package with Prepaid Return Label" %}</h4>
+                    <p style="margin-bottom: 30px;">
+                        {% blocktrans %}
+                            Please upload the prepaid return label that you have received from the merchant to which
+                            you are returning your package. We will print and affix the return label to your package to save
+                            you shipping costs!
+                        {% endblocktrans %}
+                    </p>
+                    <form id="return-label-form" action="{% url "checkout:return-to-store-index" %}" method="post">
+                        {% csrf_token %}
+                        <div id="progress" class="progress">
+                            <div class="bar progress-bar progress-bar-success"></div>
+                        </div>
+                        <div id="files"></div>
+                        <span class="btn btn-default btn-select-label fileinput-button" style="margin-right: 10px;">
+                            <i class="fa fa-link"></i>{% trans "Select" %}
+                            <span>{% trans "Return Label" %}</span>
+                            <!-- The file input field used as target for the file upload widget -->
+                            <input id="fileupload" type="file" name="original">
+                        </span>
+                    </form>
+                </div>
+                <div class="col-md-12">
+                    <a href="{% url 'checkout:payment-method' %}" class="btn btn-info btn-confirm" id="payment-confirm" disabled>{% trans "Continue to next step  »" %}</a>
+                </div>
+            </div>
+
+            <div class="paid-return" style="margin-top: 60px;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>{% trans "Package without Prepaid Return Label" %}</h4>
+                        <p style="margin-bottom: 30px;">
+                            {% blocktrans %}
+                                If you do not have a prepaid return label from the merchant from whom you purchased your goods,
+                                please enter the total value of the items you are returning and provide us with the merchant's name and
+                                complete shipping address. We'll print a label and return your package for you!
+                            {% endblocktrans %}
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <form action="{% url "checkout:return-to-store-index" %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group no-padding {% if content_value_form.total_value.errors %}has-error{% endif %}">
+                                {% include 'partials/form_field_label.html' with field=content_value_form.total_value %}
+                                <div class="input-group">
+                                    {% include 'partials/form_field_input.html' with field=content_value_form.total_value %}
+                                </div>
+                                <button name="content_value_submit" type="submit" class="btn btn-info btn-confirm" style="margin-top: 20px;">{% trans "Continue to next step  »" %}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block extrascripts %}
+    {{ block.super }}
+	<script src="{% static "usendhome/assets/jQuery-File-Upload-9.8.1/js/vendor/jquery.ui.widget.js" %}" type="text/javascript" charset="utf-8"></script>
+	<script src="{% static "usendhome/assets/jQuery-File-Upload-9.8.1/js/jquery.iframe-transport.js" %}" type="text/javascript" charset="utf-8"></script>
+	<script src="{% static "usendhome/assets/jQuery-File-Upload-9.8.1/js/jquery.fileupload.js" %}" type="text/javascript" charset="utf-8"></script>
+    <!--[if (gte IE 8)&(lt IE 10)]>
+    <script src="{% static "usendhome/assets/jQuery-File-Upload-9.8.1/js/cors/jquery.xdr-transport.js" %}"></script>
+    <![endif]-->
+{% endblock extrascripts %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "usendhome/assets/jQuery-File-Upload-9.8.1/css/jquery.fileupload.css" %}" type="text/css" />
+{% endblock %}
+
+{% block onbodyload %}
+    usendhome.return_to_store_gw.init();
+{% endblock %}
+

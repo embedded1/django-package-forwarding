@@ -1,0 +1,85 @@
+{% extends 'layout.html' %}
+{% load url from future %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block title %}
+	{{ block.super }} {{ title }}
+{% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block body_class %}body-dark-blue{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="logo-container">
+            <a class="usend-logo" href="{% url 'promotions:home' %}">
+                <img src="{% static "usendhome/images/logo.png" %}" alt="USendHome">
+            </a>
+        </div>
+        <div class="dashboard-login-form reset-pass" style="max-width:725px;">
+            <div class="pass-header">
+                <h3 class="bold-text">{{ title }}</h3>
+            </div>
+            <div class="login-form" style="padding:15px;">
+                <p style="text-align: left; margin-bottom: 40px;">
+                    {% blocktrans %}
+                        Thank you for taking the time to share your feedback on your most recent USendHome delivery.
+                        Your review will let us offer the best parcel forwarding service out there!
+                    {% endblocktrans %}
+                </p>
+                <form action="." method="post">
+                    {% if form.is_bound and not form.is_valid %}
+                        <div class="alert alert-danger">
+                            <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
+                        </div>
+                    {% endif %}
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <i class="fa fa-exclamation-circle"></i> {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {% include "partials/form_field_label.html" with field=form.question1 %}
+                        <div class="input-group">
+                            {% include "partials/form_field_input.html" with field=form.question1 %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {% include "partials/form_field_label.html" with field=form.question2 %}
+                        <div class="input-group">
+                            {% include "partials/form_field_input.html" with field=form.question2 %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {% include "partials/form_field_label.html" with field=form.question3 %}
+                        <div class="input-group">
+                            {% include "partials/form_field_input.html" with field=form.question3 %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span>{% trans "Quote testimonial:" %}</span>
+                        <div class="switch has-switch" style="float:right;">
+                            <div class="switch-animate {% if form.quote_testimonial %}switch-on{% else %}switch-off{% endif %}">
+                                <input name="quote_testimonial" type="checkbox" {% if form.quote_testimonial %}checked{% endif %}>
+                                <span class="switch-left">{% trans "YES" %}</span>
+                                <label>&nbsp;</label>
+                                <span class="switch-right">{% trans "NO" %}</span>
+                            </div>
+                        </div>
+                        <span class="help-block">{% trans "I agree that my thoughts will be shared on USendHome website" %}</span>
+                    </div>
+                    <button type="submit" class="btn btn-danger btn-login js-disable-on-click" data-loading-text="{% trans "Submitting..." %}">{% trans 'Submit' %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

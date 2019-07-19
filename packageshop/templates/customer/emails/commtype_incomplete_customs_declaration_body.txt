@@ -1,0 +1,25 @@
+{% extends "oscar/customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}{% autoescape off %}
+    {% blocktrans with name=user.first_name|title %}
+        Hey {{ name }},
+    {% endblocktrans %}
+
+    {% blocktrans with order_number=order.number %}
+        The operations team has noticed that the customs declaration for order {{ order_number }} is incomplete and
+        must be updated ASAP.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        We remind you that all imported goods must be declared to customs, regardless of whether the goods are new or used or whether you're buying them for yourself
+        or as a gift and that the item does not contain any undeclared, restricted or dangerous articles.
+        Incomplete customs declaration might cause delays in processing and shipping your package so it's very important to do it right.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        Please send us the updated declaration by replaying to this email.
+    {% endblocktrans %}
+
+{% endautoescape %}
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome Extra Services Handling Completed" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Extra Services Handling Completed" %}
+{% endblock %}
+
+{% block body %}
+	<p>
+		{% blocktrans %}
+			We've completed handling your extra services request.
+		{% endblocktrans %}
+	</p>
+
+    {% if fulfilled_special_requests %}
+        <p>{% trans "The following is the list of the completed services you ordered:" %}</p>
+        <ul>
+            {% for fulfilled_special_request in fulfilled_special_requests %}
+                <li>{{ fulfilled_special_request|safe }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if customized_services %}
+        <p>
+            {% trans "This is what you've asked us to take on your items:" %}
+            {{ customized_services }}
+        </p>    
+		{% if customized_services_brief %}
+            {% if customized_services_done %}
+                <p>
+                    {% trans "This is a short brief of the actions we've taken on your items:" %}<br/>
+                    {{ customized_services_brief|safe }}
+                </p>
+            {% else %}
+                <p>
+                    {% trans "Unfortunately, we couldn't complete your request but don't worry, we will not charge you on that one though. This is what our operations staff had to say:" %}
+                    <br/>
+                    {{ customized_services_brief|safe }}
+                </p>
+            {% endif %}
+		{% endif %}
+	{% endif %}
+	
+	<p>
+		{% blocktrans %}
+			Click on the button bellow to go directly to your incoming packages section and begin your checkout so you can receive your packages:
+		{% endblocktrans %}
+	</p>
+    <p>
+        {% render_email_button "customer:pending-packages" "View Packages" %}
+    </p>
+{% endblock %}

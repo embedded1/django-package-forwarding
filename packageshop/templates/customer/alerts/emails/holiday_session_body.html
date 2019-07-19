@@ -1,0 +1,49 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome Holiday Season Reminder" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Holiday Season Reminder" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    {% blocktrans with name=customer.first_name|title %}
+        Hi {{ name }},
+    {% endblocktrans %}
+</p>
+<p>
+    {% blocktrans %}
+        Happy Holidays from USendHome!
+    {% endblocktrans %}
+</p>
+<p>
+    {% blocktrans %}
+        As you've probably noticed the huge US sales are already taking place and with the holiday shopping upon us
+        delivery times may be closer to (or even pass) the expected delivery times, especially with USPS.
+        Please also keep in mind that due to the large volume of packages we receive during the holiday season some delays
+        in processing your packages may occur.
+    {% endblocktrans %}
+</p>
+<p>
+    {% blocktrans %}
+        There's a great way to send an holiday gift to your friends:
+    {% endblocktrans %}
+</p>
+<ul>
+    <li>
+        {% blocktrans %}
+            Invite your friends, give them $5 in shipping credit and get $5 for each one that signs up.
+        {% endblocktrans %}
+    </li>
+</ul>
+<p>
+    {% render_email_button "customer:referrals-index" "Invite Friends" %}
+</p>
+
+{% endblock %}

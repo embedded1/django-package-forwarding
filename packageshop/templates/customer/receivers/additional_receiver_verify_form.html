@@ -1,0 +1,41 @@
+{% load i18n %}
+
+{% if form.is_bound and not form.is_valid %}
+    <div class="alert alert-danger">
+        <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
+    </div>
+{% endif %}
+
+
+{% if form.non_form_errors  %}
+    {% for error in form.non_form_errors  %}
+        <div class="alert alert-danger">
+            <i class="fa fa-exclamation-circle"></i> {{ error }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="js-errors">
+</div>
+
+{% csrf_token %}
+
+
+{{ form.management_form }}
+
+{% for document_form in form %}
+    {% include "partials/form_field.html" with field=document_form.category %}
+    <div class="form-group {% if document_form.original.errors %}has-error{% endif %}">
+        {% include "partials/form_field_label.html" with field=document_form.original %}
+        <span class="btn btn-default btn-select-label fileinput-button">
+            <span>{% trans "Upload File" %}</span>
+            <!-- The file input field used as target for the file upload widget -->
+            <input type="file" name={{ document_form.original.html_name }}>
+        </span>
+        {% for error in document_form.original.errors %}
+            <span class="error-block">{{ error }}</span>
+        {% endfor %}
+    </div>
+{% endfor %}
+
+<button class="btn btn-start-upload js-disable-on-click" data-loading-text="{% trans "Submitting..." %}" style="margin-top: 30px;">{% trans "Verify Receiver" %}</button>

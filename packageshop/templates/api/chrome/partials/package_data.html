@@ -1,0 +1,63 @@
+{% load i18n %}
+{% load currency_filters %}
+
+<section class="package">
+    <div class="methods">
+        <h3>
+            {% blocktrans %}
+                Available shipping methods for Box #{{ idx }}:
+            {% endblocktrans %}
+        </h3>
+        {% if bin.methods %}
+            <table class="table stat-table address-table">
+                <thead>
+                    <tr>
+                        <td>{% trans "Method" %}</td>
+                        <td>{% trans "Delivery Days" %}</td>
+                        <td>{% trans "Rate" %}</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for method in bin.methods %}
+                        <tr>
+                            <td>{{ method.carrier_with_name }}</td>
+                            <td>
+                                {% blocktrans with days=method.delivery_days %}
+                                    {{ days }} business days
+                                {% endblocktrans %}
+                            </td>
+                            <td>{{ method.shipping_method_cost|currency }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <section>
+                <div class="share-buttons">
+                    <p>SHARE YOUR LOVE:</p>
+                    <a href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fusendhome.com%2Famazon-worldwide-shipping%2F" target="_blank" class="btn btn-social-icon btn-facebook"><span class="fa fa-facebook"></span></a>
+                    <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fusendhome.com%2Famazon-worldwide-shipping%2F&amp;text=I%20just%20shopped%20at%20Amazon.com%20like%20a%20US%20citizen%20thanks%20to%20%40USendHome&amp;hashtags=amazon" target="_blank" class="btn btn-social-icon btn-twitter"><span class="fa fa-twitter"></span></a>
+                    <a href="https://plus.google.com/share?url=https://usendhome.com/amazon-worldwide-shipping/" target="_blank" class="btn btn-social-icon btn-google"><span class="fa fa-google"></span></a>
+                    <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://usendhome.com/amazon-worldwide-shipping/" target="_blank" class="btn btn-social-icon btn-linkedin"><span class="fa fa-linkedin"></span></a>
+                    <a href="http://reddit.com/submit?url=https://usendhome.com/amazon-worldwide-shipping/&amp;title=Amazon Worldwide Shipping with USendHome" target="_blank" class="btn btn-social-icon btn-reddit"><span class="fa fa-reddit"></span></a>
+                </div>
+            </section>
+        {% else %}
+            <p class="no-methods">{% trans "No shipping methods found."%}</p>
+        {% endif %}
+    </div>
+
+    <div class="items">
+        <h3>
+            {% blocktrans count num_of_items=num_items %}
+                Box #{{ idx }} contains 1 item:
+            {% plural %}
+                Box #{{ idx }} contains {{ num_of_items }} items:
+            {% endblocktrans %}
+        </h3>
+        <ul class="items-title">
+            {% for item in bin.packages %}
+                <li class="title">{{ item.title }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>

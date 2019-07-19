@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans  %}
+    Your US Address is Now Active + $10 Off Every Order!
+{% endblocktrans %}

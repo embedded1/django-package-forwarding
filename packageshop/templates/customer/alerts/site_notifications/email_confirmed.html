@@ -1,0 +1,21 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "USendHome Email Address Confirmed" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Email Address Confirmed" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    {% blocktrans %}
+        Your email address has been successfully confirmed.
+        Everything is set, you can now fully enjoy the benefits of a private US address.
+        Order extra services for your packages and have them released for delivery through your control panel.
+    {% endblocktrans %}
+</p>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "USendHome Email Confirmation" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Confirm Your Email Address" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    {% blocktrans %}
+        Confirm your email address to fully benefit from your private US shipping address.
+        A confirmation message was sent to <strong>{{ email }}</strong>.
+    {% endblocktrans %}
+</p>
+
+{% endblock %}

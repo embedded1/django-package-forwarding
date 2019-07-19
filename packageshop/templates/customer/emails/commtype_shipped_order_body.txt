@@ -1,0 +1,21 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+{% load shipping_methods_tags %}
+
+{% block body %}
+	{% blocktrans %}
+		Your order is on its way!
+		The selected shipping method is {{ display_carrier }} {{ shipping_method }}, and your tracking number is {{ tracking_number }}.
+	{% endblocktrans %}
+	
+	{% trans "You can manually check your shipment status by clicking on the URL link below:" %}
+	{% render_shipping_method_tracking_url carrier tracking_number as tracking_url %}
+	{{ tracking_url }}
+
+	{% blocktrans %}
+		Or, benefit from our advanced tracking system that sends you real time notifications the second new shipping updates come in.
+		Make sure the package tracking functionality is enabled by clicking on the link below:
+	{% endblocktrans %}
+	{{ site }}{% url "customer:profile-view" %}
+{% endblock %}

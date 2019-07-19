@@ -1,0 +1,106 @@
+{% extends "checkout/checkout.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+	{{ block.super }} {% trans "Customs Declaration" %}
+{% endblock %}
+
+{% block checkout_nav %}
+	{% include 'checkout/nav.html' with step=2 %}
+{% endblock %}
+
+{% block step_description %}
+	<h2>{% trans "2. Customs Declaration" %}</h2>
+{% endblock %}
+
+{% block shipping_method %}{% endblock %}
+{% block payment_method %}{% endblock %}
+{% block order_contents %}{% endblock %}
+{% block shipping_address %}{% endblock %}
+
+{% block customs_form %}
+	<h4 style="margin-bottom: 30px;">{% trans "Properly Declare Your Shipped Package" %}</h4>
+    <div class="row">
+        <div class="col-md-6">
+            {% if is_domestic_shipment %}
+                <p style="margin-bottom: 30px;">
+                    {% blocktrans %}
+                        We know that this is a domestic shipment that doesn't require a customs declaration, but
+                        we would like to keep a record of the order content as we do for all international shipments.
+                        This information will be safe with us and not be shared with anyone by any means.
+                    {% endblocktrans %}
+                </p>
+                <p style="margin-bottom: 30px;">
+                    {% blocktrans %}
+                        USendHome can't send a package that contains alcoholic beverages back to the sender.
+                        If your package contains alcoholic beverages you must contact the seller and ask for prepaid return label.
+                        Once you have it, head back to the checkout process and upload the prepaid label.
+                    {% endblocktrans %}
+                </p>
+            {% else %}
+                <p style="margin-bottom: 30px;">
+                    {% blocktrans %}
+                        International package deliveries must clear customs in your country upon arrival; it doesn't matter if
+                        your package is being sent directly to you or to someone else as a gift! Please fill out your customs
+                        declaration paperwork correctly before proceeding through the checkout process. Include all items in
+                        your package.
+                    {% endblocktrans %}
+                </p>
+                {% comment %}
+                <p style="margin-bottom: 30px;">
+                    {% url 'faq' 'shipping' as shipping-faq-url %}
+                    {% blocktrans %}
+                        Please verify that your package doesn't contain any prohibited items that can't be shipped internationally.
+                        Prohibited items must be returned back to the seller.
+                        No refund will be given if your package returns back to us due to existence of any prohibited item.
+                        Check out the full list of restricted items <a href="{{ shipping-faq-url }}#shipping-q8">here</a>.
+                    {% endblocktrans %}
+                </p>
+                {% endcomment %}
+            {% endif %}
+        </div>
+    </div>
+	<form id="customs_declaration_form" action="{% url "checkout:customs" %}" method="post">
+		{% csrf_token %}
+        <input type="hidden" name="request_type" value="customs_declaration">
+		{% include 'checkout/partials/customs_form_fields.html' with form=form %}			
+		<div class="row">
+			<div class="col-md-6">
+				<div class="checkbox" style="margin-bottom: 85px;">
+				  <label>
+					<input type="checkbox" class="js-enable-on-checked">
+                    {% if is_domestic_shipment %}
+                        {% blocktrans %}
+                            I truly confirm that all goods have been declared, regardless of whether the goods
+                            are new or used or whether I am buying them for myself or as a gift and that the item does not contain
+                            any undeclared or dangerous articles.<br/>
+                            USendHome takes no responsibility for any misstatements of duty, whether by you or the merchant.
+                        {% endblocktrans %}
+                    {% else %}
+                        {% blocktrans %}
+                            I truly confirm that all imported goods have been declared to customs, regardless of whether the goods
+                            are new or used or whether I am buying them for myself or as a gift and that the item does not contain
+                            any undeclared, restricted or dangerous articles.
+                            This is important to emphasis that you as the Importer are responsible for accurate declaration of the nature of the goods and their values.
+                            Additional fees may apply if customs authorities find your declaration misleading or false.<br/>
+                            USendHome takes no responsibility for any misstatements of duty, whether by you or the merchant.
+                        {% endblocktrans %}
+                    {% endif %}
+				  </label>
+				</div>
+				<button class="btn btn-default btn-checkout-grey" id="extra_customs_item" style="margin-right: 20px;">{% trans "Add more items" %}</button>
+				<button class="btn btn-primary btn-checkout" type="submit" disabled>{% trans "Continue to next step  »" %}</button>
+			</div>
+		</div>						           
+	</form>
+
+    {% if not is_lithium_battery_exists %}
+        {% include "checkout/partials/battery_popup.html" %}
+    {% endif %}
+{% endblock customs_form %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.custom_form.init();
+{% endblock %}

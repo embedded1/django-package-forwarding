@@ -1,0 +1,145 @@
+{% extends "layout.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load staticfiles %}
+{% load honeypot %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block body_class %}
+    destination
+{% endblock %}
+
+{% block title %}
+    Achetez aux États-Unis et faites-vous livrer en France au moindre coût
+{% endblock %}
+
+{% block description %}
+    Faites vos achats en ligne aux États-Unis et faites-les livrer en France.
+    Obtenez une adresse GRATUITE aux ÉTATS-UNIS et bénéficiez des frais d’expédition les plus bas du secteur.
+{% endblock %}
+
+{% block content %}
+    <section id="section-local-0">
+        <div class="container">
+            <span class="flag-icon {{ flag_icon }} pull-right"></span>
+            <div class="text-center">
+                <h1>
+                    Économisez sur les expéditions des États-Unis à la France
+                </h1>
+                <h2 style="margin-bottom:15px; font-weight: 600;" class="lead">
+                    Service d’adresse gratuite aux États-Unis et de regroupement de colis
+                </h2>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-local-1">
+        <div class="container">
+            <div class="row">
+                <div class="localbox col-sm-4">
+                    <div class="localbox-inner">
+                        <div class="localbox-img">
+                            <img src="{% static "usendhome/images/package_delivery.jpg" %}" alt="Livraison à domicile">
+                        </div>
+                        <div class="localbox-header">
+                            <h3>
+                                Les tarifs les plus bas vers la France
+                            </h3>
+                        </div>
+                        <div class="localbox-subheader">
+                            <ul>
+                                <li>Adresse de livraison aux États-Unis gratuite</li>
+                                <li>Sans frais d’adhésion</li>
+                                <li>De nombreux services complémentaires</li>
+                            </ul>
+                        </div>
+                        <a href="{% url 'calculators:package' %}" class="btn localbox-btn localbox-btn-nephritis">Consultez les tarifs</a>
+                    </div>
+                </div>
+                <div class="localbox col-sm-4">
+                    <div class="localbox-inner">
+                        <div class="localbox-img">
+                            <img src="{% static "usendhome/images/warehouse.jpg" %}" alt="Service de regroupement des envois">
+                        </div>
+                        <div class="localbox-header">
+                            <h3>Service de regroupement des envois</h3>
+                        </div>
+                        <div class="localbox-subheader">
+                            <ul>
+                                <li>Disponible pour tous</li>
+                                <li>Conditionnement optimisé</li>
+                                <li>Jusqu’à 80% de rabais sur les tarifs de livraison</li>
+                            </ul>
+                        </div>
+                        <a href="{% url "pricing" %}" class="btn localbox-btn localbox-btn-green-sea">Consultez les tarifs</a>
+                    </div>
+                </div>
+                <div class="localbox col-sm-4">
+                    <div class="localbox-inner">
+                        <div class="localbox-img">
+                            <img src="{% static "usendhome/images/amazon-box.jpg" %}" alt="Livraison Amazon ">
+                        </div>
+                        <div class="localbox-header">
+                            <h3 id="france-tech">Technologie exclusive</h3>
+                        </div>
+                        <div class="localbox-subheader">
+                            <ul>
+                                <li>Système de suivi des colis automatisé</li>
+                                <li>Calculateur de frais d’expédition</li>
+                                <li>Une appli qui regroupe les articles d’Amazon en un nombre de cartons optimal</li>
+                            </ul>
+                        </div>
+                        <a href="{% url "chrome-ext" %}" class="btn localbox-btn localbox-btn-turquoise">Regardez la vidéo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-local-2">
+        <div class="container">
+            <div class="text-center">
+                <div class="social-login">
+                    <a href="{% url 'social:begin' "facebook" %}" class="btn btn-social-block btn-social btn-social-lg btn-facebook">
+                        <i class="fa fa-facebook"></i> Inscrivez-vous via Facebook
+                    </a>
+                    <a href="{% url 'social:begin' "twitter" %}" class="btn btn-social-block btn-social-lg btn-social btn-twitter">
+                        <i class="fa fa-twitter"></i> Inscrivez-vous via Twitter
+                    </a>
+                </div>
+            </div>
+            <span>Ou créez un compte manuellement</span>
+            <form id="create-account" class="form-inline" action="{% url 'customer:register' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                {% render_honeypot_field "gender" %}
+                <input type="hidden" name="homepage_create_account">
+                <input type="hidden" name="redirect_url" value="{% url 'customer:register-settings' %}">
+                <div class="form-group form-group-lg">
+                    <label class="sr-only">Adresse e-mail</label>
+                    <input type="email" name="email" class="form-control" placeholder="Adresse e-mail" value="">
+                </div>
+                <div class="form-group form-group-lg">
+                    <label class="sr-only">Mot de passe</label>
+                    <input type="password" name="password1" class="form-control" placeholder="Mot de passe" value="">
+                </div>
+                <button type="submit" class="btn btn-default btn-lg">Créer un compte</button>
+            </form>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.isotope.shippingMethodsInit();
+{% endblock %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/css/destination_1.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/assets/bootstrap-social/bootstrap-social.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/assets/flag-icon/flag-icon.min.css" %}">
+{% endblock %}

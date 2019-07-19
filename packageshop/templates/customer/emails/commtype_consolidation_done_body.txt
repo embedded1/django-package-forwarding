@@ -1,0 +1,14 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+	{% blocktrans %}
+        We have completed consolidating your items into one shipment!
+        Please note that storage fee will be applied if you don't release your shipment for delivery within the next 3 days.
+	{% endblocktrans %}
+	{% blocktrans %}
+			Please click on the URL link below to release your shipment for delivery right away:
+	{% endblocktrans %}
+	{{ site }}{% url "customer:pending-packages" %}
+{% endblock %}

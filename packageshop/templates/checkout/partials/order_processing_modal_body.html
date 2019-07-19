@@ -1,0 +1,67 @@
+{% load i18n %}
+{% load url from future %}
+
+{% if order_status == 'Cancelled' %}
+    {% url 'contact' as contact_url %}
+    <div class="heading">
+        <h2 style="color:#ff6c60;">{% trans "FAILURE!!!" %}</h2>
+    </div>
+	<p>
+        {% if cancel_reason %}
+            {% blocktrans %}
+                order #{{ order_number }} was cancelled.<br/>
+                The cancellation reason was: {{ cancel_reason }}
+            {% endblocktrans %}
+        {% else %}
+            {% blocktrans %}
+                order #{{ order_number }} was cancelled because our security system<br/>
+                has detected an irregularity with it.
+            {% endblocktrans %}
+        {% endif %}
+    </p>
+	<p>
+        {% blocktrans %}
+            We've issued a full refund to you, it usually takes 3-5 days for the money to arrive.<br/>
+			Contact <a href="{{ site }}{{ contact_url }}">customer support</a> for further details.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+            Please wait while you're being redirected to your control panel.
+        {% endblocktrans %}
+    </p>
+{% elif order_status == 'Pending clearance' %}
+    <div class="heading">
+        <h2 style="color:#A9D86E;">{% trans "Payment in progress!!!" %}</h2>
+    </div>
+    <p>
+        {% blocktrans %}
+            It usually takes 3 - 5 business days for an eCheck payment to clear.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+            Sit tight and we will send you the order confirmation email once payment has been completed.
+        {% endblocktrans %}
+    </p>
+{% else %}
+    <div class="heading">
+        <h2 style="color:#A9D86E;">{% trans "SUCCESS!!!" %}</h2>
+    </div>
+    <p>
+        {% blocktrans %}
+            Order #{{ order_number }} processing went through successfully!
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+            USendHome operations staff is preparing your order for delivery.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+            Emails containing order confirmation and shipment tracking number<br/>
+            are making their way to your inbox.
+        {% endblocktrans %}
+    </p>
+{% endif %}

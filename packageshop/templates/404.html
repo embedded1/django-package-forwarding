@@ -1,0 +1,30 @@
+{% extends "error.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load url from future %}
+
+{% block title %}
+    {% trans 'Page Not Found' %}
+{% endblock %}
+
+{% block error_image %}
+    <img src="{% static "usendhome/images/404.png" %}" alt="page-not-found-error"/>
+{% endblock %}
+
+{% block error_heading %}
+    404
+{% endblock %}
+
+{% block error_sub_heading %}
+{% trans "Page Not Found" %}
+{% endblock %}
+
+{% block error_message %}
+    <p>
+        {% url "promotions:home" as home %}
+        {% blocktrans %}
+            Something went wrong or that page doesn't exist. <a href="{{ home }}">Return Home</a>
+        {% endblocktrans %}
+    </p>
+{% endblock %}
+

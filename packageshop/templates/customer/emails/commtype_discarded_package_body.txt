@@ -1,0 +1,16 @@
+{% extends "oscar/customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}{% autoescape off %}
+
+    {% blocktrans with package_number=package.upc %}
+       Package #{{ package_number }} exceeded the maximum storage days and has been removed from your account.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+       Always release your packages for delivery in time to avoid losing your items. We provide plenty of storage time
+       and notifications that can help you manage your packages at your private mailbox.
+    {% endblocktrans %}
+
+{% endautoescape %}
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "customer/package/base.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load user_agents %}
+
+{% block extrahead %}
+    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/cajhcjefikhfeodofkmpcnecklngmeln">
+{% endblock %}
+
+{% block messages %}
+    <div class="container hidden-sm hidden-xs">
+        <div id="promo-messages" class="incoming-packages">
+            <div class="alert alert-safe alert-noicon alert-info fade in">
+                {% if not request.session.added_chrome_extension and not user.get_profile.added_chrome_extension and request|is_pc %}
+                    <h1>{% trans "Want to shop at Amazon.com like a US resident?" %}</h1>
+                    <p>
+                        {% blocktrans %}
+                            Give our new Chrome extension a spin. It will save you time, money and frustration.
+                        {% endblocktrans %}
+                    </p>
+                    <a href="{% url 'chrome-ext' %}" class="btn" style="background-color: inherit;">{% trans "Learn More" %}</a>
+                    <a class="btn btn-success btn-started chrome" id="add-to-chrome">{% trans "Add to Chrome" %}</a>
+                {% else %}
+                    <h1>{% trans "Reduce Your Shipping Costs" %}</h1>
+                    <p>
+                        {% blocktrans %}
+                            Give your friends $5 in shipping credit and get $5 for each one that signs up
+                        {% endblocktrans %}
+                    </p>
+                    <a href="{% url 'customer:referrals-index' %}" class='btn btn-info'>{% trans "Invite Friends" %}</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {{ block.super }}
+{% endblock %}
+
+{% block packages %}
+	<div id="pending_packages_data">
+		{% include "customer/package/packages_details.html" %}
+	</div>
+{% endblock %}
+
+

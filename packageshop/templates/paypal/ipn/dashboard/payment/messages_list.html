@@ -1,0 +1,56 @@
+{% extends 'dashboard/layout.html' %}
+{% load currency_filters %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+    {% trans "PayPal IPN payment messages" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            <span class="divider">/</span>
+        </li>
+        <li>
+            <a href="{% url 'paypal-ipn-payment-list' %}">{% trans "PayPal Payment IPN messages" %}</a>
+            <span class="divider">/</span>
+        </li>
+        <li class="active">{% trans "Messages" %}</li>
+    </ul>
+{% endblock %}
+
+{% block headertext %}
+    {% trans "PayPal IPN payment messages" %}
+{% endblock %}
+
+{% block dashboard_content %}
+
+    {% if payment_messages %}
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>{% trans "Transaction ID" %}</th>
+                    <th>{% trans "Payment status" %}</th>
+                    <th>{% trans "Fraud management filters" %}</th>
+                    <th>{% trans "Date received" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for payment_message in payment_messages %}
+                    <tr>
+                        <td><a href="{% url 'paypal-ipn-payment-detail' payment_message.id %}">{{ payment_message.transaction_id }}</a></td>
+                        <td>{{ payment_message.payment_status }}</td>
+                        <td>{{ payment_message.fraud_management_filters|default:"-" }}</td>
+                        <td>{{ payment_message.date_created }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% include "partials/pagination.html" %}
+    {% else %}
+        <p>{% trans "No payment IPN messages have been received yet." %}</p>
+    {% endif %}
+
+{% endblock dashboard_content %}

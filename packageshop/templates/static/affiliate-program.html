@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load staticfiles %}
+
+{% block page_inner_class %}referral-program{% endblock %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block title %}
+    {% trans "Join USendHome Affiliate program and Earn Cash for referring peoples." %}
+{% endblock %}
+
+{% block description %}
+	{% trans "Make money with Usendhome. Join our affiliate program and start making money from today! Earn $10 / customer whom you refer to USendHome. Top Affiliates are making over $2000 / month just by blogging about shopping and referring USendHome." %}
+{% endblock %}
+
+{% block content %}
+    <section id="section-ref-1">
+        <div class="container">
+            <div class="text-center">
+                <h1>{% trans "USendHome Affiliate Program" %}</h1>
+                <p class="lead">{% trans "Do you tell others about USendHome all the time?  If so, today is your payday! " %}</p>
+                <p class="lead">{% trans "The affiliate program allows anyone with a website or blog to earn cash for each new USendHome customer they refer" %}</p>
+				<a href="{% url 'customer:affiliate-register' %}" class="btn btn-primary btn-lg">{% trans "Get Your Affiliate Link" %}</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-ref-2">
+        <div class="container">
+            <div class="row text-center">
+                <h2>{% trans "How it Works" %}</h2>
+                <div class="col-sm-4 section-2-icon">
+                    <img src="{% static "usendhome/images/referral_program/invite.png" %}" alt="Post affiliate links on your website" class="img img-responsive hidden-xs" style="width: 230px;">
+                    <div class="text">
+                        <p>{% trans "Post Your USendHome affiliate links on your website or blog." %}</p>
+                        <a href="{% url 'faq' 'affiliate-program' %}" class="more">{% trans "Read More" %}</a>
+                    </div>
+                </div>
+                <div class="col-sm-4 section-2-icon">
+                    <img src="{% static "usendhome/images/referral_program/register.png" %}" alt="Visitor Opens a USendHome Account" class="img img-responsive hidden-xs" style="width: 230px;">
+                    <div class="text">
+                        <p>{% trans "Any visitors coming from your site who sign up generate commission for you." %}</p>
+                        <a href="{% url 'faq' 'affiliate-program' %}" class="more">{% trans "Read More" %}</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <img src="{% static "usendhome/images/referral_program/money.png" %}" alt="You Get Paid" class="img img-responsive hidden-xs" style="width: 230px;">
+                    <div class="text">
+                        <p>{% trans "You receive $10 after a visitor from you site delivers his first package." %}</p>
+                        <a href="{% url 'faq' 'affiliate-program' %}" class="more">{% trans "Read More" %}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-ref-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p>{% trans "Earn commission as a USendHome Affiliate" %}</p>
+                </div>
+
+				<div class="col-xs-12 get-started">
+                    <a href="{% url 'customer:affiliate-register' %}" class="btn btn-success btn-started">{% trans "Apply Now" %}</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

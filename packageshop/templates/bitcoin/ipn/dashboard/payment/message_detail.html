@@ -1,0 +1,44 @@
+{% extends 'dashboard/layout.html' %}
+{% load currency_filters %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+    {% trans "Bitcoin IPN message" %} {{ payment_message.transaction_id }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            <span class="divider">/</span>
+        </li>
+        <li>
+            <a href="{% url 'bitcoin-ipn-payment-list' %}">{% trans "Bitcoin Payment IPN messages" %}</a>
+            <span class="divider">/</span>
+        </li>
+        <li class="active">
+            {% blocktrans with id=payment_message.transaction_id %}
+                Transaction {{ id }}
+            {% endblocktrans %}
+        </li>
+    </ul>
+{% endblock %}
+
+{% block headertext %}
+    {% blocktrans with id=payment_message.transaction_id %}
+        Transaction {{ id }}
+    {% endblocktrans %}
+{% endblock %}
+
+{% block dashboard_content %}
+    <table class="table table-striped table-bordered">
+        <tbody>
+            <tr><th>{% trans "Transaction ID" %}</th><td>{{ payment_message.transaction_id }}</td></tr>
+            <tr><th>{% trans "Payment status" %}</th><td>{{ payment_message.payment_status }}</td></tr>
+            <tr><th>{% trans "Using sandbox" %}</th><td>{{ payment_message.is_sandbox }}</td></tr>
+            <tr><th>{% trans "Raw message" %}</th><td>{{ payment_message.message|safe }}</td></tr>
+            <tr><th>{% trans "Date" %}</th><td>{{ payment_message.date_created }}</td></tr>
+        </tbody>
+    </table>
+{% endblock dashboard_content %}

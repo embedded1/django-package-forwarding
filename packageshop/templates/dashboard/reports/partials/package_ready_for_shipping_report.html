@@ -1,0 +1,151 @@
+{% extends 'dashboard/reports/index.html' %}
+{% load currency_filters %}
+{% load i18n %}
+
+{% block report %}
+<form id="purchaseLabelForm" action="{% url dashboard:generate-shipping-labels %}" method="post" class="form-inline">
+    {% csrf_token %}
+    <table class="table table-striped table-bordered table-hover">
+        {% if objects %}
+            <tr>
+                <th>{% trans "Select" %}</th>
+                <th>{% trans "Customer suite number" %}</th>
+                <th>{% trans "Customer name" %}</th>
+                <th>{% trans "Package unique ID" %}</th>
+                <th>{% trans "Warehouse" %}</th>
+                <th>{% trans "Location 1" %}</th>
+                <th>{% trans "Location 2" %}</th>
+                <th>{% trans "Location 3" %}</th>
+                <th>{% trans "Shipping service" %}</th>
+                <th>{% trans "Battery status" %}</th>
+                <th>{% trans "Customs declaration" %}</th>
+                <th>{% trans "Shipping address" %}</th>
+                <th>{% trans "Date placed" %}</th>
+                <th>{% trans "Express checkout?" %}</th>
+                {% if request.user.is_staff %}
+                    <th>{% trans "Partner name" %}</th>
+                {% endif %}
+                <th>{% trans "Action" %}</th>
+            </tr>
+        {% for order in objects %}
+            <tr>
+                <td>
+                    <input type="checkbox" name="selected_line" value="{{ order.id }}" {% if order.is_incomplete_customs_declaration %}disabled{% endif %}/>
+                </td>
+                <td>{{ order.user.get_profile.uuid }}</td>
+                <td>{{ order.user }}</td>
+                <td>{{ order.package.upc }}</td>
+                {% with product_location=order.package.location %}
+                    <td>{{ product_location.warehouse|default:"-" }}</td>
+                    <td>{{ product_location.loc1|default:"-" }}</td>
+                    <td>{{ product_location.loc2|default:"-" }}</td>
+                    <td>{{ product_location.loc3|default:"-" }}</td>
+                {% endwith %}
+                <td>
+                    {% if order.is_eei_document_required %}
+                        <span class="color">{{ order.tracking.display_carrier }} {{ order.shipping_method }} - EEI DOCUMENT REQUIRED!!!</span>
+                    {% else %}
+                        <span>{{ order.tracking.display_carrier }} {{ order.shipping_method }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if order.package.battery_status != 'No Battery' %}
+                        <span style="color:red; font-weight: 700;">{{ order.package.battery_status }}</span>
+                    {% else %}
+                        {{ order.package.battery_status }}
+                    {% endif %}
+                </td>
+                <td {% if order.is_incomplete_customs_declaration %}style="color: red;"{% endif %}>
+                    {% with summary_tuple=order.package.custom_form_summary %}
+                        {{ summary_tuple.0 }}<br/>
+                        {% for field in summary_tuple.1 %}
+                            {% if forloop.counter|divisibleby:"3" %}
+                                {{ field }}
+                                <br/>
+                            {% else %}
+                                {{ field }},
+                            {% endif %}
+                        {% endfor %}
+                    {% endwith %}
+                    {% if order.is_incomplete_customs_declaration %}
+                        <p><strong>WAITING FOR NEW DECLARATION</strong></p>
+                    {% endif %}
+                </td>
+                <td>{{ order.shipping_address.summary }}</td>
+                <td>{{ order.date_placed }}</td>
+                <td>{{ order.package.special_requests.express_checkout_done|yesno }}</td>
+                {% if request.user.is_staff %}
+                    <td>{{ order.package.partner.name }}</td>
+                {% endif %}
+                <td>
+                    <a class="btn btn-default" style="font-weight: bold" href="{% url dashboard:update-customs-declaration order.pk %}">{% trans "Update Declaration" %}</a>
+                    <button style="margin-top:10px" class="btn btn-default add-itn" data-order-pk="{{ order.pk }}">{% trans "Add ITN" %}</button>
+                    <button style="margin-top:30px" class="btn btn-default inc-decl-confirm" data-order-pk="{{ order.pk }}">{% trans "Incomplete Declaration" %}</button>
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr><td>{% trans "No results found." %}</td></tr>
+    {% endif %}
+    </table>
+    <div class="form-actions">
+        <input type="submit" value="Purchase shipping labels" form="purchaseLabelForm" class="btn btn-primary btn-large js-disable-on-click"/>
+    </div>
+</form>
+
+{# ITN number modal #}
+<div class="modal modal-cp fade" id="ITNModal" tabindex="-1" role="dialog" aria-labelledby="ITNModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ITNModalLabel">{% trans "Enter ITN Number" %}</h4>
+                <button style="position: absolute; right: 10px; top: 2%;" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body" id="ITNModalBody">
+                <form action="{% url dashboard:add-itn-number %}" method="post" id="ITNForm">
+                    {% csrf_token %}
+                    <input id="itn_order_id" type="hidden" name="order_pk">
+                    <label for="itn_number">ITN number:</label>
+                    <input type="text" name="itn_number">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-save" id="ITNModalSubmit">{% trans "Save" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# incomplete declaration confirm modal #}
+<div class="modal modal-cp fade" id="InclDeclModal" tabindex="-1" role="dialog" aria-labelledby="InclDeclModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="InclDeclModalLabel">{% trans "Notify customer?" %}</h4>
+                <button style="position: absolute; right: 10px; top: 2%;" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body" id="InclDeclModalBody">
+                <h3>Are you sure you want to send incomplete declaration email to customer?</h3>
+                <form action="{% url dashboard:incomplete-customs-declaration %}" method="post" id="InclDeclForm">
+                    {% csrf_token %}
+                    <input id="incl_decl_order_id" type="hidden" name="order_pk">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">{% trans "NO" %}</button>
+                <button type="button" class="btn btn-primary btn-save" id="InclDeclModalSubmit">{% trans "YES" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% include "partials/pagination.html" %}
+{% endblock %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    oscar.dashboard.orders.initTable();
+    usendhome.dashboard.orders.incompleteDeclaration();
+    usendhome.dashboard.orders.ITNHandling();
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+    {% blocktrans %}Hi, {% endblocktrans %}
+
+    {% blocktrans %}
+        I saw that you were about to create a free account with us and that you didn't get a chance to
+        finish the sign up process. I just wanted to see if there were any problems, or anything at all I could help with.
+        If so, please let me know by responding to this email.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+       In case you were looking to continue where you left off, here's a fast ticket to get your personal US address up
+       and running.
+    {% endblocktrans %}
+
+    {% url "customer:register" as register_url %}
+    {% blocktrans %}
+        {{ site }}{{ register_url }}
+    {% endblocktrans %}
+{% endblock %}
+
+{% block footer %}
+	{% trans "Cheers, " %}
+	{% blocktrans %}
+		Leo Jones
+	{% endblocktrans %}
+{% endblock %}

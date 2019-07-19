@@ -1,0 +1,31 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome Package Consolidation Delivery Last Notice" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Package Consolidation Delivery Last Notice" %}
+{% endblock %}
+
+{% block body %}
+    <p>
+        {% blocktrans with id=package.upc %}
+            We've completed your Package Consolidation request 5 days ago and package #{{ id }}
+            is waiting for delivery.
+            You have 2 more days to complete the delivery before we return all of the items back to senders.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+            Hurry up and release your package now to avoid losing your items.
+            Click on the button below to get your package released for delivery now:
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% render_email_button "customer:pending-packages" "View Packages" %}
+    </p>
+{% endblock %}

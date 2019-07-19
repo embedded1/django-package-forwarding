@@ -1,0 +1,3 @@
+
+class BitcoinPayError(Exception):
+    pass

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load staticfiles compress %}
+
+{% block tracking %}{% endblock %}
+{% block retargeting %}{% endblock %}
+{% block analytics_body_top %}{% endblock %}
+{% block analytics_body_bottom %}{% endblock %}
+{% block analytics_head_top %}{% endblock %}
+{% block analytics_head_bottom %}{% endblock %}
+{% block defer_js %}{% endblock %}
+
+{% block cdn_scripts %}
+    <!-- jQuery -->
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script>window.jQuery || document.write('<script src="{% static "usendhome/assets/jquery-1.11.2.min.js" %}"><\/script>')</script>
+    <script src="//code.jquery.com/ui/1.10.3/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+
+{% block scripts %}
+    {% compress js %}
+        <script src="{% static "oscar/js/bootstrap/bootstrap.min.js" %}" type="text/javascript" charset="utf-8"></script>
+        {# jQuery plugins #}
+        <script src="{% static "oscar/js/mousewheel/jquery.mousewheel.min.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "oscar/js/scrollpane/jquery.jscrollpane.min.js" %}" type="text/javascript" charset="utf-8"></script>
+        {# The CSS for the timepicker is embedded in dashboard.less #}
+        <script src="{% static "oscar/js/timepicker/jquery-ui-timepicker-addon.min.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "oscar/js/select2/select2.min.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "oscar/js/oscar/dashboard.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "usendhome/js/dashboard_4.js" %}" type="text/javascript" charset="utf-8"></script>
+    {% endcompress %}
+{% endblock %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/cupertino/jquery-ui.css">
+{% endblock %}
+
+{% block extrascripts %}
+    {{ block.super }}
+    <script src="//tinymce.cachefly.net/4.0/tinymce.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="//tinymce.cachefly.net/4.0/jquery.tinymce.min.js" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+
+
+{% block mainstyles %}
+    {% compress css %}
+        <link rel="stylesheet" href="{% static "oscar/css/bootstrap.min.css" %}" />
+        {% if use_less %}
+            <link rel="stylesheet" type="text/less" href="{% static "oscar/less/dashboard.less" %}" />
+        {% else %}
+            <link rel="stylesheet" type="text/css" href="{% static "oscar/css/dashboard.css" %}" />
+            <link rel="stylesheet" href="{% static "usendhome/css/dashboard_1.css" %}" type="text/css" />
+            <link rel="stylesheet" href="{% static "oscar/js/select2/select2.css" %}" />
+        {% endif %}
+    {% endcompress %}
+{% endblock %}
+
+
+

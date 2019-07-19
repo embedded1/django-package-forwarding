@@ -1,0 +1,9 @@
+{% load i18n %}
+{% load shipping_methods_tags %}
+
+{% blocktrans with number=package.upc %}
+    Delivery exception has occurred for package {{ number }}: {{ status }}
+{% endblocktrans %}
+
+{% render_shipping_method_tracking_url carrier tracking_number as tracking_url %}
+{{ tracking_url }}

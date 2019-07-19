@@ -1,0 +1,25 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome New Sign Up" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Welcome Aboard!" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    {% blocktrans %}
+        Your personal package forwarding address has been set up successfully, you can start using it right away.<br/>
+    {% endblocktrans %}
+</p>
+<p>
+    {% blocktrans %}
+        Deliver your orders to your USendHome mailbox and we will notify you once they arrive.
+        No need to send us the tracking number nor the order confirmation email - yes, it's that simple!
+    {% endblocktrans %}
+</p>
+{% endblock %}

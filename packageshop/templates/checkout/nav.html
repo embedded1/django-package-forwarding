@@ -1,0 +1,72 @@
+{% load i18n %}
+{% load checkout_filters %}
+{% load url from future %}
+
+
+<div class="checkout-status clearfix">
+    <div class="checkout-line"></div>
+    <div class="checkout-status-inner">
+        {% if request|is_return_to_store_checkout %}
+			{% if step == 2 or step == 3 or step == 4%}
+				<span><i class="fa fa-check"></i></span>
+				<p><a href="{% url "checkout:return-to-store-index" %}">{% trans "Return Label" %}</a></p>
+			{% else %}
+			    <span>1</span>
+				<p>{% trans "Return Label" %}</p>
+			{% endif %}            
+        {% else %}
+			{% if step == 2 or step == 3 or step == 4%}
+				<span><i class="fa fa-check"></i></span>
+				<p><a href="{% url "checkout:shipping-address" %}">{% trans "Shipping Address" %}</a></p>
+			{% else %}
+				<span>1</span>
+				<p>{% trans "Shipping Address" %}</p>
+			{% endif %}  		           
+        {% endif %}
+    </div>
+    <div class="checkout-status-inner">
+        {% if request|is_return_to_store_checkout %}
+            {% if request|is_return_to_store_prepaid_return_label_checkout %}
+                {# need to disable this step #}
+                <span><i class="fa fa-times"></i></span>
+                <p>{% trans "Merchant Address" %}</p>
+            {% else %}
+                {% if step == 3 or step == 4%}
+                    <span><i class="fa fa-check"></i></span>
+                    <p><a href="{% url "checkout:return-to-store-shipping-address" %}">{% trans "Merchant Address" %}</a></p>
+                {% else %}
+                    <span>2</span>
+                    <p>{% trans "Merchant Address" %}</p>
+                {% endif %}
+            {% endif %}
+        {% else %}
+            {% if step == 3 or step == 4 %}
+                <span><i class="fa fa-check"></i></span>
+                <p><a href="{% url "checkout:customs" %}">{% trans "Customs Declaration" %}</a></p>
+            {% else %}
+                <span>2</span>
+                <p>{% trans "Customs Declaration" %}</p>
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="checkout-status-inner">
+        {% if request|is_return_to_store_prepaid_return_label_checkout %}
+            {# need to disable this step #}
+            <span><i class="fa fa-times"></i></span>
+            <p>{% trans "Shipping Methods" %}</p>
+        {% else %}
+            {% if step == 4 %}
+                <span><i class="fa fa-check"></i></span>
+                <p><a href="{% url "checkout:shipping-method" %}">{% trans "Shipping Methods" %}</a></p>
+            {% else %}
+                <span>3</span>
+                <p>{% trans "Shipping Methods" %}</p>
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="checkout-status-inner">
+		<span>4</span>
+        <p>{% trans "Payment" %}</p>
+    </div>
+</div>
+

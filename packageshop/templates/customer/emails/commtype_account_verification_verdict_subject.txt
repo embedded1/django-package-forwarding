@@ -1,0 +1,17 @@
+{% load i18n %}
+
+{% if is_verified %}
+    {% blocktrans %}
+	    Your USendHome account has been successfully verified
+    {% endblocktrans %}
+{% else %}
+    {% if more_documents %}
+        {% blocktrans %}
+            Additional documents required to complete the account verification process
+        {% endblocktrans %}
+    {% else %}
+        {% blocktrans %}
+	        USendHome account verification process failed
+        {% endblocktrans %}
+    {% endif %}
+{% endif %}

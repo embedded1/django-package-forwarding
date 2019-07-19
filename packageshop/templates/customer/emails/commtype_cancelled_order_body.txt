@@ -1,0 +1,47 @@
+{% extends "customer/emails/base.txt" %}
+{% load url from future %}
+{% load i18n %}
+
+{% block body %}
+    {% url 'contact' as contact_url %}
+    {% if not cancelled_reason %}
+        {% blocktrans %}
+            order #{{ order_number }} was cancelled because our security system has detected an irregularity with it.
+        {% endblocktrans %}
+    {% else %}
+        {% blocktrans %}
+            order #{{ order_number }} was cancelled because {{ cancelled_reason }}
+        {% endblocktrans %}
+    {% endif %}
+
+    {% if suspend_account %}
+        {% if account_inactive %}
+            {% blocktrans %}
+                Consequently, your account has been closed.
+            {% endblocktrans %}
+        {% else %}
+            {% blocktrans %}
+                Consequently, your account has been placed on hold until our further investigation is completed.
+                You can only return your packages back to the senders.
+            {% endblocktrans %}
+        {% endif %}
+    {% endif %}
+
+    {% if refund_url %}
+        Click the following URL to request a refund and place a new order to release your package for delivery:
+        {{ refund_url }}
+    {% endif %}
+
+    {% if refund_given %}
+        {% blocktrans %}
+            We've just issued a refund to you, it usually takes 3-5 days for the money to arrive.
+            Please contact customer support at: {{ site }}{{ contact_url }} if you don't see the money
+            after the listed time frame above.
+        {% endblocktrans %}
+    {% endif %}
+
+    {% blocktrans %}
+           If you believe this order was placed incorrectly or by mistake, or if you have any questions or 
+		   concerns, please don't hesitate to contact customer support at {{ site }}{{ contact_url }}.
+    {% endblocktrans %}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "403.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+    {% trans 'Beta' %}
+{% endblock %}
+
+{% block error_heading %}
+{% trans "Beta Program Full" %}
+{% endblock %}
+
+{% block error_sub_heading %}
+{% endblock %}
+
+{% block error_message %}
+    <p>
+        {% url "promotions:home" as home %}
+        {% blocktrans %}
+            We're sorry but our beta program is currently full.<br/>
+            We want to make sure everything runs smoothly with limited number of users<br/>
+            before we open our gates to the public.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+            Don't worry, We have your details and we will notify you once <br/>
+            we're ready to receive your orders.<br/>
+            <a href="{{ home }}">Return Home</a>
+        {% endblocktrans %}
+    </p>
+{% endblock %}

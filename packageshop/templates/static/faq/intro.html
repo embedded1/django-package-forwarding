@@ -1,0 +1,140 @@
+{% extends "static/faq/base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block description %}
+	{% trans "Explore USendHome the new forwarding experiece and how we've changed thw way international shoppers shop online in the USA and ship internationally." %}
+{% endblock %}
+
+{% block title %}
+    {% trans "USendHome Introduction Questions" %}
+{% endblock %}
+
+
+{% block messages %}
+    <div class="container">
+        <div id="promo-messages">
+            <div class="alert alert-safe alert-noicon alert-info fade in">
+                <h1>{% trans "USendHome Introduction Questions" %}</h1>
+                <p>
+                    {% blocktrans %}
+                        Learn what drives us, how we play differently and explore the forwarding experience you're about
+                        to take part of.
+                    {% endblocktrans %}
+                </p>
+                <p>
+                    {% blocktrans %}
+                        We've changed the way online shoppers in the USA ship their packages internationally.
+                    {% endblocktrans %}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block faq_section %}
+<div id="intro" class="faq-content active">
+    <div class="faq-content-inner" id="intro-q1">
+        <h4>{% trans "Who uses USendHome?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Shoppers! USendHome is a platform that enables shoppers all around the world to purchase from any online US store.
+                Our goal is to break geographical boundaries and enable non-US shoppers to purchase freely from US merchants and have their merchandise delivered seamlessly via our US package forwarding service.
+                Every registered member receives a private US address to use for their US purchases.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                We offer significantly lower shipping rates bundled with an advanced package tracking system, a comprehensive shipping insurance policy, and a full range of extra services that can save you both time and money.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                In many cases, it is cheaper to use our services to deliver orders abroad than having them delivered directly through the merchant.
+                Check out our <a href="{{ package_calculator_url }}"> package shipping calculators</a> to see for yourself.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="intro-q2">
+        <h4>{% trans "How do I get started?" %}</h4>
+        <p>
+            {% blocktrans %}
+                You're only a step away from the hottest brands and the best sales you have only dreamed of.
+                A world of thousands of US online merchants is just a click away.
+                Tired of the days where a pop-up message saying that shipping is only limited to the USA has stood between you and an amazing sale?
+                Guess what? Those days are over! Follow the steps below and start your online shopping spree today!
+            {% endblocktrans %}
+        </p>
+        <ul>
+            <li>{% trans "Open a new account. It only takes 10 seconds to complete and receive your private US address." %}</li>
+            <li>{% trans "Shop in any US online store and use your private address to deliver your orders to our distribution center." %}</li>
+            <li>{% trans "We will notify you the moment your order arrives at your private mailbox." %}</li>
+            <li>{% trans "Log in to your control panel to see your incoming packages, order extra services, and have your orders prepared and shipped." %}</li>
+        </ul>
+        <div class="mt-20">
+            <div class="ext-video embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="//www.youtube.com/embed/JqQIi_rzJXU?html5=1&rel=0&showinfo=0&autohide=1" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+        <p style="margin-top: 20px;">
+            {% blocktrans %}
+                Don't forget to check out our detailed FAQ section on the left to get you started right away.
+                We highly recommend you dedicate some reading time in our comprehensive <a href="{{ tutorials_url }}">tutorial zone</a> to learn how to perform common tasks.
+                Plus, you can always contact our <a href="{{ support_url }}">customer support</a> to receive dedicated service if you run into a snag.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="intro-q3">
+        <h4>{% trans "What do you do better?" %}</h4>
+        {% url 'pricing' as pricing_url %}
+        <p>
+            {% blocktrans %}
+                We believe in honesty and playing fair. Our customers are only charged for the services they use.
+                There is no subscription fee or any other hidden fees. Our <a href="{{ pricing_url }}">pricing charts</a> include all charges; everything is transparent.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                We use technology to create a fantastic user experience.
+                We've designed a state-of-the-art control panel to manage incoming packages and orders and to purchase extra services all in one place.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                Every USendHome shipment includes a tracking number so you always know where your packages are.
+                For maximum protection, you can also purchase shipping insurance - we offer highly affordable rates!
+            {% endblocktrans %}
+        </p>
+        <p>{% trans "Wait no more and start your US shopping spree with us today!" %}</p>
+    </div>
+    <div class="faq-content-inner" id="intro-q4">
+        <h4>{% trans "Why are your rates so low?" %}</h4>
+        <p>
+            {% blocktrans %}
+                We put our customers first and always look for ways to offer lower shipping rates without compromising quality service.
+                You can be rest assured that your goods are handled professionally by our trained operations staff, and that you get the best US package forwarding services and rates out there.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="intro-q5">
+        <h4>{% trans "Do you offer an affiliate program?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Sure! just drop us a line at <a href="mailto:affiliate@usendhome.com?Subject=Affiliate%20Program">affiliate@USendHome.com</a>
+                and we will get back to you within 1 business day with all the details.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="intro-q6">
+        <h4>{% trans "Where is your warehouse located?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Our distribution center is located in California, just minutes
+                away from LAX international airport.
+                This means that your packages will be dispatched to you shortly after we mail them out.<br/>
+                Less time on the road means you will get your packages faster!
+            {% endblocktrans %}
+        </p>
+    </div>
+</div>
+{% endblock %}

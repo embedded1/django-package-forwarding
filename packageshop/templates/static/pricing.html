@@ -1,0 +1,263 @@
+{% extends "layout.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load staticfiles %}
+
+{% block page_inner_class %}pricing{% endblock %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block title %}
+    {% trans " Pocket Friendly Parcel Forwarding from USA to your home - USendHome" %}
+{% endblock %}
+
+{% block description %}
+	{% trans "Pay only for the parcels you forward. No hidden charges, no set up fees no monthly fees. Our partnerships with courier services enables you to get cheapest internal shipping from USA. Get a FREE US forwarding address now and ship your parcel for cheap to any address you want. International shipping to over 128 countries." %}
+{% endblock %}
+
+{% block content %}
+<section id="section-ref-1">
+    <div class="container">
+        <div class="text-center">
+            <h1>{% trans "Straightforward Pricing" %}</h1>
+            <p class="lead">{% trans "No Monthly Fees, No Setup Fees, No Hidden Fees!" %}</p>
+            <p class="lead">{% trans "Shop USA brands online and pay only for services you use." %}</p>
+            <a href="{% url 'customer:register' %}" class='btn btn-info'>{% trans "GET FREE US ADDRESS NOW" %}</a>
+        </div>
+    </div>
+</section>
+<section id="section-3">
+    <div class="container">
+        <div class="row">
+            <div class="boxprice boxprice-green col-sm-4">
+                <div class="boxprice-inner">
+                    <div class="boxprice-header">
+                        <h3>{% trans "Affordable Basics" %}</h3>
+                    </div>
+                    <div class="boxprice-subheader">
+                        <span>
+                            {% blocktrans %}
+                                Pay per service only <br/> No surprises at checkout!
+                            {% endblocktrans %}
+                        </span>
+                    </div>
+                    <div class="boxprice-content">
+                        <div class="box-line clearfix">
+                            <div>
+                                {% blocktrans %}
+                                    <span>Package</span>
+                                    <span>Processing</span>
+                                {% endblocktrans %}
+                            </div>
+                            <div>
+                                <span>
+                                    <strong>$1</strong>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="box-line clearfix">
+                            <div>
+                                {% blocktrans %}
+                                    <span>Payment</span>
+                                    <span>Processing</span>
+                                {% endblocktrans %}
+                            </div>
+                            <div>
+                                <span><strong>4.5%</strong></span>
+                                <span><strong>{% trans "of shipping rate" %}</strong></span>
+                            </div>
+                        </div>
+                        <div class="box-line clearfix">
+                            <div>
+                                {% blocktrans %}
+                                    <span>Package</span>
+                                    <span>Consolidation</span>
+                                {% endblocktrans %}
+                            </div>
+                            <div>
+                                <span><strong>{% trans "$2 before arrival" %}</strong></span>
+                                <span><strong>{% trans "$3 after arrival" %}</strong></span>
+                            </div>
+                        </div>
+                        <div class="box-line clearfix">
+                            <div>
+                                <span>{% trans "Storage" %}</span>
+                            </div>
+                            <div>
+                                <span>
+                                    <strong>{% trans "$1/exceeding day" %}</strong>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="boxprice-footer">
+                        <a href="{% url 'fees-explained' %}#basics">{% trans "Learn More" %}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="boxprice boxprice-blue col-sm-4">
+                <div class="boxprice-inner">
+                    <div class="boxprice-header">
+                        <h3>{% trans "Extra Services" %}</h3>
+                    </div>
+                    <div class="boxprice-subheader">
+                        <span>
+                            {% blocktrans %}
+                                The more you order <br/> The more money you save!
+                            {% endblocktrans %}
+                        </span>
+                    </div>
+                <div class="boxprice-content">
+                    <div class="box-line clearfix">
+                        <div>
+                            {% blocktrans %}
+                                <span>Package</span>
+                                <span>Content Photos</span>
+                            {% endblocktrans %}
+                        </div>
+                        <div>
+                            <span><strong>{% trans "$2 for 1" %}</strong></span>
+                            <span><strong>{% trans "$5 for 3" %}</strong></span>
+                        </div>
+                    </div>
+                    <div class="box-line clearfix">
+                        <div>
+                            <span>{% trans "Repacking" %}</span>
+                        </div>
+                        <div>
+                            <span><strong>$5</strong></span>
+                        </div>
+                    </div>
+                    <div class="box-line clearfix">
+                        <div>
+                            {% blocktrans %}
+                                <span>Customs Declaration</span>
+                                <span>Paperwork</span>
+                            {% endblocktrans %}
+                        </div>
+                        <div>
+                            <span><strong>$5</strong></span>
+                        </div>
+                    </div>
+                    <div class="box-line clearfix">
+                        <div>
+                            <span>{% trans "Express Checkout" %}</span>
+                        </div>
+                        <div>
+                            <span><strong>$2</strong></span>
+                        </div>
+                    </div>
+                    <div class="box-line clearfix">
+                        <div>
+                            <span>{% trans "Extra Protection" %}</span>
+                        </div>
+                        <div>
+                            <span><strong>$2</strong></span>
+                        </div>
+                    </div>
+                    <div class="box-line clearfix">
+                        <div>
+                            <span>{% trans "Customized Services" %}</span>
+                        </div>
+                        <div>
+                            <span><strong>$5</strong></span>
+                        </div>
+                    </div>
+                </div>
+                    <div class="boxprice-footer">
+                        <a href="{% url "features" %}#extra-services">{% trans "Learn More" %}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="boxprice boxprice-red col-sm-4">
+                <div class="boxprice-inner">
+                    <div class="boxprice-header">
+                        <h3>{% trans "Surcharges" %}</h3>
+                    </div>
+                    <div class="boxprice-subheader">
+                        <span>
+                            {% blocktrans %}
+                                We assess surcharges <br/> Only when absolutely necessary!
+                            {% endblocktrans %}
+                        </span>
+                    </div>
+                    <div class="boxprice-content">
+                        <div class="box-line clearfix">
+                            <div>
+                                {% blocktrans %}
+                                    <span>Incomplete</span>
+                                    <span>USendHome Address</span>
+                                {% endblocktrans %}
+                            </div>
+                            <div>
+                                <span><strong>$5</strong></span>
+                                <span><strong>{% trans "Excluding 1st miss" %}</strong></span>
+                            </div>
+                        </div>
+                        <div class="box-line clearfix">
+                            <div>
+                                {% blocktrans %}
+                                    <span>Heavy Package</span>
+                                    <span>(over 50 lbs.)</span>
+                                {% endblocktrans %}
+                            </div>
+                            <div>
+                                <span><strong>$10</strong></span>
+                            </div>
+                        </div>
+                        <div class="box-line clearfix">
+                            <div>
+                                {% blocktrans %}
+                                    <span>Return Label</span>
+                                    <span>Processing</span>
+                                {% endblocktrans %}
+                            </div>
+                            <div>
+                                <span><strong>$10</strong></span>
+                            </div>
+                        </div>
+                        <div class="box-line clearfix">
+                            <div>
+                                {% blocktrans %}
+                                    <span>EEI Documentation</span>
+                                    <span>Handling</span>
+                                {% endblocktrans %}
+                            </div>
+                            <div>
+                                <span><strong>$40</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="boxprice-footer">
+                        <a href="{% url 'fees-explained' %}">{% trans "Learn More" %}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6 text-center">
+                <h3>{% trans "Bundled Discounts - 10% off" %}</h3>
+                <p class="width80">
+                    {% trans "Bundle extra services and save big!" %}<br/>
+                    {% blocktrans %}
+                        Receive an additional <strong>10%</strong> off your bundle when you order more than 1
+                        package forwarding service.
+                    {% endblocktrans %}
+                </p>
+            </div>
+            <div class="col-sm-6 text-center">
+                <h3>{% trans "Order Extras in Advance - 20% off" %}</h3>
+                <p class="width80">
+                    {% trans "Planning ahead saves even more money!" %}<br/>
+                    {% blocktrans %}
+                        Order extra services for your package forwarding in advance and save <strong>20%</strong>!
+                    {% endblocktrans %}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

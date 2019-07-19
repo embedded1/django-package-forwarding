@@ -1,0 +1,33 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+    {% blocktrans with name=customer.get_full_name|title %}
+        Hello {{ name }},
+        We have exciting news for you!! We've successfully completed the distribution facility migration
+        process and now your packages have a new US shipping address.
+        We performed this transition to carry out our day to day efforts to cut down on shipping costs,
+        increase speed and efficiencies and lastly, provide you with a wide range of shipping carriers for your online orders.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        Your account has already been updated with your own new US shipping address.
+        Please use this address for all new orders.
+        We've got you covered in case you have packages in transit addressed to your previous private mailbox or already
+        stored in our New Jersey facility.
+        We will add all packages addressed to your previous mailbox into your account and you could
+        release them for delivery as well.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        It is important to note that we can only complete a Package Consolidation request if ALL packages are
+        stored in the same facility. So, if you're waiting for more items to arrive you must use your old shipping address
+        to gather all items in the same facility.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        In addition, we're about to launch new shipping services (including Express) shortly so stay tuned and keep on shopping.
+    {% endblocktrans %}
+{% endblock %}
+

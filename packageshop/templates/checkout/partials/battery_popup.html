@@ -1,0 +1,51 @@
+{% load i18n %}
+{# lithium batteries modal #}
+<div class="modal modal-cp fade" id="lithiumBatteryModal" tabindex="-1" role="dialog" aria-labelledby="lithiumBatteryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="lithiumBatteryModalLabel">{% trans "Your Package Contains Lithium Battery?" %}</h4>
+            </div>
+            <div class="modal-body" id="lithiumBatteryModalBody">
+                <div class="battery-alert">
+                    <p>
+                        {% blocktrans %}
+                            Due to regulations by the IATA, FAA and the TSA, USendHome no longer will be able to ship loose Lithium Ion batteries (PI965) for our customers.
+                            This includes spare cell phone, and Laptop batteries, as well as power banks, and mobile chargers.
+                        {% endblocktrans %}
+                    </p>
+                    <p>
+                        {% blocktrans %}
+                            In order to meet the new regulations and to avoid situations where the package is returned back to us we
+                            need your cooperation with labeling your package before it is released for international delivery.
+                        {% endblocktrans %}
+                    </p>
+                    <p style="color: red;">
+                        {% blocktrans %}
+                            <strong>USendHome will not compensate shipping charges if carrier rejects and returns the
+                            package back to us due to false labeling.
+                            You can order the Customized Services service in case you don't know if your package contains batteries.
+                            We will examine the content and apply the correct labeling.</strong>
+                        {% endblocktrans %}
+                    </p>
+                    <p>
+                        {% trans "Please label your package based on the information below" %}
+                    </p>
+                    <ul>
+                        <li>{% trans "<strong>No Battery</strong> - package doesn't contain batteries at all" %}</li>
+                        <li>{% trans "<strong>Installed Battery</strong> - package contains battery installed in equipment" %}</li>
+                        <li>{% trans "<strong>Loose Battery</strong> - package contains standalone battery, NOT installed in equipment" %}</li>
+                    </ul>
+                    <p><strong>{% trans "Select the Loose Battery option in case your package contains both installed and loose batteries." %}</strong></p>
+                </div>
+            </div>
+            <div class="modal-footer" id="lithiumBatteryModalFooter">
+                <div class="modal-btns" style="float: none; text-align: center;">
+                    <button type="button" data-battery-status="No Battery" class="btn btn-primary">{% trans "No Battery" %}</button>
+                    <button type="button" data-battery-status="Installed Battery" class="btn btn-primary">{% trans "Installed Battery" %}</button>
+                    <button type="button" data-battery-status="Loose Battery" class="btn btn-primary">{% trans "Loose Battery" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

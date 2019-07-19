@@ -1,0 +1,58 @@
+{% extends "static/faq/base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block description %}
+	{% trans "Learn about USendHome affiliate program and how you can earn money by promoting USendHome through frequency asked questions." %}
+{% endblock %}
+
+{% block title %}
+    {% trans "USendHome Affiliate Program Questions" %}
+{% endblock %}
+
+
+{% block messages %}
+    <div class="container">
+        <div id="promo-messages">
+            <div class="alert alert-safe alert-noicon alert-info fade in">
+                <h1>{% trans "Affiliate Program Questions" %}</h1>
+                <p>
+                    {% blocktrans %}
+                        Learn how you can earn money by promoting USendHome
+                    {% endblocktrans %}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block faq_section %}
+<div id="affiliate-program" class="faq-content active">
+    <div class="faq-content-inner" id="affiliate-q1">
+        <h4>{% trans "Why should I join USendHome affiliate program?" %}</h4>
+        <ul>
+            <li>{% trans "High commission" %}</li>
+            <li>{% trans "$10 for a new customer" %}</li>
+            <li>{% trans "Payable once customer sends the first package" %}</li>
+            <li>{% trans "Our biggest affiliate is making over $2,000 per month from blogging about shopping." %}</li>
+        </ul>
+    </div>
+    <div class="faq-content-inner" id="affiliate-q2">
+        <h4>{% trans "How do I get started?" %}</h4>
+        <ul>
+            <li>{% trans "Open USendHome affiliate account" %} <a href="{% url 'customer:affiliate-register' %}" target="_blank">{% trans "here" %}</a></li>
+            <li>{% trans "Choose text links or banners and place them on your website" %}</li>
+            <li>{% trans "Promote and get money from new customers coming from your website" %}</li>
+        </ul>
+    </div>
+    <div class="faq-content-inner" id="affiliate-q3">
+        <h4>{% trans "What are the terms of the USendHome affiliate program?" %}</h4>
+        <ul>
+            <li>{% trans "Use links with affiliate ID" %}</li>
+            <li>{% trans "Minimal payout of $20.00 USD" %}</li>
+            <li>{% trans "Payments are sent by Paypal or account credit" %}</li>
+            <li>{% trans "Affiliate program activation is free, no setup or other fees" %}</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

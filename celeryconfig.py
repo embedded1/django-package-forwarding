@@ -1,0 +1,13 @@
+#BROKER_URL = 'amqp://'
+BROKER_URL = 'redis://localhost:6379/0'
+#CELERY_RESULT_BACKEND = 'amqp://'
+CELERY_RESULT_BACKEND = 'redis://'
+CELERY_TASK_RESULT_EXPIRES = 60 #60 seconds
+CELERY_TASK_SERIALIZER = 'pickle'
+CELERY_RESULT_SERIALIZER = 'pickle'
+CELERY_ACCEPT_CONTENT=['pickle']
+CELERY_TIMEZONE = 'Asia/Jerusalem'
+CELERY_ENABLE_UTC = True
+CELERY_DISABLE_RATE_LIMITS = True
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 172800} # 48 hours - must be above the longest countdown
+BROKER_POOL_LIMIT = 100

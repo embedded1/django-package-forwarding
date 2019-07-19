@@ -1,0 +1,28 @@
+{% load i18n %}
+{% load address_filters %}
+
+<span><strong>{% trans "Shipping Address" %}</strong></span>
+{% if shipping_address %}
+    {% for field in shipping_address.active_address_fields %}
+		<span>
+			{% if forloop.first %}
+				<strong>{{ field|title }}</strong>
+			{% else %}
+				{{ field|title_if_not_upper }}
+			{% endif %}
+		</span>
+    {% endfor %}
+
+    {% if shipping_address.phone_number %}
+        <span>{% trans "Contact Number" %}</span>
+        <span>{{ shipping_address.phone_number }}</span>
+    {% endif %}
+
+    {% if shipping_address.notes %}
+        <span>{% trans "Shipping Notes" %}</span>
+        <span>{{ shipping_address.notes|linebreaks }}</span>
+    {% endif %}
+{% else %}
+    <span>{% trans "As listed on the prepaid return label" %}</span>
+{% endif %}
+

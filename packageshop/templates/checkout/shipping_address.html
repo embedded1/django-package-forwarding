@@ -1,0 +1,70 @@
+{% extends "checkout/checkout.html" %}
+{% load url from future %}
+{% load address_filters %}
+{% load i18n %}
+
+{% block title %}
+    {{ block.super }} {% trans "Shipping Address" %}
+{% endblock %}
+
+{% block checkout_nav %}
+	{% include 'checkout/nav.html' with step=1 %}
+{% endblock %}
+
+{% block step_description %}
+	<h2>{% trans "1. Shipping Address" %}</h2>
+{% endblock %}
+
+{% block shipping_address %}
+<h4 style="margin-bottom: 30px;">{{ title }}</h4>
+{% if addresses %}
+    <h5>{% trans "An address from your address book?" %}</h5>
+    <div class="row address-options">
+        {% for address in addresses %}
+            <div class="col-md-3">
+                <div class="address-inner">
+                    <div class=" address-inner-text">
+                        {% for field in address.full_address_format %}
+                            <span>
+                                {% if forloop.first %}
+                                    <strong>{{ field|title }}</strong>
+                                {% else %}
+                                    {{ field|title_if_not_upper }}
+                                {% endif %}
+                            </span>
+                        {% endfor %}
+                    </div>
+                    <div class="use-address">
+                        <form action="{{ form_action }}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="ship_to" />
+                            <input type="hidden" name="address_id" value="{{ address.id }}" />
+                            {% if address.is_default_for_shipping %}
+                                <button class="use-address-button" type="submit"><i class="fa fa-map-marker"></i>{% trans "Ship to default address" %}</button>
+                            {% else %}
+                                <button class="use-address-button" type="submit"><i class="fa fa-map-marker"></i>{% trans "Ship to this address" %}</button>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <h5>{% trans "Or new address?" %}</h5>
+{% endif %}
+{% block new_address %}
+<div class="row add-new-address">    
+    <div class="col-md-12">
+        <form action="{{ form_action }}" method="post">
+            {% csrf_token %}
+			{% include "partials/personal_address_form.html" %}
+            <button type="submit" class="btn btn-info btn-checkout" style="margin-top: 20px;">{% trans "Continue to next step  »" %}</button>
+        </form>
+    </div>
+</div>
+{% endblock new_address %}
+{% endblock shipping_address %}
+
+
+

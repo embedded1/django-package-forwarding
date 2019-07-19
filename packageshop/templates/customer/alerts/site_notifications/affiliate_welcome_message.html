@@ -1,0 +1,19 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "USendHome New Affiliate Registration" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Welcome Aboard!" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    {% blocktrans %}
+        Your affiliate account has been set up successfully.
+        You may now post your USendHome affiliate links on your website or blog to start generating commission for you.
+    {% endblocktrans %}
+</p>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "checkout/layout.html" %}
+{% load i18n %}
+
+{% block title %}
+	{% trans "USendHome Package Delivery Checkout Process" %} |
+{% endblock %}
+
+
+{% block content %}
+    <section id="checkout-options">
+        <div class="container">
+            {% block shipping_address %}
+            {% endblock %}
+
+            {% block customs_form %}
+            {% endblock customs_form %}
+
+            {% block shipping_method %}
+            {% endblock shipping_method %}
+			
+			{% block order_details %}
+			{% endblock order_details %}
+			
+            {% block order_contents %}
+            {% endblock order_contents %}
+
+            {% block payment_method %}
+            {% endblock payment_method %}
+			
+            {% block place_order %}
+            {% endblock place_order %}
+        </div>
+    </section>
+{% endblock content %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.checkout.init();
+{% endblock onbodyload %}
+

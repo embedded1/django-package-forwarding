@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load url from future %}
+{% load honeypot %}
+
+{% block page_inner_class%}
+    contact
+{% endblock %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block description %}
+	{% trans "Need help with your order or have questions about USendHome service - our professional customer support staff is only a click away." %}
+{% endblock %}
+
+{% block title %}
+    {% trans "Contact USendHome Customer Support via Chat, Email &amp; Twitter " %}
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="address clearfix">
+                        <div class="address-inner">
+                            <img src="{% static "usendhome/images/address1.png" %}" alt="headquarters_address"/>
+                            <h5>{% trans "Headquarters Address" %}</h5>
+                            <p>1112 Walnut Ave.</p>
+                            <p>Tustin, CA 92780</p>
+                            <p><a href="mailto:info@USendHome.com">support@USendHome.com</a></p>
+                        </div>
+                        <div class="address-inner">
+                            <img src="{% static "usendhome/images/address2.png" %}" alt="warehouse_address"/>
+                            <h5>{% trans "Warehouse Address" %}</h5>
+                            <p>1112 Walnut Ave.</p>
+                            <p>Tustin, CA 92780</p>
+                            {# <p><abbr title="Phone">P:</abbr> (949) 800-6640</p>#}
+                        </div>
+                        <div class="address-inner">
+                            <img src="{% static "usendhome/images/mail.png" %}" alt="warehouse"/>
+                            <h5>{% trans "General Communication" %}</h5>
+                            <p>{% trans "For general queries, including partnership"  %}</p>
+                            <p>{% trans "opportunities, please email:" %}</p>
+                            <p><a href="mailto:info@USendHome.com">info@USendHome.com</a></p>
+                        </div>
+                        <div class="social">
+                            <h5>{% trans "Stay Connected" %}</h5>
+                            <div>
+                                <a href="https://www.facebook.com/usendhome" target="_blank" rel="nofollow" class="fb"><i class="fa fa-facebook"></i></a>
+                                <a href="https://twitter.com/usendhome" target="_blank" rel="nofollow" class="tw"><i class="fa fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="contact-form">
+                        <h1>{% trans "Contact us via Email, Facebook or Twitter" %}</h1>
+                        <p>
+                            {% blocktrans %}
+                                Have a question? Suggestions for improvement? Something go wrong with your order?<br/>
+                                Let us know! We're here to help! We welcome all questions, comments, and concerns.<br/>
+                                Use this form or the support <a href="mailto:support@USendHome.com">email address</a> to drop us a line
+                                and we'll get back to you ASAP!
+                            {% endblocktrans %}
+                        </p>
+                        <form action="." id="contact-form" method="post">
+                            {% csrf_token %}
+                            {% render_honeypot_field "gender" %}
+                            {% include "partials/form_fields.html" with form=form nolabel=1 %}
+                            <button type="submit" class="btn btn-info btn-submit js-disable-on-click" data-loading-text="{% trans "SENDING..." %}">{% trans "SEND MESSAGE" %}</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

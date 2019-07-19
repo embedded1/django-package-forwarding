@@ -1,0 +1,164 @@
+﻿{% extends "layout.html" %}
+{% load url from future %}
+{% load i18n %}
+{% load honeypot %}
+{% load staticfiles %}
+
+{% block title %}
+	{% trans 'Join in Now and Receive Your FREE US address' %}
+{% endblock %}
+
+{% block description %}
+    {% blocktrans %}
+        Join in and enjoy the benefits of a FREE US address.
+    {% endblocktrans %}
+{% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block body_class %}body-dark-blue{% endblock %}
+
+{% block extrastyles %}
+    <link rel="stylesheet" href="{% static "usendhome/assets/bootstrap-social/bootstrap-social.css" %}" type="text/css" />
+{% endblock %}
+
+{% block messages %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+                {% include "partials/alert_messages.html" %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="logo-container">
+            <a class="usend-logo" href="{% url 'promotions:home' %}">
+                <img src="{% static "usendhome/images/logo.png" %}" alt="USendHome">
+            </a>
+            <h1>
+                {% blocktrans %}
+                   Get <strong>Free</strong> US Package Forwarding Address Now!
+                {% endblocktrans %}
+            </h1>
+        </div>
+		<div class="dashboard-login-form">
+			<div class="social-login">
+				<ul class="clearfix">
+                    <a href="{% url 'social:begin' "facebook" %}" class="btn btn-social-block btn-social btn-social-lg btn-facebook">
+                        <i class="fa fa-facebook"></i> {% trans "Sign up with Facebook" %}
+                    </a>
+                    <a href="{% url 'social:begin' "twitter" %}" class="btn btn-social-block btn-social-lg btn-social btn-twitter">
+                        <i class="fa fa-twitter"></i> {% trans "Sign up with Twitter" %}
+                    </a>
+                      {% comment %}
+                      <a href="{% url 'social:begin' "odnoklassniki-oauth2" %}" class="btn btn-social-block btn-social-lg btn-social btn-odnoklassniki">
+                        <i class="fa fa-odnoklassniki"></i> Sign up with Odnoklassniki
+                      </a>
+                      {% endcomment %}
+				</ul>
+			</div>
+			<div class="or-login">
+				<span>{% trans "Or Create Account Manually" %}</span>
+			</div>
+			<div class="login-form">
+                <form action="." method="post">
+                    {% if form.is_bound and not form.is_valid %}
+                        <div class="alert alert-danger">
+                            <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
+                        </div>
+                    {% endif %}
+
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <i class="fa fa-exclamation-circle"></i> {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% csrf_token %}
+                    {% render_honeypot_field "gender" %}
+                    <input type="hidden" name="redirect_url" value="{% url 'customer:register-settings' %}">
+                    <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
+                            <input type="text" name="email" class="form-control" id="id_email" placeholder="Email Address" value="{{ form.email.value|default_if_none:"" }}">
+                            {% for error in form.email.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group {% if form.password1.errors %}has-error{% endif %}">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-key"></i></div>
+                            <input type="password" name="password1" class="form-control" id="id_password1" placeholder="Choose Password">
+                            {% for error in form.password1.errors %}
+                                <span class="error-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <p>
+						<label>
+							<input type="checkbox" {% if not operation_suspended %}class="js-enable-on-checked"{% endif %}>
+                            {% url 'terms' as terms_url %}
+                            {% url 'privacy' as privacy_url %}
+							{% blocktrans %}
+								I agree to USendHome <a href="{{ terms_url }}" target="_blank">Terms of Service</a> and <a href="{{ privacy_url }}" target="_blank">Privacy Policy</a>
+							{% endblocktrans %}
+						</label>
+                    </p>
+                    <button {% if not operation_suspended %}type="submit"{% endif %} class="btn btn-danger btn-login" disabled>{% trans 'CREATE ACCOUNT' %}</button>
+                </form>
+            </div>
+            <div class="no-account">
+            	<p>{% trans "Already have an account?" %} <a href="{% url 'customer:login' %}">{% trans "Sign in here" %}</a></p>
+            </div>
+		</div>
+	</div>
+
+    {% if operation_suspended  %}
+        <div class="modal modal-cp fade" id="signupDisabledModal" tabindex="-1" role="dialog" aria-labelledby="signupDisabledModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" style="font-weight: 800" id="signupDisabledModalLabel">{% trans "New Accounts Disabled :(" %}</h4>
+                    </div>
+                    <div class="modal-body" id="signupDisabledModalBody">
+                        <div class="headline">
+                            <p>
+                                USendHome is in a process of suspending it's cross-border shipping from the US service.
+                                New accounts can't be opened at this time.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer" id="signupDisabledModalFooter">
+                        <div class="modal-btns">
+                            <button type="button" id="signupDisabledModalButton" class="btn btn-primary">{% trans "Got it, Take me back" %}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock content %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    {% if operation_suspended %}
+        var $page_inner = $('.page_inner');
+        $('#signupDisabledModal').modal({
+            show: true
+        });
+        $page_inner.on('click', '#signupDisabledModalButton', function(e) {
+            window.location = '/accounts/logout/';
+            $('#signupDisabledModal').modal('hide');
+        });
+    {% endif %}
+{% endblock %}

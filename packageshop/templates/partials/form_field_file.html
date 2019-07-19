@@ -1,0 +1,18 @@
+{% extends "partials/form_field.html" %}
+{% load i18n %}
+
+{% block input %}
+        <div class="input input-file fileinput input-group fileinput-new {% if field.errors %}state-error{% endif %}" data-provides="fileinput">
+            <div class="form-control" data-trigger="fileinput">
+                <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                <span class="fileinput-filename"></span>
+            </div>
+            <span class="input-group-addon btn btn-file">
+                <span class="fileinput-new">{% trans "Select file" %}</span>
+                <span class="fileinput-exists">{% trans "Change" %}</span>
+                <input type="hidden" value="" name="">
+                <input type="file" name="{{ field.name }}">
+            </span>
+            <a href="#" class="input-group-addon btn fileinput-exists" data-dismiss="fileinput">{% trans "Remove" %}</a>
+        </div>
+{% endblock %}

@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans  %}
+    Last 5 days to ship packages in your suite
+{% endblocktrans %}

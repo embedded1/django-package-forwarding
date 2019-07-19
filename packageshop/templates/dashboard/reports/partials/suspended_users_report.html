@@ -1,0 +1,28 @@
+{% extends 'dashboard/reports/index.html' %}
+{% load currency_filters %}
+{% load url from future %}
+{% load i18n %}
+
+{% block report %}
+<table class="table table-striped table-bordered table-hover">
+    {% if objects %}
+        <tr>
+            <th>{% trans "User name" %}</th>
+            <th>{% trans "User email" %}</th>
+            <th>&nbsp;</th>
+        </tr>
+        {% for suspended_user in objects %}
+            <tr>
+                <td><a href="{% url 'dashboard:user-detail' pk=suspended_user.id %}">{{ suspended_user.get_full_name|default:"-" }}</a></td>
+                <td>{{ suspended_user.email|default:"-" }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{% url 'dashboard:resume-user-account' suspended_user.id %}">{% trans "Resume account" %}</a>
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr><td>{% trans "No results found." %}</td></tr>
+    {% endif %}
+</table>
+{% include "partials/pagination.html" %}
+{% endblock %}

@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans %}
+	Finish the signup process at {{ site_name }}
+{% endblocktrans %}

@@ -1,0 +1,66 @@
+{% load i18n %}
+{% load staticfiles %}
+
+{% csrf_token %}
+{% include "partials/form_field.html" with field=form.mixpanel_anon_id %}
+<div class="main-calculator">
+    <div class="calculator-header">
+        <span>{% trans "Amazon Shipping Calculator" %}</span>
+    </div>
+    <div class="calculator-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group {% if form.country.errors %}has-error{% endif %}">
+                    <label for="id_country">{% trans "Where do you want to ship?" %}</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                        {% include "partials/form_field_input.html" with field=form.country inputaddon=1 %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group{% if form.city.errors %}has-error{% endif %}">
+                    <label for="id_value">{% trans "City (required to get accurate rates)" %}</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                        {% include "partials/form_field_input.html" with field=form.city inputaddon=1 %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group{% if form.postcode.errors %}has-error{% endif %}">
+                    <label for="id_value">{% trans "Postal Code (only when available)" %}</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                        {% include "partials/form_field_input.html" with field=form.postcode inputaddon=1 %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group {% if form.product_url.errors %}has-error{% endif %}">
+                    <label for="id_product_url">{% trans "Amazon's item URL" %}</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-globe"></i>
+                        </div>
+                        {% include "partials/form_field_input.html" with field=form.product_url inputaddon=1 %}
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div class="row">
+            <div class="col-md-12">
+				<!-- #messages is where the messages are placed inside -->
+				<div class="form-group">					
+					<div id="calculator-messages"></div>					
+				</div>
+			</div>
+		</div>
+        <button class="btn btn-danger" type="submit" style="margin-top: 50px;" data-loading-text="{% trans "Calculating..." %}" disabled>{% trans "Calculate Shipping Rates" %}</button>
+    </div>
+</div>

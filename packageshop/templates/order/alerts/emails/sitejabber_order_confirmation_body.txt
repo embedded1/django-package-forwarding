@@ -1,0 +1,2 @@
+Customer Email: {{ customer_email }}
+Customer Name: {{ customer_name }}

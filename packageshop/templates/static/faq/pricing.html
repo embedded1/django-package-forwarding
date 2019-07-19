@@ -1,0 +1,109 @@
+{% extends "static/faq/base.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load staticfiles %}
+
+{% block description %}
+	{% trans "Learn about USendHome straightforward pricing and billing options through frequency asked questions." %}
+{% endblock %}
+
+{% block title %}
+    {% trans "Pricing &amp; Billing Questions" %}
+{% endblock %}
+
+
+{% block messages %}
+    <div class="container">
+        <div id="promo-messages">
+            <div class="alert alert-safe alert-noicon alert-info fade in">
+                <h1>{% trans "Pricing &amp; Billing Questions" %}</h1>
+                <p>
+                    {% blocktrans %}
+                        Get to know what payment options we offer, how you're billed and more importantly when
+                    {% endblocktrans %}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block faq_section %}
+<div id="pricing" class="faq-content active">
+    <div class="faq-content-inner" id="pricing-q1">
+        <h4>{% trans "What form of payments do you accept?" %}</h4>
+        <p>
+            {% blocktrans %}
+                We accept PayPal, Bitcoin and the following credit or debit cards:
+                Visa, MasterCard, American Express and Discover.
+            {% endblocktrans %}
+        </p>
+        <p>
+            <strong>
+                We process payments through PayPal, please verify your billing country is listed
+                <a href="https://www.paypal.com/webapps/mpp/country-worldwide" target="_blank">here</a><br/> before delivering any packages.
+                Bitcoin transactions are excluded.
+            </strong>
+        </p>
+    </div>
+    <div class="faq-content-inner" id="pricing-q2">
+        <h4>{% trans "Can I pay with someone else’s credit card or Paypal account?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Absolutely not, We don't support third party payments at all!<br/>
+                The name on the credit card / PayPal account must match your USendHome account name.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                Any order that has been paid using a third party credit card or PayPal account will be cancelled
+                immediately and the account will be put on security hold.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="pricing-q3">
+        <h4>{% trans "Where can I find the credit card billing page?" %}</h4>
+        <p>
+            {% blocktrans %}
+                At first glance the credit card billing page can be hard to find.
+                Take a look at the image below that highlights the text you need to click on.
+            {% endblocktrans %}
+        </p>
+        <p style="margin-top: 30px;">
+            <img src="{% static "usendhome/images/paypal_credit_card.png" %}" class="img img-responsive" alt="PayPal Credit Card Processing" />
+        </p>
+    </div>
+    <div class="faq-content-inner" id="pricing-q4">
+        <h4>{% trans "How am I billed?" %}</h4>
+        <p>
+            {% url 'pricing' as pricing_url %}
+            {% blocktrans %}
+                You are billed only for services you use. There are no monthly fees and no hidden fees.
+                Check out our <a href="{{ pricing_url }}#section-3">pricing charts</a> to see the rates we charge for each service.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="pricing-q5">
+        <h4>{% trans "Do you keep my credit card details?" %}</h4>
+        <p>
+            {% blocktrans %}
+                No! We do not store any sensitive data on our servers! Payment is collected through the secured systems of our payment processing partners and upon payment clearance,
+                you will be redirected back to our website to confirm your order.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                Our partners do not hold on to any of your private information.
+                All private information is deleted once payment is completed.
+            {% endblocktrans %}
+        </p>
+    </div>
+    <div class="faq-content-inner" id="pricing-q6">
+        <h4>{% trans "Can I pay for your service with gift cards?" %}</h4>
+        <p>
+            {% blocktrans %}
+                Absolutely not, We don't allow any gift cards payments.
+            {% endblocktrans %}
+        </p>
+    </div>
+</div>
+{% endblock %}

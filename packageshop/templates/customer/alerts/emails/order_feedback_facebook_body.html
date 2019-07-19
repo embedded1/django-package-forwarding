@@ -1,0 +1,46 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome Order Feedback" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Order Feedback" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    Hey {{ full_name }},
+</p>
+
+<p>
+    Thanks again for choosing USendHome to forward your parcel from the USA. <br>
+    You helped us forward more than 10,000 packages all over the world.
+</p>
+
+
+<p>Would you mind helping us accomplish one more goal?</p>
+
+<p>
+    We’re trying to get into the hands of 100k people to cut down shipping rates aggressively and offer the lowest rates in the market.
+    To do that, we need you to leave a review on your recent forwarding experience.
+</p>
+
+<p>
+    It only takes 30 seconds. Click the button below to leave a review:
+</p>
+
+<p>
+    {% render_email_button "https://www.facebook.com/usendhome/reviews/" "Leave Review" %}
+</p>
+{% endblock %}
+
+{% block footer %}
+    <p style="margin-top:20px">
+        Thank you – your review means a lot to us.<br>
+        Cheers, <br>
+        The USendHome Team
+    </p>
+{% endblock %}

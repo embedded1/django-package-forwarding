@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block title %}
+    {% blocktrans %}
+        Amazon Worldwide Shipping with USendHome Welcome Page
+    {% endblocktrans %}
+{% endblock %}
+
+{% block description %}
+    {% blocktrans %}
+        Amazon Worldwide Shipping with USendHome added successfully to Chrome.
+    {% endblocktrans %}
+{% endblock %}
+
+{% block extrastyles %}
+    <link rel="stylesheet" href="{% static "usendhome/css/chrome.css" %}" type="text/css" />
+{% endblock %}
+
+{% block extrascripts %}
+    <script src="{% static "usendhome/js/chrome.js" %}" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+
+{% block layout %}
+<div class="page_inner fullscreen background">
+    <section>
+        <div class="content-a">
+            <div class="content-b">
+                <div class="modal modal-cp" id="welcomeModal" tabindex="-1" role="dialog" aria-labelledby=welcomeModalLabel" aria-hidden="true" data-backdrop="false">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h2 class="modal-title" id="welcomeModal">{% trans "Mission Completed" %}</h2>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body contacts-body" id="welcomeModalBody">
+                                <h3 style="width: 95%; margin-bottom: 15px;">
+                                    {% blocktrans %}
+                                        We've got your back now, shop at Amazon and let us handle the shipping for you.
+                                    {% endblocktrans %}
+                                </h3>
+                                <a href="http://www.amazon.com" class="btn btn-primary btn-save">{% trans "Take me to Amazon.com" %}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

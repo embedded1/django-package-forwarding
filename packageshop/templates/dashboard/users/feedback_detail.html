@@ -1,0 +1,52 @@
+{% extends 'dashboard/layout.html' %}
+{% load url from future %}
+{% load i18n %}
+
+{% block body_class %}{{ block.super }} users{% endblock %}
+
+{% block title %}
+    {% blocktrans with number=feedback.order.number %}Order {{ number }} feedback{% endblocktrans %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            <span class="divider">/</span>
+        </li>
+        <li>
+            <a href="{% url 'dashboard:user-feedback-list' %}">{% trans "Customer Feedbacks" %}</a>
+            <span class="divider">/</span>
+        </li>
+        <li class="active">{% blocktrans with number=feedback.order.number %}Order {{ number }} feedback{% endblocktrans %}</li>
+    </ul>
+{% endblock %}
+
+{% block headertext %}
+   {% blocktrans with number=feedback.order.number %}Order {{ number }} feedback{% endblocktrans %}
+{% endblock %}
+
+{% block dashboard_content %}
+    <div class="row-fluid">
+        {% block feedback_details %}
+            <div class="">
+                <div class="table-header">
+                    <h2>{% trans "Feedback Details" %}</h2>
+                </div>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>{% trans "Question 1" %}</th>
+                        <td>{{ feedback.question1 }}</td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Question 2" %}</th>
+                        <td>{{ feedback.question2|default:"-" }}</td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Question 3" %}</th>
+                        <td>{{ feedback.question3|default:"-" }}</td>
+                    </tr>                   
+                </table>
+            </div>
+        {% endblock %}
+{% endblock dashboard_content %}

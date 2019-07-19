@@ -1,0 +1,46 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load email_tags %}
+{% load url from future %}
+
+{% block title %}
+    {% trans "Deliver Your First Order To Us" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Your Personal Mailbox is Empty" %}
+{% endblock %}
+
+{% block body %}
+    <p>
+        {% blocktrans with full_name=user.get_full_name|title %}
+            Hello {{ full_name }},
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+            I noticed that you recently signed up for USendHome but we didn't receive any orders at your private mailbox.
+            I just wanted to see if there were any problems, or anything at all I could help with.
+            If so, please let me know by responding to this email.
+        {% endblocktrans %}
+    </p>
+
+    <p>
+        {% blocktrans %}
+            We created a quick welcome video that shows how your personal US address can be used to deliver orders to us
+            and how easy is to release those orders for delivery in 1 shipment to save up to 80% on international shipping.
+        {% endblocktrans %}
+    </p>
+
+    {% url "faq" "tutorials" as tutorials_url %}
+    <p>
+        {% render_email_button tutorials_url "Watch Video" %}
+    </p>
+{% endblock %}
+
+{% block footer %}
+    <p style="margin-top:20px">
+        {% trans "Cheers," %}<br/>
+        {% trans "Leo Jones" %}<br/>
+    </p>
+{% endblock %}

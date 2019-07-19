@@ -1,0 +1,94 @@
+{% load i18n %}
+
+<h4>{% trans "How to fill the customs declaration form correctly?" %}</h4>
+
+<h5>{% trans "Introduction" %}</h5>
+<p>
+	{% blocktrans %}
+		Customs. Yeah, we all dread them, but every international shipment must have complete and accurate customs declaration paperwork,
+		it doesn't matter if the goods are new, used, or why you're buying them. You, as the "Importer" are responsible for an accurate declaration of the nature of your goods and their values.
+		Your country's customs authorities might assess fines or take legal action if your customs declaration misleading or false.
+		USendHome takes no responsibility for any misstatements of duty, whether by you or the merchant,
+		so, let's get it right! Don't worry; it's not as hard as it seems!
+	{% endblocktrans %}
+</p>
+
+<h5>{% trans "Walkthrough" %}</h5>
+<p>
+	{% blocktrans %}
+		An example is the perfect way to understand how customs declarations work.
+		Assume you've ordered and had delivered the following items to our distribution center:
+	{% endblocktrans %}
+</p>
+
+<ul>
+	<li>
+		{% trans "One (1) White Straight Leg Denim Jeans, $59.50" %}
+	</li>
+	<li>
+		{% trans "One (1) True Skinny Denim Jeans, $49.99" %}
+	</li>
+	<li>
+		{% trans "One (1) Skinny Denim Jeans, $79.50" %}
+	</li>
+	<li>
+		{% trans "Two (2) Tonal-stripe Hooded Sweaters, $69.50 each" %}
+	</li>
+	<li>
+		{% trans "Three (3) Ombre V-neck Shirts, $89.50 each" %}
+	</li>	
+	<li>
+		{% trans "Two (2) GT T-shirts, $39.50 each" %}
+	</li>	
+</ul>
+
+<p>
+	{% blocktrans %}
+		A complete and accurate customs declaration for the items above would be:
+	{% endblocktrans %}
+</p>
+
+<ul>
+	<li>
+		{% trans "Content type: Merchandise" %}
+	</li>
+	<li>
+		<ul>
+			<li>
+				{% trans "Detailed Description: Jeans" %}
+			</li>
+			<li>
+				{% trans "Quantity: Three (3)" %}
+			</li>
+			<li>
+				{% trans "Value: $188.99" %}
+			</li>
+		</ul>
+	</li>
+	<li>
+		<ul>
+			<li>
+				{% trans "Detailed Description: Sweaters" %}
+			</li>
+			<li>
+				{% trans "Quantity: Two (2)" %}
+			</li>
+			<li>
+				{% trans "Value: $139" %}
+			</li>
+		</ul>
+	</li>
+	<li>
+		<ul>
+			<li>
+				{% trans "Detailed Description: Shirts" %}
+			</li>
+			<li>
+				{% trans "Quantity: Five (5)" %}
+			</li>
+			<li>
+				{% trans "Value: $347.50" %}
+			</li>
+		</ul>
+	</li>	
+</ul>

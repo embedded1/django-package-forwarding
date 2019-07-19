@@ -1,0 +1,35 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome Package Consolidation Completed" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Package Consolidation Completed" %}
+{% endblock %}
+
+{% block body %}
+	<p>
+		{% blocktrans %}
+			We have completed your Package Consolidation request and the consolidated package is now available in your account.<br/>
+            Please note that due to international mailing conditions / custom request to split item into multiple boxes, more than
+            one package might show in your account. Make sure you only declare for customs the items that are
+            currently in the package you want to release.
+		{% endblocktrans %}
+	</p>
+
+	<p>
+		{% blocktrans %}
+            Storage fee will be applied if you don't release your consolidated shipment for delivery within the next 3 days.
+            Click on the button below to have your package released for delivery today.
+		{% endblocktrans %}
+	</p>
+
+    <p>
+        {% render_email_button "customer:pending-packages" "View Packages" %}
+    </p>
+
+{% endblock %}

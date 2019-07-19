@@ -1,0 +1,68 @@
+{% load i18n %}
+{% load currency_filters %}
+{% load shipping_methods_tags %}
+{% load staticfiles %}
+
+{% if methods %}
+    <div class="row">
+        <div class="col-md-6">
+            <h4 style="margin-bottom: 30px;">{% trans "Select Your Package Delivery Shipping Method" %}</h4>
+            <p style="margin-bottom: 30px;">
+                {% blocktrans %}
+                    Please select your preferred shipping method. For your convenience, we have highlighted shipping
+                    methods that appropriately match your needs. Make sure you purchase our comprehensive insurance
+                    policy to protect your package during shipment before leaving this page.
+                {% endblocktrans %}
+            </p>
+        </div>
+    </div>
+
+    <div class="sort-by" style="margin-bottom: 30px;">
+        <span>{% trans "Sort by:" %}</span>
+        <a data-filter="rate"><i class="fa fa-dollar"></i>{% trans "Rate" %}</a>
+        <a data-filter="delivery"><i class="fa fa-clock-o"></i>{% trans "Delivery Time" %}</a>
+    </div>
+
+    <div class="row shipment shipping_methods_container">
+        {% for method in methods %}
+            <div class="col-md-2 width-22-precent shipping-method" data-rate="{{ method.shipping_method_cost }}" data-delivery="{{ method.max_delivery_days }}">
+                <div class="shipment-item" data-method-code="{{ method.code }}" data-insurance="{{ method.shipping_insurance_cost|default:'0.0' }}">
+                    <div class="item-logo">
+                       {% render_shipping_method_logo method.carrier %}
+                    </div>
+                    <div class="item-details">
+                        <p>
+                            {{ method.carrier_with_name }}
+                            <span>
+                                {% blocktrans with days=method.delivery_days %}
+                                    {{ days }} business days
+                                {% endblocktrans %}
+                            </span>
+                        </p>
+                    </div>
+                    <div class="item-price">
+                        <span class="price">{{ method.shipping_method_cost|currency }}</span>
+                        {% if method.free_insurance %}
+                            <span class="free-insurance">{% trans "Free" %}</span>
+                            <span class="insurance2">{% trans "Insurance" %}</span>
+                        {% else %}
+                            <span class="insurance">+ {{ method.shipping_insurance_cost|currency }}</span>
+                            <span class="insurance2">{% trans "Insurance" %}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" action="{% url checkout:shipping-method %}">
+                {% csrf_token %}
+                <input type="hidden" name="method_code">
+                <input type="hidden" name="insurance">
+                <button type="submit" id="shipment-confirmed" class="btn btn-info btn-checkout" disabled style="margin-top: 70px;">{% trans "Continue to next step  »" %}</button>
+            </form>
+        </div>
+    </div>
+{% endif %}

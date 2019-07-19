@@ -1,0 +1,37 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+
+    {% blocktrans with name=customer.get_full_name|title %}
+        Hello {{ name }},
+    {% endblocktrans %}
+
+    {% url 'terms' as terms_url %}
+    {% blocktrans %}
+       We wanted to let you know about some updates to the USendHome Terms of Service, which will go into effect on
+        August 20 2016. You can read the full agreements on our updated Terms of Service page at the URL below:
+        {{ site }}{{ terms_url }}.
+        Here are the highlights of updates:
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        We have added a new paragraph that describes the terms that apply on your
+        local US address provided by USendHome.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        If you continue using the Site after August 20 2016, the new terms will apply to you.
+        If you don’t agree to the amended Terms of Service, you can close your account before August 20 2016,
+        and you won’t be bound by the amended terms.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        As always, if you have any questions, don't hesitate to contact us at the URL below.
+        Thank you for being part of the USendHome experience!
+    {% endblocktrans %}
+
+    {{ site }}{% url 'contact' %}
+
+{% endblock %}

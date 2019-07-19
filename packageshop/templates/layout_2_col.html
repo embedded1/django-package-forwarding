@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% comment %}
+Keep the same header and footer as the standard layout template but override the 
+main content area to split it into a sidebar and a content block
+{% endcomment %}
+{% block content_wrapper %}
+<div class="container page with-footer">
+    <div class="page_inner">
+    {% block breadcrumbs %}{% endblock %}
+        <div class="row">
+            <aside class="sidebar col-md-3 col-sm-3">
+                {% block column_left %}{% endblock %}
+            </aside>
+            <div class="col-md-9 col-sm-9">
+                {% block header %}
+                <div class="page-header">
+                    {% block headertext %}{% endblock %}
+                </div>
+                {% endblock %}
+                {% include "partials/alert_messages.html" %}
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div><!-- /page_inner -->
+</div><!-- /container -->
+{% endblock %}

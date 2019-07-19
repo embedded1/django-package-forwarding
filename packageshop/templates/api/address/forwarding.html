@@ -1,0 +1,29 @@
+<div class="ush-shipping-block no-col-r">
+    <div class="col-l">
+        <div class="col-l-inner">
+            <div class="content">
+                <div class="ush-form-success">
+                    <div class="subtitle">Success! Your US address is now active.</div>
+                    <div class="ush-form-after">
+                        {% for addr in addresses %}
+                            <div class="ush-address">
+                                {{ addr.address1 }}<br>
+                                {{ addr.address2 }}<br>
+                                {{ addr.city }}, {{ addr.state }}, {{ addr.zip }}<br>
+                                {{ addr.country }}<br>
+                                Tel: {{ addr.phone }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="btn-block">
+                        <a href="/" class="btn btn-white">Continue Shopping</a>
+                    </div>
+                </div>
+                <div class="ush-message-big">
+                    <div class="txt"><img id="ush-alert" alt="Alert Message"> Look out for an email from USendHome to finish account setup.</div>
+                    <div class="txt bold">It is your responsibility to manage the forwarding account and pay shipping fees in order to receive your items.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

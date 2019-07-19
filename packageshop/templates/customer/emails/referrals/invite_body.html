@@ -1,0 +1,45 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "Welcome to USendHome" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Welcome to USendHome" %}
+{% endblock %}
+
+{% block body %}
+    <p>
+        {% blocktrans %}
+            Your friend {{ friend_name }} invited you to join USendHome! Welcome to the crew!
+        {% endblocktrans %}
+    </p>
+
+    <p>
+        {% blocktrans %}
+            USendHome is a platform that allows you to deliver your online purchases straight to your doorstep
+            by giving you a FREE package forwarding address in the US.
+            Ship orders to us, manage your packages - and get the goods forwarded to you anywhere in the world.
+        {% endblocktrans %}
+    </p>
+
+    <p>
+        {% blocktrans %}
+            All you have to do is finish setting up your account to join in.
+            In addition, we'd like to give you a $5 in shipping credit for your first delivery with us.
+        {% endblocktrans %}
+    </p>
+
+    <p>
+        {% render_email_button referral_link "Set Password" %}
+    </p>
+
+    <p>
+        {% blocktrans %}
+            p.s. Once you’re all set up, we recommend downloading our browser extension. It makes shopping at
+            Amazon.com a lot more easier!
+        {% endblocktrans %}
+    </p>
+{% endblock %}

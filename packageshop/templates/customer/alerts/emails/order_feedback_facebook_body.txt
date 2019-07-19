@@ -1,0 +1,30 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}
+    {% blocktrans %}Hey {{ full_name }},{% endblocktrans %}
+
+    {% blocktrans %}
+        Thanks again for choosing USendHome to forward your parcel from the USA.
+        You helped us forward more than 10,000 packages all over the world.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        Would you mind helping us accomplish one more goal?
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        We’re trying to get into the hands of 100k people to cut down shipping rates aggressively and offer the lowest rates in the market.
+        To do that, we need you to leave a review on your recent forwarding experience.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        It only takes 30 seconds. You can leave a review here:
+        https://www.facebook.com/usendhome/reviews/
+    {% endblocktrans %}
+
+
+    {% blocktrans %}
+        Thank you – your review means a lot to us.
+    {% endblocktrans %}
+{% endblock %}

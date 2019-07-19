@@ -1,0 +1,46 @@
+{% extends "customer/emails/base_css.html" %}
+{% load currency_filters i18n %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome Order Confirmation" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Order Confirmation" %}
+{% endblock %}
+
+{% block body %}
+    <p>
+        {% blocktrans with order_number=order.number %}
+            Your order {{ order_number }} has been received and will be processed shortly.
+        {% endblocktrans %}
+    </p>
+
+    <p>{% trans 'Your order contains:' %}</p>
+
+    <ul>
+        {% for line in order.lines.all %}
+            <li>{{ line.title }} - {%  trans 'quantity:' %} {{ line.quantity }} - {% trans 'price:' %} {{ line.line_price_incl_tax|currency:order.currency }}</li>
+        {% endfor %}
+    </ul>
+
+    <p>{% trans 'Order total:' %} {{ order.total_incl_tax|currency:order.currency }}</p>
+
+    <p>{% trans 'Shipping address:' %}</p>
+    {% if order.shipping_address %}
+        <p>{{ order.shipping_address.summary }}</p>
+    {% else %}
+        <p>{% trans "As listed on the prepaid return label" %}</p>
+    {% endif %}
+
+    <h2 style="margin-top:40px">Tell your friends, earn shipping credit</h2>
+    <p>
+        {% blocktrans %}
+            Share your unique referral link with your friends. Every time a friend signs up, you get $5 in Shipping Credit!
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% render_email_button 'customer:referrals-index' "Start Sharing" %}
+    </p>
+{% endblock %}

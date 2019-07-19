@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans  %}
+    Your new USendHome shipping address
+{% endblocktrans %}

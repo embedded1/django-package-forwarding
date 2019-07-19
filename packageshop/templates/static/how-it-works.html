@@ -1,0 +1,172 @@
+{% extends "layout.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load staticfiles %}
+
+{% block page_inner_class %}{% endblock %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block title %}
+    {% trans "How international package forwarding service from USA works? - USendHome" %}
+{% endblock %}
+
+{% block description %}
+	{% blocktrans %}
+	    USendHome international package forwarding and shipping service is super easy to use.
+	    Buy from any US online store, forward it to your USendHome forwarding address and have it shipped to your country - as simple as that.
+	    128 countries supported and counting. Get your FREE Forever US Forwarding Address now!
+	{% endblocktrans %}
+{% endblock %}
+
+{% block extrastyles %} <link rel="stylesheet" href="{% static "usendhome/css/how_it_works.css" %}" type="text/css" />{% endblock %}
+{% block messages %}{% endblock %}
+
+{% block content %}
+    <div class="how-does-it-work-container">
+        <div class="how-does-it-work">
+            <div class="section-title">
+                <div class="container">
+                    <h1>START YOUR US SHOPPING SPREE WITH US TODAY</h1>
+                    <h2>No more “USA-only” roadblocks to great bargains!</h2>
+                </div>
+            </div>
+            <div class="section-sub-title">
+                <div class="container">
+                    <div class="section-sub-title-inner">
+                        <h2>How USendHome Works?</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="section-one">
+                <div class="container">
+                    <div class="infobox">
+                        <div class="section-one-title">
+                            <div class="num">1</div>
+                            <div class="caption"><h1>Register with USendHome</h1></div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="section-one-info">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <img src="{% static "images/how_it_works/img-section-one02.png" %}" alt="Get private US address in 10 seconds" />
+                                </div>
+                                <div class="col-sm-8">
+                                    <h2>10 seconds</h2>
+                                    <p>and you receive a private US address!</p>
+                                    <p>100% free! No hidden payments. No hassle. </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="imagebox">
+                        <img src="{% static "images/how_it_works/img-section-one01.png" %}" alt="Private US address" />
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="section-two">
+                <div class="container">
+                    <div class="section-two-title">
+                        <div class="num">2</div>
+                        <div class="caption">
+                            <h1>Shop Any US online store.</h1>
+                            <p>Use your private US address to deliver orders to our facility.</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="imagebox">
+                        <img src="{% static "images/how_it_works/img-section-two.png" %}" alt="Shop US brands" />
+                    </div>
+                </div>
+            </div>
+            <div class="section-three">
+                <div class="container">
+                    <div class="section-three-title">
+                        <div class="num">3</div>
+                        <div class="caption">
+                            <h1>SAVE ON SHIPPING BEFORE YOU SHIP!</h1>
+                            <h2>Shop ANYWHERE and send 'em all home together!</h2>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="imagebox">
+                        <img src="{% static "images/how_it_works/img-section-three.png" %}" alt="Consolidate packages into 1 shipment" />
+                    </div>
+                    <div class="infobox">
+                        <div class="sub-title">
+                            <h2>HUGE savings: all your purchases in one go</h2>
+                        </div>
+                        <div class="links">
+                            <ul>
+                                <li>Lots of premium, customized services at low rates!</li>
+                                <li>Once we get your package, just tell us what else you need us to do!</li>
+                                <li>Content photos?</li>
+                                <li>Customs documentations?</li>
+                                <li>Giftwrapping? Extra bubblewrap?</li>
+                            </ul>
+                            <h1>You got it!</h1>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="section-four">
+                <div class="container">
+                    <div class="section-four-title">
+                        <div class="num">4</div>
+                        <div class="caption">
+                            <h1>Now that you’ve selected</h1>
+                            <h1>your options, sit back.</h1>
+                            <h1>Your package is on its way!</h1>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="imagebox">
+                        <img src="{% static "images/how_it_works/img-section-four.png" %}" alt="Forward packages anywhere in the world" />
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="section-five">
+                <div class="container">
+                    <div class="section-five-title">
+                        <div class="num">5</div>
+                        <div class="caption">
+                            <h1>Receive your package anywhere in the world.</h1>
+                            <h2>Fast, safe, huge savings on shipping! </h2>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="imagebox">
+                        <img src="{% static "images/how_it_works/img-section-five.png" %}" alt="Receive the package at your home address" />
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="section-six">
+                <div class="container">
+                    <div class="section-six-title">
+                        <div class="num">6</div>
+                        <div class="caption">
+                            <h1>Repeat steps 2 - 5 as often as you like. </h1>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="imagebox">
+                        <img src="{% static "images/how_it_works/img-section-six.png" %}" alt="Repeat the process again" />
+                    </div>
+                    <div class="section-six-info">
+                        <h2>We love the thrill of receiving packages and we pass that thrill to you in one consolidated box!</h2>
+                    </div>
+                    <div class="col-xs-12 get-started">
+                        <a href="{% url 'customer:register' %}" class="btn btn-success btn-started">{% trans "SIGN UP FOR FREE" %}</a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

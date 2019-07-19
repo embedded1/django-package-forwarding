@@ -1,0 +1,52 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load email_tags %}
+
+
+{% block title %}
+    {% if is_affiliate %}
+        {% trans "USendHome Affiliate Program" %}
+    {% else %}
+         {% trans "USendHome Shipping Credit" %}
+    {% endif %}
+{% endblock %}
+
+{% block header %}
+     {% if is_affiliate %}
+         {% trans "Affiliate Earnings" %}
+    {% else %}
+        {% trans "Shipping Credit" %}
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% if is_affiliate %}
+        <p>
+            {% blocktrans with referee_name_title=referee_name|title %}
+                Hooray! {{ referee_name_title }} has just delivered the first package with us and now
+                it's your time to get rewarded. The affiliate revenue has already been applied to your account.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% render_email_button "customer:referrals-index" "View Affiliate Stats" %}
+        </p>
+    {% else %}
+        <p>
+            {% blocktrans with referee_name_title=referee_name|title %}
+                Hooray! {{ referee_name_title }} has just delivered the first package with us and now
+                it's your time to get rewarded with shipping credit.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+                The shipping credit has already been applied to your account.
+                It automatically appears on the checkout page in the form of a coupon.
+            {% endblocktrans %}
+        </p>
+
+        <p>
+            {% render_email_button "customer:referrals-index" "View Referrals Stats" %}
+        </p>
+    {% endif %}
+{% endblock %}
+

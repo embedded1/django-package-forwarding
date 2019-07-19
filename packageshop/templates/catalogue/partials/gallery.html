@@ -1,0 +1,25 @@
+{% load i18n %}
+{% load thumbnail %}
+{% load catalogue_filters %}
+
+{% with all_images=package|collect_all_images %}
+        {% if all_images %}
+            <div class="gallery-box">
+                {% for image in all_images %}
+                    <a class="fancybox" rel="product-images-{{ idx }}" href="{{ image.original.url }}">
+                        {% thumbnail image.original "800x600" upscale=False as thumb %}
+                            <img class="img-responsive" src="{{ thumb.url }}" alt="{{ package.get_title }}" />
+                        {% endthumbnail %}
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="gallery-box default-image">
+                {% with image=package.primary_image %}
+                        {% thumbnail image.original "800x600" upscale=False as thumb %}
+                        <img class="img-responsive" src="{{ thumb.url }}" alt="{{ package.get_title }}" />
+                    {% endthumbnail %}
+                {% endwith %}
+            </div>
+        {% endif %}
+{% endwith %}

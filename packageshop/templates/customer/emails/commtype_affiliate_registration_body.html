@@ -1,0 +1,44 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "Welcome to USendHome" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Welcome to USendHome" %}
+{% endblock %}
+
+{% block body %}
+	<p>
+        {% blocktrans with name=user.first_name|title %}
+            Hey {{ name }},
+        {% endblocktrans %}
+	</p>
+
+	<p>
+        {% blocktrans %}
+            Welcome to USendHome! Thanks so much for joining our affiliate program.
+            You’re on your way to start earning commission as a USendHome affiliate.
+        {% endblocktrans %}
+	</p>
+
+    <p>
+        {% blocktrans %}
+            Your account is now fully operational and you can start using your private affiliate URL right away!
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% render_email_button "customer:profile-view" "Go to Your Control Panel" %}
+    </p>
+
+
+    <p>
+        {% blocktrans %}
+            Have any questions? Just shoot us an email at <a href="mailto:support@usendhome.com">support@usendhome.com</a>! We're always here to help.
+        {% endblocktrans %}
+    </p>
+
+{% endblock %}

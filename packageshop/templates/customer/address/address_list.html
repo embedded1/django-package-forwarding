@@ -1,0 +1,93 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load url from future %}
+{% load address_filters %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="address-book">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+                      <li><a href="{% url 'promotions:home' %}"><i class="fa fa-home"></i>Home</a></li>
+                      <li><a href="{% url 'customer:profile-view' %}">{% trans "Control Panel" %}</a></li>
+                      <li class="active">{{ page_title }}</li>
+                    </ol>
+                    <h3 class="heading">{{ page_title }}</h3>
+                    <div class="filter clearfix">
+                        <div class="filter-buttons">
+                            <button data-filter="*" class="btn btn-info active hidden-xs"  style="margin-right: 10px;">{% trans "All" %}</button>
+                            <button data-filter=".personal" class="btn btn-info hidden-xs" style="margin-right: 10px;">{% trans "Personal" %}</button>
+                            <button data-filter=".merchant" class="btn btn-info hidden-xs">{% trans "Return-to-Merchant" %}</button>
+                            <div class="btn-group visible-xs">
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+									{% trans "Filter" %} <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<span>{% trans "Filter Addresses by Type" %}</span>
+									<li><button data-filter="*">{% trans "All" %}</button></li>
+									<li><button data-filter=".personal">{% trans "Personal" %}</button></li>
+									<li><button data-filter=".merchant">{% trans "Return to Merchant" %}</button></li>
+								</ul>
+                            </div>							
+                        </div>
+                        <div class="drop-filter">
+                            <div class="btn-group">
+                              <a href="{% url 'customer:address-create' %}" class="btn btn-default" type="button">{% trans "Add Address" %}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row addresses_container">
+						{% for address in addresses %}
+							<div class="col-md-3 address-book-item {% if address.is_merchant %}merchant{% else %}personal{% endif %}">
+								<div class="address-inner">
+									<div class="address-inner-text">
+										{% for field in address.full_address_format %}
+											<span>
+												{% if forloop.first %}
+													<strong>{{ field|title }}</strong>
+												{% else %}
+													{{ field|title_if_not_upper }}
+												{% endif %}
+											</span>
+										{% endfor %}
+									</div>
+									<a href="{% url 'customer:address-detail' pk=address.id %}" class="use-address-button tooltip-social" data-toggle="tooltip" data-placement="top" title="{% trans "Edit" %}"><i class="fa fa-pencil"></i></a>
+									<a class="modalRemoteLoad use-address-button tooltip-social middle-button" data-modal-name="deleteAddress{{ address.pk }}Modal" data-load-url="{% url "customer:address-delete" pk=address.pk %}" data-toggle="tooltip" data-placement="top" title="{% trans "Delete" %}"><i class="fa fa-trash"></i></a>
+									{% if not address.is_default_for_shipping %}
+										<a href="{% url 'customer:address-change-status' pk=address.id action='default_for_shipping' %}" class="use-address-button tooltip-social" data-toggle="tooltip" data-placement="top" title="{% trans "Make Default" %}"><i class="fa fa-bookmark"></i></a>
+									{% else %}
+										<span class="use-address-button tooltip-social"  data-toggle="tooltip" data-placement="top" title="{% trans "Default Address" %}"><i class="fa fa-bookmark"></i></span>
+									{% endif %}
+								</div>
+							</div>
+						{% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+		
+		{# delete address modals #}
+		{% for address in addresses %}
+			{% include "customer/address/address_delete_modal.html" with address=address %}
+		{% endfor %}	
+		
+    </section>
+{% endblock %}
+
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.isotope.addressBookInit();
+{% endblock %}
+
+{% block extrascripts %}
+    {{ block.super }}
+    <script src="{% static "usendhome/assets/isotope/jquery.isotope.min.js" %}"></script>
+{% endblock %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "usendhome/assets/isotope/isotope.css" %}">
+{% endblock %}

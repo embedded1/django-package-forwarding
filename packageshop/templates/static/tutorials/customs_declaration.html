@@ -1,0 +1,48 @@
+{% load i18n %}
+{% load staticfiles %}
+
+<h4>{% trans "How to order the customs declaration paperwork service for my parcel?" %}</h4>
+
+<h5>{% trans "Introduction" %}</h5>
+<p>
+	{% blocktrans %}
+	    There are 2 ways to request Customs Declaration with your parcels.
+	{% endblocktrans %}
+</p>
+
+<h5>{% trans "Walkthrough" %}</h5>
+<p>There are 2 ways to request the customs declaration paperwork service for your parcel:</p>
+<ul>
+	<li>
+	     Order the Customs Declaration Paperwork service in advance (20% off retail service price): This method allows you to order the service in advance for all incoming packages.
+		<ul>
+            <li>Log in to your Control Panel.</li>
+            <li>
+                Scroll down the right part of the page until you see “Order Extra Service in Advance”.
+                Within the option, select “Customs Declaration Paperwork” and click the Save button.
+                <img class="tutorial-img" src="{% static "images/tutorials/customs_advance.png" %}" alt="order customs declaration paperwork service in advance"/>
+            </li>
+        </ul>
+	</li>
+	<li>
+		Order the Customs Declaration Paperwork service after we receive your package:
+		<ul>
+		    <li>Log in to your Control Panel.</li>
+		    <li>
+		        Click the “Manage Packages” button.
+		        <img class="tutorial-img" src="{% static "images/tutorials/manage_packages.png" %}" alt="manage packages"/>
+		    </li>
+		    <li>
+		        This will lead you to your packages we have received. Now click on “Extras” button for your preferred package.
+		        <img class="tutorial-img" src="{% static "images/tutorials/extras.png" %}" alt="order extra services"/>
+		    </li>
+		    <li>
+		         This will open a popup window from where you can select Customs Declaration Paperwork for your parcel and click on the Order button.
+		        <img class="tutorial-img" src="{% static "images/tutorials/customs.png" %}" alt="order customs declaration paperwork service"/>
+		    </li>
+            <li>
+                {% trans "We'll notify you by email once we've completed your customs declaration paperwork request so you can authorize your packages shipment." %}
+            </li>
+        </ul>
+	</li>
+</ul>

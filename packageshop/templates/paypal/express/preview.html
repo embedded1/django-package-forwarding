@@ -1,0 +1,86 @@
+{% extends "checkout/checkout.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load currency_filters %}
+
+{% block title %}
+	{{ block.super }} {% trans "Review Order" %} |
+{% endblock %}
+
+{% block checkout_nav %}
+    {% include 'checkout/nav.html' with step=5 %}
+{% endblock %}
+
+{% block step_description %}
+	<h2>{% trans "5. Order Review" %}</h2>
+{% endblock %}
+
+{% block order_contents %}
+<div class="row">
+    <div class="col-md-12">
+        <table class="table" style="margin-top: 40px; margin-bottom: 40px;">
+            <thead>
+                <tr>
+                    <td>{% trans "Description" %}</td>
+                    <td>{% trans "Quantity" %}</td>
+                    <td>{% trans "Price" %}</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for line in basket.all_lines %}
+                    <tr>
+                        <td>{{ line.description }}</td>
+                        <td>{{ line.quantity }}</td>
+                        <td>{{ line.line_price_incl_tax|currency:basket.currency }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% include 'basket/partials/basket_totals.html' %}
+
+{% endblock order_contents %}
+
+{% block order_details %}
+    <div class="row">
+        <div class="col-md-6">
+            <h4 style="margin-bottom: 30px;">{% trans "Review and Confirm Your Order" %}</h4>
+            <p style="margin-bottom: 30px;">
+                {% blocktrans %}
+                    Please thoroughly review your order to ensure that all information is accurate. Make sure you've
+                    selected your preferred shipping method and added the appropriate insurance coverage. Once
+                    confirmation is complete, click the Place Order button to get your package on its way!
+                {% endblocktrans %}
+            </p>
+        </div>
+    </div>
+    <div class="row order-details">
+        <div class="col-sm-5">
+            {% include "checkout/partials/shipping_address.html" %}
+        </div>
+        <div class="col-sm-3">
+            <span><strong>{% trans "Shipping Method" %}</strong></span>
+            <span>{% if shipping_method.name != 'No shipping required' %}{{ shipping_method.carrier }} {{ shipping_method.name }}{% else %}{% trans "As listed on the prepaid return label" %}{% endif %}</span>
+        </div>
+        <div class="col-sm-4">
+            <span class="right-align"><strong>{% trans "Payment Method" %}</strong></span>
+            <span class="right-align">PayPal</span>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block place_order %}
+<div class="row">
+	<div class="col-md-12" style="text-align: center;">
+		<form method="post" action="{% url 'paypal-place-order' basket.id %}">
+			{% csrf_token %}
+			<input type="hidden" name="payer_id" value="{{ payer_id }}" />
+			<input type="hidden" name="token" value="{{ token }}" />	
+			<button type="submit" class="btn btn-info btn-order js-disable-on-click" data-loading-text="{% trans 'Submitting...' %}">{% trans "Place Order" %}</button>
+		</form>
+	</div>
+</div>
+{% endblock %}

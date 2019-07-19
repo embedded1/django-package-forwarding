@@ -1,0 +1,50 @@
+{% load i18n %}
+{% load staticfiles %}
+
+<h4>{% trans "How to get Express Checkout for my parcel?" %}</h4>
+
+<h5>{% trans "Introduction" %}</h5>
+<p>
+	{% blocktrans %}
+	    We process packages in First-In-First-Processed order. This includes extra services and out-for-delivery processing.
+		Expedite your package processing by ordering this extra service and get your package pushed to the top of the list so your shopping gets delivered faster.
+		There are 2 ways to order the Express Checkout service.
+	{% endblocktrans %}
+</p>
+
+<h5>{% trans "Walkthrough" %}</h5>
+<p>There are 2 ways to request the Express Checkout service for your parcel:</p>
+<ul>
+	<li>
+	     Order the Express Checkout service in advance (20% off retail service price): This method allows you to order the service in advance for all incoming packages.
+		<ul>
+            <li>Log in to your Control Panel.</li>
+            <li>
+                Scroll down the right part of the page until you see “Order Extra Service in Advance”.
+                Within the option, select “Express Checkout” and click the Save button.
+                <img class="tutorial-img" src="{% static "images/tutorials/express_checkout_advance.png" %}" alt="order extra protection service in advance"/>
+            </li>
+        </ul>
+	</li>
+	<li>
+		Order the Express Checkout service after we receive your package:
+		<ul>
+		    <li>Log in to your Control Panel.</li>
+		    <li>
+		        Click the “Manage Packages” button.
+		        <img class="tutorial-img" src="{% static "images/tutorials/manage_packages.png" %}" alt="manage packages"/>
+		    </li>
+		    <li>
+		        This will lead you to your packages we have received. Now click on “Extras” button for your preferred package.
+		        <img class="tutorial-img" src="{% static "images/tutorials/extras.png" %}" alt="order extra services"/>
+		    </li>
+		    <li>
+		         This will open a popup window from where you can select Express Checkout for your parcel and click on the Order button.
+		        <img class="tutorial-img" src="{% static "images/tutorials/express_checkout.png" %}" alt="order express checkout service"/>
+		    </li>
+		    <li>
+                {% trans "We'll notify you by email once we've completed your express checkout request so you can authorize your shipment." %}
+            </li>
+        </ul>
+	</li>
+</ul>

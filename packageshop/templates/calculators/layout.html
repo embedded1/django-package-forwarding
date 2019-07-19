@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% comment %}
+Keep the same header and footer as the standard layout template but override the
+main content area to split it into a sidebar and a content block
+{% endcomment %}
+
+{% block layout %}
+	{% block nav %}
+		{{ block.super }}
+	{% endblock %}
+	
+    <div class="page_inner calculators">
+        {% block breadcrumbs %}{% endblock %}		
+		{% block subnavigation %}{% endblock %}
+		<div class="content">
+			{% block subheader %}{% endblock subheader %}
+			{# Div exists for AJAX updates to entire content section #}
+			<div id="content_inner">
+                {% block promo-messages %}{% endblock %}
+                <section id="calculator">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-4">
+                                {% block calculator_form %}{% endblock %}
+                            </div>
+                            <div class="col-md-8">
+                                {% include "partials/alert_messages.html" %}
+                                {% block content %}{% endblock %}
+                            </div>
+                        </div>
+                    </div>
+				</section>
+                <section id="calculator-faq">
+                    <div class="container">
+						{% block calculator-faq %}
+						{% endblock %}
+                    </div>
+                </section>
+			</div>
+		</div>
+    </div><!-- /page_inner -->
+    {% block footer %}
+        {{ block.super }}
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'dashboard/reports/index.html' %}
+{% load i18n %}
+
+{% block report %}
+<table class="table table-striped table-bordered table-hover">
+    {% if objects %}
+        <tr>
+            <th>{% trans "Customer suite number" %}</th>
+            <th>{% trans "Customer name" %}</th>
+            <th>{% trans "Package unique ID" %}</th>
+            <th>{% trans "Warehouse" %}</th>
+            <th>{% trans "Location 1" %}</th>
+            <th>{% trans "Location 2" %}</th>
+            <th>{% trans "Location 3" %}</th>
+            <th>{% trans "Pending extra services" %}</th>
+            <th>{% trans "Ordered at" %}</th>
+            <th>{% trans "Express checkout?" %}</th>
+            {% if request.user.is_staff %}
+                <th>{% trans "Partner name" %}</th>
+            {% endif %}
+            <th>&nbsp;</th>
+        </tr>
+        {% for package in objects %}
+        <tr>
+            <td>{{ package.owner.get_profile.uuid }}</td>
+            <td>{{ package.owner }}</td>
+            <td>{{ package.upc }}</td>
+            {% with product_location=package.location %}
+                <td>{{ product_location.warehouse|default:"-" }}</td>
+                <td>{{ product_location.loc1|default:"-" }}</td>
+                <td>{{ product_location.loc2|default:"-" }}</td>
+                <td>{{ product_location.loc3|default:"-" }}</td>
+            {% endwith %}
+            <td>{{ package.pending_special_requests_summary }}</td>
+            <td>{{ package.special_requests.date_updated }}</td>
+            <td>{{ package.special_requests.express_checkout_done|yesno }}</td>
+            {% if request.user.is_staff %}
+                <td>{{ package.partner.name }}</td>
+            {% endif %}
+            <td>
+                <a class="btn btn-primary" href="{% url dashboard:catalogue-product package.id %}" title="Update">Update</a>
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr><td>{% trans "No results found." %}</td></tr>
+    {% endif %}
+</table>
+{% include "partials/pagination.html" %}
+{% endblock %}

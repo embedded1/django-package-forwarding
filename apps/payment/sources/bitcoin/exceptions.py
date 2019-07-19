@@ -1,0 +1,3 @@
+
+class BitsOfGoldError(Exception):
+    pass

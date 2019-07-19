@@ -1,0 +1,22 @@
+{% load shipping_calculator_filters %}
+
+<IntlRateV2Request USERID="{{ userid }}">
+<Revision>2</Revision>
+<Package ID="products">
+    <Pounds>{{ weight|pounds }}</Pounds>
+    <Ounces>{{ weight|ounces }}</Ounces>
+    <MailType>All</MailType>
+    <ValueOfContents>{{ value_of_content }}</ValueOfContents>
+    <Country>{{ country }}</Country>
+    <Container>RECTANGULAR</Container>
+    <Size>{{ size }}</Size>
+    <Width>{{ width }}</Width>
+    <Length>{{ length }}</Length>
+    <Height>{{ height }}</Height>
+    <Girth>0</Girth>
+    <CommercialFlag>Y</CommercialFlag>
+    <ExtraServices>
+         <ExtraService>1</ExtraService>
+    </ExtraServices>
+</Package>
+</IntlRateV2Request>

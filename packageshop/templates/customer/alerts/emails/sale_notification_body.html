@@ -1,0 +1,61 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "Black Friday Promotion" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "20% Off Shipping + 40% Off Extra Services" %}
+{% endblock %}
+
+{% block header_style %}
+    style="color:#2980b9"
+{% endblock %}
+
+{% block body %}
+    <p>
+        {% blocktrans with name=customer.first_name|title %}
+            Hello {{ name }},
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+            We at USendHome have big news for you - We have decided to throw in a great 20% discount on shipping and
+            40% discount on extra services just to make international shipping even more affordable during the upcoming shopping rush.
+            Our deal is simple, just shop US brands, forward the invoices to us and save big on the international shipping.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans %}
+            Check out the promotion details - don't worry it's straightforward:
+        {% endblocktrans %}
+    </p>
+    <ul>
+        <li>
+            {% blocktrans %}
+                Forward invoice of any order you placed online in the US during this weekend (25-29) to this email address: blkfriday@usendhome.com
+            {% endblocktrans %}
+        </li>
+        <li>
+            {% blocktrans %}
+                Include your USH number in the subject (you can find the number in your control panel)
+            {% endblocktrans %}
+        </li>
+        <li>
+            {% blocktrans %}
+                Discounts will be applied automatically at checkout.
+            {% endblocktrans %}
+        </li>
+        <li>
+            {% blocktrans %}
+                This promotion is only valid until 10/12/2016 (23:59:59 PST), discounts will not be applied to packages released after this expiration date.
+            {% endblocktrans %}
+        </li>
+    </ul>
+    <p>
+        {% trans "Please note, the 40% extra services discount applies only to services that were ordered in advance (before we receive the package)" %}
+    </p>
+{% endblock %}

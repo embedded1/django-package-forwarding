@@ -1,0 +1,34 @@
+{% extends "customer/emails/base_css.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load email_tags %}
+
+{% block title %}
+    {% trans "USendHome New Package Received" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "New Package Received" %}
+{% endblock %}
+
+{% block body %}
+<p>
+    {% blocktrans with merchant_name=package.title %}
+        Your items ordered from {{ merchant_name }} have arrived.
+    {% endblocktrans %}
+</p>
+
+<p>
+	{% blocktrans %}	
+		You've instructed us to consolidate all of your incoming items into one shipment.
+		You can see everything that has been delivered in the Package Consolidation section within your
+        USendHome control panel.
+        Make sure to notify us that all of your items are here by clicking on the Create Consolidation Container button.
+		Once you're done that, we'll get your package consolidated and on its way.
+	{% endblocktrans %}
+</p>
+
+<p>
+    {% render_email_button "customer:waiting-for-consolidation-packages" "View Packages" %}
+</p>
+{% endblock %}

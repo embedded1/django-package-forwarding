@@ -1,0 +1,62 @@
+[
+    {
+        "pk": 1,
+        "model": "catalogue.productattribute",
+        "fields": {
+            "code": "height",
+            "product_class": 2,
+            "option_group": null,
+            "required": true,
+            "type": "float",
+            "name": "height"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "catalogue.productattribute",
+        "fields": {
+            "code": "is_envelope",
+            "product_class": 2,
+            "option_group": null,
+            "required": true,
+            "type": "boolean",
+            "name": "envelope?"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "catalogue.productattribute",
+        "fields": {
+            "code": "length",
+            "product_class": 2,
+            "option_group": null,
+            "required": true,
+            "type": "float",
+            "name": "length"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "catalogue.productattribute",
+        "fields": {
+            "code": "weight",
+            "product_class": 2,
+            "option_group": null,
+            "required": true,
+            "type": "float",
+            "name": "weight"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "catalogue.productattribute",
+        "fields": {
+            "code": "width",
+            "product_class": 2,
+            "option_group": null,
+            "required": true,
+            "type": "float",
+            "name": "width"
+        }
+    }
+]

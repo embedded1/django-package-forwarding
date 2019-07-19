@@ -1,0 +1,58 @@
+{% extends 'dashboard/reports/index.html' %}
+{% load i18n %}
+
+{% block report %}
+<table class="table table-striped table-bordered table-hover">
+    {% if objects %}
+        <tr>
+            <th>{% trans "Customer suite number" %}</th>
+            <th>{% trans "Customer name" %}</th>
+            <th>{% trans "Consolidated Package Unique ID" %}</th>
+            <th>{% trans "Unique IDs of packages to consolidate" %}</th>
+            <th>{% trans "Packages Locations" %}</th>
+            <th>{% trans "Packing options" %}</th>
+            <th>{% trans "Date requested" %}</th>
+            <th>{% trans "Express checkout?" %}</th>
+            {% if request.user.is_staff %}
+                <th>{% trans "Partner name" %}</th>
+            {% endif %}
+            <th>&nbsp;</th>
+        </tr>
+        {% for package in objects %}
+        <tr>
+            <td>{{ package.owner.get_profile.uuid }}</td>
+            <td>{{ package.owner }}</td>
+            <td>{{ package.upc }}</td>
+            {% with combined_products=package.combined_products.all %}
+                <td>
+                    {% for inner_package in combined_products %}
+                        {{ inner_package.upc }}<br/>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for inner_package in combined_products %}
+                        {{ inner_package.location.printable_location }}<br/>
+                    {% endfor %}
+                </td>
+            {% endwith %}
+            <td>
+                {{ package.consolidation_requests.pending_requests_summary }}
+            </td>
+            <td>{{ package.consolidation_requests.date_created }}</td>
+            <td>{{ package.special_requests.express_checkout_done|yesno }}</td>
+            {% if request.user.is_staff %}
+                <td>{{ package.partner.name }}</td>
+            {% endif %}
+            <td>
+                <div class="controls">
+                    <a class="btn btn-primary" href="{% url dashboard:catalogue-product package.id %}?createconsolidationpackage=1" title="Update box">Update box</a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr><td>{% trans "No results found." %}</td></tr>
+    {% endif %}
+</table>
+{% include "partials/pagination.html" %}
+{% endblock %}

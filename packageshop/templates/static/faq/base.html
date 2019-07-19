@@ -1,0 +1,358 @@
+{% extends "layout.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block content %}
+	{% url "calculators:package" as package_calculator_url %}
+	{% url "calculators:amazon" as amazon_calculator_url %}
+	{% url "contact" as support_url %}
+	{% url "faq" "tutorials" as tutorials_url %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 hidden-xs">
+                    <div class="faq-nav">
+                        <ul>
+                            <li class="drop-nav {% if active_tab == 'intro' or not active_tab %}active{% endif %}">
+                                <span data-faq="intro"><i class="fa fa-info-circle"></i>{% trans "Introduction" %}
+                                    {% if active_tab == 'intro' or not active_tab %}
+                                        <i class="fa fa-caret-up"></i>
+                                    {% else %}
+                                         <i class="fa fa-caret-down"></i>
+                                    {% endif %}
+                                </span>
+                                <ul>
+                                    <li>
+                                        <a href="{% url 'faq' 'intro' %}#intro-q1">{% trans "Who uses USendHome?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'intro' %}#intro-q2">{% trans "How do I get started?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'intro' %}#intro-q3">{% trans "What do you do better?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'intro' %}#intro-q4">{% trans "Why are your rates so low?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'intro' %}#intro-q5">{% trans "Do you offer an affiliate program?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'intro' %}#intro-q6">{% trans "Where is your warehouse located?" %}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="drop-nav {% if active_tab == 'control-panel' %}active{% endif %}">
+                                <span data-faq="control-panel"><i class="fa fa-dashboard"></i>{% trans "Control Panel" %}
+                                    {% if active_tab == 'control-panel' %}
+                                        <i class="fa fa-caret-up"></i>
+                                    {% else %}
+                                         <i class="fa fa-caret-down"></i>
+                                    {% endif %}
+                                </span>
+                                <ul>
+                                    <li>
+                                        <a href="{% url 'faq' 'control-panel' %}#control-panel-q1">{% trans "Is it free to open a new USendHome account?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'control-panel' %}#control-panel-q2">{% trans "Where can I find my personal US address?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'control-panel' %}#control-panel-q3">{% trans "Do I need to go through a verification process before I can start using my personal US address?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'control-panel' %}#control-panel-q4">{% trans "How do I track my shipments?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'control-panel' %}#control-panel-q5">{% trans "My package has been delivered, but I can't find it under the incoming packages tab" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'control-panel' %}#control-panel-q6">{% trans "Do I have to include my suite number when I deliver items to your distribution center?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'control-panel' %}#control-panel-q7">{% trans "How do I close my account?" %}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="drop-nav {% if active_tab == 'shipping' %}active{% endif %}">
+                                <span data-faq="shipping"><i class="fa fa-truck"></i>{% trans "Shipping" %}
+                                    {% if active_tab == 'shipping' %}
+                                        <i class="fa fa-caret-up"></i>
+                                    {% else %}
+                                         <i class="fa fa-caret-down"></i>
+                                    {% endif %}
+                                </span>
+                                <ul>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q1">{% trans "My package has been delivered, but I can't find it in my account" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q2">{% trans "Can I release for delivery package containing lithium battery?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q3">{% trans "Are there any prohibited items that cannot be shipped internationally?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q4">{% trans "Which shipping companies do you partner with?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q5">{% trans "What shipping methods do you offer?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q6">{% trans "Can I deliver orders to my private USendHome address with a different name than the one I registered with?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q7">{% trans "Can I use my address to receive orders from non US merchants?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q8">{% trans "How do I purchase shipping insurance?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q9">{% trans "How do I return a package back to the merchant?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q10">{% trans "What phone number should I enter when placing an order online?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q11">{% trans "What is the maximum size/weight/value of packages I can receive?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q12">{% trans "How can I calculate shipping costs in advance?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q13">{% trans "What happens if my package arrives damaged to your distribution center?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q14">{% trans "What happens if I have not received my goods?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q15">{% trans "What happens if my shipment has arrived damaged?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q16">{% trans "Will I have to pay duty and import tax?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q17">{% trans "Are there any destinations you won't deliver goods to?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q18">{% trans "Can I use my private USendHome address to deliver orders to my customers?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q19">{% trans "My package was shipped via USPS First Class Internationl and I think it's lost, what can I do now?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q20">{% trans "Can I use my USendHome address to receive scratch cards?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q21">{% trans "Can I use my USendHome address to receive private mail?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'shipping' %}#shipping-q22">{% trans "Can I use my USendHome address as a billing address when I shop online?" %}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="drop-nav {% if active_tab == 'package-handling' %}active{% endif %}">
+                                <span data-faq="package-handling"><i class="fa fa-suitcase"></i>{% trans "Package Handling & Services" %}
+                                    {% if active_tab == 'package' %}
+                                        <i class="fa fa-caret-up"></i>
+                                    {% else %}
+                                        <i class="fa fa-caret-down"></i>
+                                    {% endif %}
+                                </span>
+                                <ul>
+                                     <li>
+                                        <a href="{% url 'faq' 'package-handling' %}#package-q8">{% trans "Do you offer package consolidation service?" %}</a>
+                                    </li>
+                                     <li>
+                                        <a href="{% url 'faq' 'package-handling' %}#package-q12">{% trans "Can I add items to my shipment after the package consolidation request has been completed?" %}</a>
+                                    </li>
+                                     <li>
+                                        <a href="{% url 'faq' 'package-handling' %}#package-q13">{% trans "No USPS methods available for my consolidated package, is there a reason why?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'package-handling' %}#package-q1">{% trans "How can I tell my package isn't damaged?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'package-handling' %}#package-q2">{% trans "Can I receive the Pre-Ordered extra services discount for my consolidated package?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'package-handling' %}#package-q3">{% trans "How can I verify that all my items arrived?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'package-handling' %}#package-q4">{% trans "When will my order be dispatched?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'package-handling' %}#package-q5">{% trans "Do you provide a service to check that my electronic device is working properly?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'package-handling' %}#package-q6">{% trans "Can you fill in the customs declaration on my behalf?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'package-handling' %}#package-q7">{% trans "I suspect the merchant has packed my items in a large package, can you repack my goods to reduce shipping costs?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'package-handling' %}#package-q9">{% trans "Is it possible for you to take photos of package contents for every incoming package?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'package-handling' %}#package-q10">{% trans "How long can I store my packages in your warehouse?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'package-handling' %}#package-q11">{% trans "Do I have to notify you of every package I deliver to your distribution center?" %}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="drop-nav {% if active_tab == 'pricing' %}active{% endif %}">
+                                <span data-faq="pricing"><i class="fa fa-credit-card"></i>{% trans "Pricing &amp; Billing" %}
+                                    {% if active_tab == 'pricing' %}
+                                        <i class="fa fa-caret-up"></i>
+                                    {% else %}
+                                         <i class="fa fa-caret-down"></i>
+                                    {% endif %}
+                                </span>
+                                <ul>
+                                    <li>
+                                        <a href="{% url 'faq' 'pricing' %}#pricing-q1">{% trans "What form of payments do you accept?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'pricing' %}#pricing-q2">{% trans "Can I pay with someone else’s credit card or PayPal account?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'pricing' %}#pricing-q3">{% trans "Where can I find the credit card billing page?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'pricing' %}#pricing-q4">{% trans "How am I billed?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'pricing' %}#pricing-q5">{% trans "Do you keep my credit card details?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'pricing' %}#pricing-q6">{% trans "Can I pay for your service with gift cards?" %}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="drop-nav {% if active_tab == 'affiliate-program' %}active{% endif %}">
+                                <span data-faq="affiliate-program"><i class="fa fa-money"></i>{% trans "Affiliate Program" %}
+                                    {% if active_tab == 'affiliate-program' %}
+                                        <i class="fa fa-caret-up"></i>
+                                    {% else %}
+                                         <i class="fa fa-caret-down"></i>
+                                    {% endif %}
+                                </span>
+                                <ul>
+                                    <li>
+                                        <a href="{% url 'faq' 'affiliate-program' %}#affiliate-q1">{% trans "Why should I join USendHome affiliate program?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'affiliate-program' %}#affiliate-q2">{% trans "How do I get started?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'affiliate-program' %}#affiliate-q3">{% trans "What are the terms of the USendHome affiliate program?" %}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="drop-nav {% if active_tab == 'referral-program' %}active{% endif %}">
+                                <span data-faq="referral-program"><i class="fa fa-heart"></i>{% trans "Referral Program" %}
+                                    {% if active_tab == 'referral-program' %}
+                                        <i class="fa fa-caret-up"></i>
+                                    {% else %}
+                                         <i class="fa fa-caret-down"></i>
+                                    {% endif %}
+                                </span>
+                                <ul>
+                                    <li>
+                                        <a href="{% url 'faq' 'referral-program' %}#referral-q1">{% trans "How do I get started?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'referral-program' %}#referral-q2">{% trans "How will referrals be awarded?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'referral-program' %}#referral-q3">{% trans "How do I earn the shipping credit?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'referral-program' %}#referral-q4">{% trans "When do I receive my shipping credit?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'referral-program' %}#referral-q5">{% trans "What is a pending referral?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'referral-program' %}#referral-q6">{% trans "Is there a limit for the shipping credit I can earn?" %}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="drop-nav {% if active_tab == 'tutorials' %}active{% endif %}">
+                                <span data-faq="tutorial"><i class="fa fa-book"></i>{% trans "Tutorials" %}
+                                    {% if active_tab == 'tutorial' %}
+                                        <i class="fa fa-caret-up"></i>
+                                    {% else %}
+                                         <i class="fa fa-caret-down"></i>
+                                    {% endif %}
+                                </span>
+                                <ul>
+                                    <li>
+                                        <a href="{% url 'faq' 'tutorials' %}#tutorial-q1">{% trans "I just opened a new account, can I use my personal address to deliver packages to your warehouse?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'tutorials' %}#tutorial-q2">{% trans "How to get a quote on multiple items ordered from Amazon consolidated into one package?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'tutorials' %}#tutorial-q3">{% trans "Order an extra service for your package" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'tutorials' %}#tutorial-q4">{% trans "Order Extra Services in Advance" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'tutorials' %}#tutorial-q5">{% trans "Returning Packages Back to Merchants" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'tutorials' %}#tutorial-q6">{% trans "How to consolidate multiple parcels into one shipment?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'tutorials' %}#tutorial-q7">{% trans "How to request the Repacking service for my parcel?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'tutorials' %}#tutorial-q8">{% trans "Filing a Shipping Insurance Claim" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'tutorials' %}#tutorial-q9">{% trans "How to fill the customs declaration form correctly?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'tutorials' %}#tutorial-q10">{% trans "Getting Your Purchases to Us" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'tutorials' %}#tutorial-q11">{% trans "How to request photos of my parcel?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'tutorials' %}#tutorial-q12">{% trans "Package Tracking – Follow Your Package to Your Door" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'tutorials' %}#tutorial-q13">{% trans "How to add extra protection for my parcel?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'tutorials' %}#tutorial-q14">{% trans "How to get express checkout for my parcel?" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'faq' 'tutorials' %}#tutorial-q15">{% trans "How to order the customs declaration paperwork service for my parcel?" %}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-7 col-md-offset-1">
+                    {% block faq_section %}{% endblock %}
+                </div>
+                <button class="btn-info btn btn-back-top tooltip-social" data-toggle="tooltip" data-placement="top" title="{% trans "Back To Top" %}"><i class="fa fa-angle-up"></i></button>
+                <a href="{% url 'contact' %}" class="btn-info btn btn-contact-us tooltip-social" data-toggle="tooltip" data-placement="top" title="{% trans "Contact Us" %}"><i class="fa fa-envelope"></i></a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.faq.init();
+{% endblock %}

@@ -1,0 +1,5 @@
+{% load i18n %}
+
+{% blocktrans %}
+	Your email address has been changed at {{ site_name }}
+{% endblocktrans %}

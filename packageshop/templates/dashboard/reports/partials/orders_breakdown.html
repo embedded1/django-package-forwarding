@@ -1,0 +1,39 @@
+{% extends 'dashboard/reports/index.html' %}
+{% load url from future %}
+{% load currency_filters %}
+{% load misc_filters %}
+{% load i18n %}
+
+{% block report_header %}
+    {% if description %}
+        <div class="table-header">
+        <table width="100%">
+            <tr>
+                <td><i class="icon-bar-chart icon-large"></i> {{ description }}</td>
+            </tr>
+        </table>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block report %}
+    <table class="table table-striped table-bordered table-hover">
+        {% if objects %}
+            <tr>
+                <th>{% trans "Month" %}</th>
+                <th>{% trans "Number of packages delivered" %}</th>
+                <th>{% trans "Total payments (including partner share)" %}</th>
+            </tr>
+            {% for row in objects %}
+                <tr>
+                    <td>{{ row.month.date }}</td>
+                    <td>{{ row.num_orders }}</td>
+                    <td>{{ row.total_payments }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr><td>{% trans "No results found." %}</td></tr>
+        {% endif %}
+    </table>
+    {% include "partials/pagination.html" %}
+{% endblock %}

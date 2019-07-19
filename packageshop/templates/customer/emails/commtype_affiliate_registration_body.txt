@@ -1,0 +1,27 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+    {% blocktrans with name=user.first_name|title %}
+        Hey {{ name }},
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        Welcome to USendHome! Thanks so much for joining our affiliate program.
+        You’re on your way to start earning commission as a USendHome affiliate.
+    {% endblocktrans %}
+
+
+    {% blocktrans %}
+        Your account is now fully operational and you can start using your private affiliate URL right away!
+    {% endblocktrans %}
+
+    {% trans "Go to Your Control Panel:" %}
+    {{ site }}{% url "customer:profile-view" %}
+
+
+    {% blocktrans %}
+        Have any questions? Just shoot us an email! We're always here to help.
+    {% endblocktrans %}
+{% endblock %}

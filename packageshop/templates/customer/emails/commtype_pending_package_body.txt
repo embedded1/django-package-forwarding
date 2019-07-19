@@ -1,0 +1,56 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+	{% blocktrans with package_number=package.upc merchant_name=package.title %}
+       Your order from {{ merchant_name }} has arrived.
+	   Package #{{ package_number }} is now available in your control panel.
+	{% endblocktrans %}
+
+
+{% if fulfilled_special_requests %}
+    {% blocktrans %}
+		Per your request to perform extra services on all incoming packages, we've successfully completed the following:
+    {% endblocktrans %}
+
+    {% for fulfilled_special_request in fulfilled_special_requests %}
+        {{ fulfilled_special_request }}
+    {% endfor %}
+
+    {% if customized_services %}
+        {% trans "This is what you've asked us to take on your items:" %}
+        {{ customized_services }}
+    
+		{% if customized_services_brief %}
+			{% trans "This is a short brief of the actions we've taken on your items:" %}
+			{{ customized_services_brief }}		
+		{% else %}
+			{% blocktrans %}
+				Unfortunately, we couldn't complete any of the actions you've asked us to take.
+				Don't worry, we will not charge you on that one though.
+			{% endblocktrans %}
+		{% endif %}
+	{% endif %}
+
+{% else %}
+    {% blocktrans %}
+        Check out additional services we offer to reduce shipping costs and eliminate shipping errors.
+		The package content photos service is recommended to detect missing or damaged items before your order is shipped to you.
+		Enjoy great discounts by ordering extra services in advance for every incoming package we receive at your USendHome mailbox.
+    {% endblocktrans %}
+{% endif %}
+
+{% if additional_receiver %}
+    {% blocktrans %}
+        The package wasn't addressed to the account holder's name you provided when you joined our service.
+        You must verify this additional receiver before you can release this package for delivery.
+    {% endblocktrans %}
+    {% trans "Visit the following URL link to begin the verification process:" %}
+    {{ site }}{% url "customer:additional-receiver-verify" additional_receiver.pk %}
+{% else %}
+    {% trans "Visit the following URL link to have your items shipped immediately:" %}
+    {{ site }}{% url "customer:pending-packages" %}
+{% endif %}
+
+{% endblock %}

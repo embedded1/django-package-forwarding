@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block body_class %}grey-background checkout{% endblock %}
+
+{# no main navigation #}
+{% block nav %}{% endblock %}
+
+{% block header %}
+    <header id="checkout-header">
+        <div class="container">
+            {% comment %}
+                <div class="row">
+                    {% include "partials/brand.html" %}
+                </div><!-- /row-fluid -->
+            {% endcomment %}
+            {% block step_description %}{% endblock %}
+			{% block checkout_nav %}{% endblock %}            
+        </div>
+    </header><!-- /header -->
+{% endblock %}
+
+{# no footer #}
+{% block footer %}{% endblock %}
+

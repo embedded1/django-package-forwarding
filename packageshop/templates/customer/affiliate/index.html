@@ -1,0 +1,88 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load staticfiles %}
+{% load user_agents %}
+
+{% block body_class %}
+   {{ block.super }}
+    affiliates
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+					<ol class="breadcrumb">
+						<li><a href="{% url 'promotions:home' %}"><i class="fa fa-home"></i>{% trans "Home" %}</a></li>
+						<li><a href="{% url 'customer:profile-view' %}">{% trans "Control Panel" %}</a></li>
+						<li class="active">{% trans "Affiliates" %}</li>
+					</ol>
+                    <h3 class="heading">{% trans "Affiliates" %}</h3>
+                </div>
+				<div class="col-md-9">
+                    <section class="wblock contacts-send">
+                        <h2>{% trans "Use Your Affiliate Link" %}</h2>
+                        <p>{% trans "Copy your personal affiliate link and post it on your website or blog." %}</p>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <label>{% trans "Affiliate Link" %}</label>
+                                <div class="referral-link-input">
+                                    <input class="form-control" data-toggle="tooltip" title="Copy to Clipboard" id="copy-referral-link" placeholder="Your Affiliate Link" readonly="readonly" data-clipboard-text="{{ affiliate_link }}" value="{{ affiliate_link }}" type="text">
+                                    <span class="copied" id="copy-referral-action"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="wblock ref-stats">
+                        <h2>{% trans "Affiliates Stats" %}</h2>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><h6 class="u-mb-0">{% trans "CLICKS" %}</h6></td>
+                                    <td>{% trans "Number of times your link has been clicked" %}</td>
+                                    <td>{{ link_clicked_count }}</td>
+                                </tr>
+                                <tr>
+                                    <td><h6 class="u-mb-0">{% trans "REFERRALS" %}</h6></td>
+                                    <td>{% trans "People who have signed up using your link" %}</td>
+                                    <td>{{ link_signed_up_count }}</td>
+                                </tr>
+                                <tr>
+                                    <td><h6 class="u-mb-0">{% trans "PENDING" %}</h6></td>
+                                    <td>{% trans "Amount you stand to earn when your referrals have delivered a package" %}</td>
+                                    <td>${{ future_package_delivery_credit }}</td>
+                                </tr>
+                                <tr>
+                                    <td><h6 class="u-mb-0">{% trans "EARNED" %}</h6></td>
+                                    <td>{% trans "Amount that has already been applied to your account" %}</td>
+                                    <td>${{ total_unredeemed_credit }}</td>
+                                </tr>
+                                <tr>
+                                    <td><h6 class="u-mb-0">{% trans "REDEEMED" %}</h6></td>
+                                    <td>{% trans "Amount that has already been redeemed" %}</td>
+                                    <td>${{ total_redeemed_credit }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                    <section class="mb30">
+                        <p class="small-dark">{% trans "Please note: Bidding on branded keywords which include 'usendhome' for ads is prohibited." %}</p>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    usendhome.referrals.init();
+{% endblock %}
+
+{% block extrascripts %}
+    {{ block.super }}
+    <script src="{% static "usendhome/assets/spin/spin.min.js" %}"></script>
+    <script src="{% static "usendhome/assets/clipboard/clipboard.min.js" %}"></script>
+{% endblock %}

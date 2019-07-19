@@ -1,0 +1,213 @@
+{% extends "layout.html" %}
+{% load url from future %}
+{% load i18n %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block title %}
+    {% trans "USendHome Privacy Policy" %}
+{% endblock %}
+
+{% block description %}
+	{% trans "USendHome takes your Privacy really serious, you can be rest assured that we don't sell, forward any of your private information to third-party companies." %}
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="about-us">
+                        <div class="about-us-heading-wrapper">
+                            <h1>{% trans "Privacy Policy" %}</h1>
+                            <h6>{% trans "Last Updated February 4th, 2015" %}</h6>
+                        </div>
+                        <p>
+                            {% blocktrans %}
+                                This Privacy Policy discloses the privacy practices of the Company, and governs your use of the Site.
+                                Any term not defined herein shall have the meaning assigned to it in the User Agreement.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                We are committed to protecting your privacy online. You acknowledge that this Privacy Policy is part of our Site User Agreement,
+                                and by accessing or using our Site, you agree to be bound by all of its terms and conditions.
+                                If you do not agree to these terms, please do not access or use this Site.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                               We reserve the right to change this Privacy Policy at any time. Such changes, modifications, additions or deletions shall be effective immediately upon providing notice, which includes but is not limited to posting the revised Policy on this page.
+                                Please consult the top of the page in order to view the last update to the Privacy Policy ad ensure you are familiar with in and accept it terms. You acknowledge and agree that it is your
+                                responsibility to review this Policy periodically and to make yourself aware of any changes/modifications.
+                                Your continued use of the Site after such modifications, regardless of whether you have actual notice of the changes/modifications,
+                                will constitute your: (a) acknowledgment of the modified Policy; and (b) agreement to abide and be bound by the modified Policy.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Types of Information Collected" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                In order to better provide you with our Services, we collect two types of information about our users: Personally Identifiable Information and Non-Personally Identifiable Information.
+                                Our primary goal in collecting information from you is to provide you with a smooth, efficient, and customized experience while using our Site.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                "Personally Identifiable Information" refers to information that lets us know the specifics of who you are.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                               "Non-Personally Identifiable Information" refers to information that does not by itself identify a specific individual.
+                                We gather certain information about you based upon where you visit on our Site in several ways.
+                                This information is compiled and analyzed on both a personal and an aggregated basis.
+                                This information may include but is not limited to what browser you are using and your Internet Protocol ("IP") address.
+                                An IP address is an identifier for a computer or device on a Transmission Control Protocol/Internet Protocol ("TCP/IP") network,
+                                such as the World Wide Web.
+                                Networks like the Web use the TCP/IP protocol to route information based on the IP address of the destination.
+                                In other words, an IP address is a number that is automatically assigned to your computer whenever you are surfing the web,
+                                allowing web servers to locate and identify your computer. Computers require IP addresses in order for users to communicate on the Internet.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Collection Methods and Use of Information" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                We do not collect any Personally Identifiable Information about you unless you voluntarily provide it to us.
+                                For example, you provide certain Personally Identifiable Information to us when you create a Member Account or use our Services.
+                                For Example, we collect information when you create a Member Account through Social Media Accounts (including, but not limited to, Facebook) and may use Personally Identifiable Information we retrieve from your use of the Service via those Social Media Accounts.
+                                In order to view and access the Site, you are not required to provide us with your personal information, however, in order to enjoy and use the Services offered by the Site you may be required to provided such Personal Identifiable Information and
+                                if you decide not to we may  not be able to offer you our Services in whole or in part In addition, we may also collect, certain Non-Personally Identifiable Information.
+                                Such information may be stored in specific URLs. We may use your IP address to diagnose problems with our servers, Services, to administer our Site and to gather demographic information.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                We will primarily use your Personally Identifiable Information to provide our Services to you, as required by our agreements with you.
+                                We will also use Personally Identifiable Information to enhance the operation of our Site, improve our marketing and promotional efforts, statistically analyze Site use, improve our service offerings,
+                                and customize our Site's content, layout, and services. We may use Personally Identifiable Information to deliver
+                                information to you and to contact you regarding administrative notices. We may also use Personally Identifiable Information to resolve disputes, troubleshoot problems and enforce our agreements with you, including our User Agreement and this Private Policy.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                We may use Non Identifiable Information, aggregated information and/or statistics regarding user behavior on the Site as a measure of interest in, and use of, the Site in the form of aggregated data,
+                                such as overall patterns or demographic reports, which do not describe or identify any individual user.
+                                Information relating to aggregate statistics may be collected through the use of third-party cookies (see below explanation) and other third party tracking devices.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                We may, from time to time, send you emails regarding Services. Therefore we encourage you to promptly update your Personally Identifiable Information if it changes.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                You may ask to have the information on your Member Account deleted or removed; however, portions of your data, consisting of aggregate data derived from your Member Account, may remain on our production servers indefinitely. Your data may also remain on a backup server or media.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Release of Information as Required Under Law" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                Occasionally we may be required by law enforcement or judicial authorities to provide Personally Identifiable Information to the appropriate governmental authorities.
+                                We will disclose Personally Identifiable Information upon receipt of a court order, subpoena, or to cooperate with a law enforcement investigation.
+                                We fully cooperate with law enforcement agencies in identifying those who use our Services for illegal activities.
+                                We reserve the right to report to law enforcement agencies any activities that we in good faith believe to be unlawful.
+                                We may also provide your Personally Identifiable Information to service providers, such as credit-card payment processors and shipping services,
+                                performing services on our behalf.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                We may also provide Non-Personally Identifiable Information about our customers' sales, traffic patterns, and related Site information to third party advertisers, but these statistics do not include any Personally Identifiable Information.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Security of Information" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                Unfortunately, no data transmission over the Internet or any wireless network can be guaranteed to be 100% secure.
+                                As a result, while we strive to protect your Personally Identifiable Information, you acknowledge that:
+                                (a) there are security and privacy limitations of the Internet which are beyond our control;
+                                (b) the security, integrity and privacy of any and all information and data exchanged between you and us through this Site cannot be guaranteed; and
+                                (c) any such information and data may be viewed or tampered within transit by a third party.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                YOU ACKNOWLEDGE, UNDERSTAND, AND ACCEPT THAT THE COMPANY IS NOT RESPONSIBLE FOR ANY BREACH OR EXPOSURE OF PRIVACY OR SECURITY RELATED TO THIRD PARTY SITES OR SERVICES, AND YOU RELEASE US FROM ANY AND ALL LIABILITY RELATED TO SUCH BREACH OR EXPOSURE.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Cookies" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                When you use our Site, we will store cookies on your computer in order to facilitate and customize your use of our Site. A cookie is a small data text file, which a website stores on your computer's hard drive (if your web browser permits) for record-keeping purposes.
+                                Cookies help us to recognize you when you next visit our Site, and may store information such as, but not limited, to randomly assigned user identification numbers, the country where you are located, and your first name to welcome you back to our Site. The cookies make your use of the Site easier, make the Site run more smoothly, and help us to maintain a secure Site, tailored to the services we provide to your preferences.
+                                You are always free to decline our cookies if your browser permits, but some parts of our Site may not work properly in that case.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Web Beacons" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                Web beacons (also known as clear gifs, pixel tags or web bugs) are tiny graphics with a unique identifier, similar in function to cookies, and are used to track the online movements of web users or to access cookies.
+                                Unlike cookies, which are stored on the user’s computer hard drive, web beacons are embedded invisibly on the web pages (or in email) and are about the size of the period at the end of this sentence.
+                                Web beacons may be used to deliver or communicate with cookies, to count users who have visited certain pages and to understand usage patterns. We also may include web beacons in promotional or other e-mail messages or newsletters to determine whether messages have been opened and acted upon.
+                                We also may receive an anonymous identification number if you come to our site from an online advertisement displayed on a third-party website.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Privacy Policies of Third Party Sites" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                Except as otherwise discussed in this Privacy Policy, this document only addresses the use and disclosure of information we collect from you.
+                                Other sites accessible through our Site have their own privacy policies and data collection, use, and disclosure practices.
+                                Please consult each site's privacy policy. We are not responsible for the policies or practices of third parties.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Miscellaneous Privacy Issues" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                You must be at least 13 years old or have permission for a legal guardian if you are not eligible to enter into binding contract under applicable laws in your place of residence or domicile,
+                                to have our permission to use this Site. Our policy is that we do not knowingly collect, use, or
+                                disclose Personally Identifiable Information about visitors that are under 13 years of age.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                You should also be aware that when Personally Identifiable Information is voluntarily disclosed (i.e. your name, email address, etc.) on public areas on this Site, that information, along with any information disclosed
+                                in your communication, can be collected and used by third parties and may result in unsolicited
+                                messages from third parties. Such activities are beyond our control and this Policy does not apply
+                                to such information. Any submissions to other public areas on this Site are accepted with the understanding
+                                that they are accessible to all third parties. If you do not want your comments to be viewed by third parties,
+                                you are advised not to make any submissions. Ultimately, you are solely responsible for maintaining the secrecy
+                                of your passwords and/or account information. Please be careful and responsible whenever you are online.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                If you are a registered user of our Services, we provide you with tools and account settings to access or modify the personal information you provided to us and associated with your account.
+                            {% endblocktrans %}
+                        </p>
+                        {% url "faq" "control-panel" as control_panel_url %}
+                        <p>
+                            {% blocktrans %}
+                                You can also permanently delete your account. If you follow the <a href="{{ control_panel_url }}#control-panel-q6">instructions</a> on the Site, your account will be deactivated and then deleted. For up to 3 days after deactivation it is still possible to restore your account if it was accidentally or wrongfully deactivated.
+                                After 3 days, we begin the process of deleting your account from our systems, which can take up to 30 days.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                We comply with the US-EU Safe Harbor Privacy Principles of notice, choice, onward transfer, security, data integrity, access, and enforcement.
+                                To learn more about the Safe Harbor program, and to view our certification, please visit the US. Department of Commerce <a href="http://export.gov/safeharbor/" target="_blank" rel="nofollow">website</a>.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                If you have any questions about this Privacy Policy, the practices of this Site, or your dealings with this Site, please contact us by emailing us at <a href="mailto:privacy@USendHome.com">privacy@USendHome.com</a>.
+                            {% endblocktrans %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

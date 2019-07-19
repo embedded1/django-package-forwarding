@@ -1,0 +1,5 @@
+{% load url from future %}
+
+<form method="post" action="{% url 'dashboard:order-refund' pk "approve" %}">
+    {% csrf_token %}
+</form>

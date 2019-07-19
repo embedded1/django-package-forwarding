@@ -1,0 +1,24 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block body %}
+    {% blocktrans with id=package.upc %}
+        Your storage duration for package #{{ id }} is about to expire and
+        your package will be soon considered abandoned.
+        Hurry up and release your package for delivery today to avoid losing your items.
+    {% endblocktrans %}
+
+    {% if storage_days > 80 %}
+        {% blocktrans %}
+            This is the final notice before your package will be considered abandoned and trashed.
+        {% endblocktrans %}
+    {% endif %}
+
+    {% url "customer:pending-packages" as pending_url %}
+    {% blocktrans %}
+        Visit the URL link below to have your package released for delivery:
+    {% endblocktrans %}
+    {{ site }}{{ pending_url }}
+{% endblock %}
+

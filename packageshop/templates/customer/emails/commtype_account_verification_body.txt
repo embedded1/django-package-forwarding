@@ -1,0 +1,21 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}
+    {% blocktrans %}
+        Hello {{ user_name }},
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        Our security department has flagged your recent order for manual reviewing.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        Before we can mail out your order you must complete the account verification process.
+        Once we receive all documents we will start the verification process.
+        It usually takes us 1-2 business days to complete.<br/>
+        Click on the URL link below to start your account verification process now.
+    {% endblocktrans %}
+
+    {{ site }}{{ account_verify_url }}
+{% endblock %}

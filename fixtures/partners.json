@@ -1,0 +1,11 @@
+[
+    {
+        "pk": 1,
+        "model": "partner.partner",
+        "fields": {
+            "code": "operations",
+            "name": "operations",
+            "users": [2]
+        }
+    }
+]

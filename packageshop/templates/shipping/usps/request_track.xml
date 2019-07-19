@@ -1,0 +1,3 @@
+<TrackRequest USERID="{{ userid }}">
+<TrackID ID="{{ trackid }}"></TrackID>
+</TrackRequest>

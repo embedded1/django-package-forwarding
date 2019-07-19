@@ -1,0 +1,18 @@
+{% load url from future %}
+{% load i18n %}
+
+<form action="{% url "customer:package-tracking" %}" method="post">
+    {% csrf_token %}
+	<div class="form-group">
+		<span>{% trans "Package Tracking" %}</span>
+		<div class="switch has-switch">
+			<div class="switch-animate {% if package_tracking %}switch-on{% else %}switch-off{% endif %}">
+				<input name="package_tracking" type="checkbox" {% if package_tracking %}checked{% endif %}>
+				<span class="switch-left">{% trans "ON" %}</span>
+				<label>&nbsp;</label>
+				<span class="switch-right">{% trans "OFF" %}</span>
+			</div>
+		</div>
+		<span class="help-block">{% trans "Know where your package is with our automated and integrated tracking system" %}</span>
+	</div>
+</form>

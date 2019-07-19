@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktrans %}
+	Your package is consolidated and ready for shipment
+{% endblocktrans %}

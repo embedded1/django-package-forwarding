@@ -1,0 +1,50 @@
+{% load i18n %}
+{% load staticfiles %}
+
+<h4>{% trans "How to add extra protection for my parcel?" %}</h4>
+
+<h5>{% trans "Introduction" %}</h5>
+<p>
+	{% blocktrans %}
+		Adding extra protection with each of your parcel is easy and just take few clicks.
+        There are 2 ways to request Extra Protection with your parcels.
+	{% endblocktrans %}
+</p>
+
+<h5>{% trans "Walkthrough" %}</h5>
+<p>There are 2 ways to request the Extra Protection service for your parcel:</p>
+<ul>
+	<li>
+	     Order the Extra Protection service in advance (20% off retail service price): This method allows you to the service in advance for all incoming packages.
+	     When this option is selected, we will immediately add layers of extra protection with your parcels.
+		<ul>
+            <li>Log in to your Control Panel.</li>
+            <li>
+                Scroll down the right part of the page and you will see “Order Extra Service in Advance”
+                Within the option, select the “Extra Protection” then, click the Save button and we will add that protective layer as soon as we receive your incoming parcel.
+                <img class="tutorial-img" src="{% static "images/tutorials/extra_protection_advance.png" %}" alt="order extra protection service in advance"/>
+            </li>
+        </ul>
+	</li>
+	<li>
+		Order the Extra Protection service after we receive your package:
+		<ul>
+		    <li>Log in to your Control Panel.</li>
+		    <li>
+		        Click the “Manage Packages” button.
+		        <img class="tutorial-img" src="{% static "images/tutorials/manage_packages.png" %}" alt="manage packages"/>
+		    </li>
+		    <li>
+		        This will lead you to your packages we have received. Now click on “Extras” button for your preferred package.
+		        <img class="tutorial-img" src="{% static "images/tutorials/extras.png" %}" alt="order extra services"/>
+		    </li>
+		    <li>
+		         This will open a popup window from where you can select Extra Protection for your parcel and click on the Order button.
+		        <img class="tutorial-img" src="{% static "images/tutorials/extra_protection.png" %}" alt="order extra protection checkout service"/>
+		    </li>
+		    <li>
+		        {% trans "We'll notify you by email once we've completed your extra protection request so you can authorize your packages shipment." %}
+            </li>
+        </ul>
+	</li>
+</ul>

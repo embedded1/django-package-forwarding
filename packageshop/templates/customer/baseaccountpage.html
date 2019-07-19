@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% load i18n %}
+
+{% block body_class %}
+    control-panel
+{% endblock %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block title %}
+    {% trans 'USendHome Control Panel' %} {% if page_title %}| {{ page_title }} {% endif %}
+{% endblock %}
+
+{# no footer #}
+{% block footer %}{% endblock %}

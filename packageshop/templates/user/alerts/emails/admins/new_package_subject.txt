@@ -1,0 +1,7 @@
+{% load i18n %}
+
+{% if package.shopify_store_id %}
+    {% trans "New package via GlobalShipped has been received" %}
+{% else %}
+    {% trans "New package has been received" %}
+{% endif %}

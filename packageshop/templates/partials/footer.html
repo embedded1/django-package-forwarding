@@ -1,0 +1,88 @@
+{% load i18n %}
+{% load staticfiles %}
+{% load url from future %}
+{% load i18n %}
+
+<footer>
+    <div class="container">
+        <div>
+            <h5>{% trans "COMPANY" %}</h5>
+            <ul class="list-unstyled">
+                <li><a href="{% url "aboutus" %}">{% trans "About USendHome" %}</a></li>
+                <li><a href="{% url "contact" %}">{% trans "Contact Us" %}</a></li>
+                <li><a href="{% url "referral-program" %}">{% trans "Referral Program" %}</a></li>
+                <li><a href="{% url "affiliate-program" %}">{% trans "Affiliate Program" %}</a></li>
+                <li><a href="http://www.sitejabber.com/reviews/www.usendhome.com" target="_blank" rel="nofollow">{% trans "Testimonials" %}</a></li>
+            </ul>
+        </div>
+        <div class="padding-left">
+            <h5>{% trans "SUPPORT" %}</h5>
+            <ul class="list-unstyled">
+                <li><a href="{% url "how-it-works" %}">{% trans "How USendHome Works" %}</a></li>
+                <li><a href="{% url "faq" "control-panel" %}">{% trans "Control Panel" %}</a></li>
+                <li><a href="{% url "faq" "shipping" %}">{% trans "Shipping" %}</a></li>
+                <li><a href="{% url "faq" "pricing" %}">{% trans "Pricing & Billing" %}</a></li>
+                <li><a href="{% url "faq" "package-handling" %}">{% trans "Package Handling" %}</a></li>
+                <li><a href="{% url "faq" "referral-program" %}">{% trans "Referral Program" %}</a></li>
+                <li><a href="{% url "faq" "affiliate-program" %}">{% trans "Affiliate Program" %}</a></li>
+                <li><a href="{% url "faq" "tutorials" %}">{% trans "Tutorials" %}</a></li>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+        <div>
+            <h5>{% trans "APPS" %}</h5>
+            <ul class="list-unstyled">
+                <li><a href="https://shopify.usendhome.com/" target="_blank">{% trans "GlobalShipped" %}</a></li>
+                <li><a href="{% url "chrome-ext" %}">{% trans "Amazon Worldwide Shipping" %}</a></li>
+            </ul>
+        </div>
+        <div class="padding-left">
+            <h5>{% trans "FEATURED COUNTRIES" %}</h5>
+            <ul class="list-unstyled">
+                <li><a href="{% url "forwarding-destination" "br" "brazil" %}">{% trans "Brazil" %}</a></li>
+                <li><a href="{% url "forwarding-destination" "sa" "saudi-arabia" %}">{% trans "Saudi Arabia" %}</a></li>
+                <li><a href="{% url "forwarding-destination" "fr" "france" %}">{% trans "France" %}</a></li>
+                <li><a href="{% url "forwarding-destination" "ca" "canada" %}">{% trans "Canada" %}</a></li>
+                {% comment %}<li><a href="{% url "forwarding-destination" "ru" "russia" %}">{% trans "Russia" %}</a></li>{% endcomment %}
+                <li><a href="{% url "forwarding-destination" "au" "australia" %}">{% trans "Australia" %}</a></li>
+                <li><a href="{% url "forwarding-destination" "gb" "united-kingdom" %}">{% trans "United Kingdom" %}</a></li>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+        <div>
+            <h5>{% trans "CONNECT" %}</h5>
+            <ul id="connect-list" class="list-unstyled">
+                <li><a href="http://www.youtube.com/channel/UCdMuviZpDC6XDm7vbsozPDA" target="_blank" rel="nofollow"><i class="icon icon-youtube"></i>Youtube</a></li>
+                <li><a href="https://www.facebook.com/usendhome" target="_blank" rel="nofollow"><i class="icon icon-facebook"></i>{% trans "Facebook" %}</a></li>
+                <li><a href="https://twitter.com/usendhome" target="_blank" rel="nofollow"><i class="icon icon-twitter"></i>{% trans "Twitter" %}</a></li>
+            </ul>
+        </div>
+        <div class="padding-left">
+            <h5>{% trans "ACCEPTING" %}</h5>
+            <ul class="payment-options">
+                <li><img src="{% static "usendhome/images/payment/paypal_small.png" %}" alt="paypal" /></li>
+                <li><img src="{% static "usendhome/images/payment/mastercard_small.png" %}" alt="mastercard" /></li>
+                <li><img src="{% static "usendhome/images/payment/aexpress_small.png" %}" alt="american express" /></li>
+            </ul>
+            <ul class="payment-options">
+                <li><img src="{% static "usendhome/images/payment/visa_small.png" %}" alt="visa" /></li>
+                <li><img src="{% static "usendhome/images/payment/discover_small.png" %}" alt="discover" /></li>
+                <li><img src="{% static "usendhome/images/payment/bitcoin_small.png" %}" alt="bitcoin" /></li>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="footer">
+        <p class="container text-center">
+            {% url 'terms' as terms_url %}
+            {% url 'privacy' as privacy_url %}
+            {% blocktrans %}
+                Copyright © 2015 - 2017 USendHome · <a href="{{ terms_url }}">Terms of Service</a> · <a href="{{ privacy_url }}">Privacy Policy</a>
+            {% endblocktrans %}
+            <a class="sitejabber-trust-badge" href="http://www.sitejabber.com/reviews/www.usendhome.com?sort=rating&direction=desc#reviews" target="_blank" rel="nofollow">
+                <img src="https://biz.sitejabber.com/img/badge_5stars.png" alt="USendHome Reviews - SiteJabber" />
+            </a>
+        </p>
+    </div>
+</footer>
+

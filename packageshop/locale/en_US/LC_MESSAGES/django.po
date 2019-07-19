@@ -1,0 +1,988 @@
+# English (United States) translations for PROJECT.
+# Copyright (C) 2014 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2014-10-20 18:27+0300\n"
+"PO-Revision-Date: 2014-10-20 17:11+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: en_US <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+#: apps/address/forms.py:16 apps/checkout/forms.py:214
+msgid "Store name"
+msgstr ""
+
+#: apps/address/models.py:9
+msgid "Merchant address?"
+msgstr ""
+
+#: apps/basket/models.py:12
+msgid "Position in basket"
+msgstr ""
+
+#: apps/catalogue/models.py:31
+msgid "Combined Packages"
+msgstr ""
+
+#: apps/catalogue/models.py:38
+msgid "parcel Condition"
+msgstr ""
+
+#: apps/catalogue/models.py:39
+msgid "Suite number missing?"
+msgstr ""
+
+#: apps/catalogue/models.py:251
+msgid "Content type"
+msgstr ""
+
+#: apps/catalogue/models.py:255
+msgid "Package"
+msgstr ""
+
+#: apps/catalogue/models.py:257 apps/catalogue/models.py:297
+msgid "Date created"
+msgstr ""
+
+#: apps/catalogue/models.py:287 apps/catalogue/models.py:296
+msgid "Customs Form"
+msgstr ""
+
+#: apps/catalogue/models.py:288
+msgid "Customs Forms"
+msgstr ""
+
+#: apps/catalogue/models.py:292 apps/checkout/forms.py:100
+msgid "Quantity"
+msgstr ""
+
+#: apps/catalogue/models.py:293
+msgid "Detailed description"
+msgstr ""
+
+#: apps/catalogue/models.py:294 apps/checkout/forms.py:103
+msgid "Value"
+msgstr ""
+
+#: apps/catalogue/models.py:300
+msgid "Customs Form Item"
+msgstr ""
+
+#: apps/catalogue/models.py:301
+msgid "Customs Form Items"
+msgstr ""
+
+#: apps/catalogue/models.py:312 apps/catalogue/models.py:460
+#: apps/catalogue/models.py:479
+msgid "Product"
+msgstr ""
+
+#: apps/catalogue/models.py:314
+msgid "Shipping label"
+msgstr ""
+
+#: apps/catalogue/models.py:316
+msgid "Caption"
+msgstr ""
+
+#: apps/catalogue/models.py:317 apps/catalogue/models.py:461
+#: apps/catalogue/models.py:487 apps/order/models.py:58
+msgid "Date Created"
+msgstr ""
+
+#: apps/catalogue/models.py:320 apps/catalogue/models.py:321
+msgid "Product Shipping Label"
+msgstr ""
+
+#: apps/catalogue/models.py:345 apps/catalogue/utils.py:69
+msgid "Filling Out Customs Form"
+msgstr ""
+
+#: apps/catalogue/models.py:346
+msgid "Have your customs form fill out completely and accurately"
+msgstr ""
+
+#: apps/catalogue/models.py:348
+msgid "Filling customs declaration completed?"
+msgstr ""
+
+#: apps/catalogue/models.py:350 apps/catalogue/utils.py:101
+msgid "Repacking"
+msgstr ""
+
+#: apps/catalogue/models.py:350
+msgid "Have your items move into the most appropriate parcel"
+msgstr ""
+
+#: apps/catalogue/models.py:352
+msgid "Package repacked?"
+msgstr ""
+
+#: apps/catalogue/models.py:354 apps/catalogue/utils.py:78
+#: apps/customer/mixins.py:158
+msgid "Express Checkout"
+msgstr ""
+
+#: apps/catalogue/models.py:355
+msgid "Have your order benefit from expedite order processing"
+msgstr ""
+
+#: apps/catalogue/models.py:357
+msgid "Express Checkout Completed?"
+msgstr ""
+
+#: apps/catalogue/models.py:360
+msgid "Do not take any photos"
+msgstr ""
+
+#: apps/catalogue/models.py:361
+msgid "1 photo"
+msgstr ""
+
+#: apps/catalogue/models.py:362
+msgid "3 photos"
+msgstr ""
+
+#: apps/catalogue/models.py:363
+msgid "Package Contents Photos"
+msgstr ""
+
+#: apps/catalogue/models.py:364
+msgid "Take a look at your items spotting missing or damaged goods"
+msgstr ""
+
+#: apps/catalogue/models.py:367
+msgid "Contents photos taken?"
+msgstr ""
+
+#: apps/catalogue/models.py:369
+msgid "Custom Requests"
+msgstr ""
+
+#: apps/catalogue/models.py:370
+msgid ""
+"Describe in detail any other actions you would like our operations staff "
+"to take"
+msgstr ""
+
+#: apps/catalogue/models.py:372
+msgid "Is At Least 1 Custom Request Fulfilled?"
+msgstr ""
+
+#: apps/catalogue/models.py:374
+msgid "Custom requests summary"
+msgstr ""
+
+#: apps/catalogue/models.py:375
+msgid ""
+"Please write down a summary of actions taken, this will be displayed to "
+"the customer"
+msgstr ""
+
+#: apps/catalogue/models.py:450 apps/catalogue/models.py:466
+msgid "Product Special Requests"
+msgstr ""
+
+#: apps/catalogue/models.py:462 apps/order/models.py:60
+msgid "Date Updated"
+msgstr ""
+
+#: apps/catalogue/models.py:482
+msgid "Keep retail packing"
+msgstr ""
+
+#: apps/catalogue/models.py:483
+msgid "Remove retail packing"
+msgstr ""
+
+#: apps/catalogue/models.py:486
+msgid "Packaging options"
+msgstr ""
+
+#: apps/catalogue/models.py:501
+msgid "Product Consolidation Requests"
+msgstr ""
+
+#: apps/catalogue/utils.py:89
+msgid "1 Shipment Contents Photo"
+msgstr ""
+
+#: apps/catalogue/utils.py:93
+#, python-format
+msgid "%(num_of_photos)d Shipment Contents Photos"
+msgstr ""
+
+#: apps/catalogue/management/commands/create_special_requests_offers.py:18
+msgid "Create special requests offers"
+msgstr ""
+
+#: apps/catalogue/management/commands/send_storage_alerts.py:22
+msgid ""
+"Check for packages with 3 days before storage fee applied and send out "
+"alerts to customers"
+msgstr ""
+
+#: apps/checkout/forms.py:72
+msgid "Only english characters or -. are allowed."
+msgstr ""
+
+#: apps/checkout/forms.py:78
+msgid "Only english characters, numbers or -. are allowed."
+msgstr ""
+
+#: apps/checkout/forms.py:96
+msgid "Detailed Description"
+msgstr ""
+
+#: apps/checkout/forms.py:125
+msgid "Missing data found, Please complete the form"
+msgstr ""
+
+#: apps/checkout/forms.py:137
+#, python-format
+msgid ""
+"Contents value must not exceed $%s.Please contact support to get your "
+"items delivered"
+msgstr ""
+
+#: apps/checkout/forms.py:195
+msgid "State"
+msgstr ""
+
+#: apps/checkout/forms.py:203
+msgid "Postcode"
+msgstr ""
+
+#: apps/checkout/forms.py:244
+msgid "Total Value"
+msgstr ""
+
+#: apps/checkout/forms.py:245
+msgid "Enter the total value of package's contents"
+msgstr ""
+
+#: apps/checkout/forms.py:267
+msgid "Return label"
+msgstr ""
+
+#: apps/checkout/forms.py:274
+msgid "You have not selected a return label"
+msgstr ""
+
+#: apps/checkout/forms.py:277
+msgid "Return label file is too large, ( > 5MB )"
+msgstr ""
+
+#: apps/checkout/views.py:41
+msgid "We're sorry but something went wrong, please try again soon"
+msgstr ""
+
+#: apps/checkout/views.py:63
+#, python-format
+msgid ""
+"<a href='%s'>Confirm</a> your email address to be able to release your "
+"package to delivery"
+msgstr ""
+
+#: apps/checkout/views.py:307
+msgid "Where do you want to send back your package?"
+msgstr ""
+
+#: apps/checkout/views.py:385
+msgid "Where do you want to ship your package?"
+msgstr ""
+
+#: apps/checkout/views.py:462 apps/checkout/views.py:579
+#: apps/checkout/views.py:905 apps/checkout/views.py:970
+msgid "Please choose a shipping address"
+msgstr ""
+
+#: apps/checkout/views.py:593 apps/checkout/views.py:911
+msgid "Please fill out a customs form"
+msgstr ""
+
+#: apps/checkout/views.py:605 apps/shipping/tasks.py:180
+msgid "No matching shipping methods found, please contact customer support"
+msgstr ""
+
+#: apps/checkout/views.py:640
+msgid "Your selected shipping service is not applicable, please pick another one"
+msgstr ""
+
+#: apps/checkout/views.py:678
+msgid "Shipping Insurance"
+msgstr ""
+
+#: apps/checkout/views.py:702
+msgid "Payment Processing"
+msgstr ""
+
+#: apps/checkout/views.py:754 apps/checkout/views.py:774
+#, python-format
+msgid " for package #%s"
+msgstr ""
+
+#: apps/checkout/views.py:824
+msgid "Storage Surcharge"
+msgstr ""
+
+#: apps/checkout/views.py:838
+msgid "Pre-Order Package Consolidation"
+msgstr ""
+
+#: apps/checkout/views.py:851 apps/customer/views.py:248 apps/user/models.py:17
+msgid "Package Consolidation"
+msgstr ""
+
+#: apps/checkout/views.py:864
+msgid "Package Processing"
+msgstr ""
+
+#: apps/checkout/views.py:875
+msgid "Return Label Processing"
+msgstr ""
+
+#: apps/checkout/views.py:916 apps/checkout/views.py:983
+msgid "Please choose a shipping service"
+msgstr ""
+
+#: apps/checkout/views.py:978
+msgid "Please fill out a customs declaration"
+msgstr ""
+
+#: apps/checkout/views.py:999
+#, python-format
+msgid "The '%(code)s' voucher has expired"
+msgstr ""
+
+#: apps/checkout/views.py:1028
+msgid "Your basket does not qualify for a voucher discount"
+msgstr ""
+
+#: apps/checkout/views.py:1033
+#, python-format
+msgid "Voucher '%(code)s' added to basket"
+msgstr ""
+
+#: apps/checkout/views.py:1045
+#, python-format
+msgid "You have already added the '%(code)s' voucher to your basket"
+msgstr ""
+
+#: apps/checkout/views.py:1054
+#, python-format
+msgid "No voucher found with code '%(code)s'"
+msgstr ""
+
+#: apps/checkout/views.py:1062
+msgid "Please enter a voucher code"
+msgstr ""
+
+#: apps/checkout/views.py:1082
+#, python-format
+msgid "No voucher found with id '%d'"
+msgstr ""
+
+#: apps/checkout/views.py:1087
+#, python-format
+msgid "Voucher '%s' removed from basket"
+msgstr ""
+
+#: apps/custom_social_auth/pipeline.py:55
+msgid ""
+"Your US mailbox has been created successfully, you may start using it "
+"right away"
+msgstr ""
+
+#: apps/customer/forms.py:52
+msgid "Email Address"
+msgstr ""
+
+#: apps/customer/forms.py:53 apps/customer/forms.py:95
+msgid "First Name"
+msgstr ""
+
+#: apps/customer/forms.py:54 apps/customer/forms.py:96
+msgid "Last Name"
+msgstr ""
+
+#: apps/customer/forms.py:79
+msgid "A user with that email address already exists."
+msgstr ""
+
+#: apps/customer/forms.py:132
+msgid "From"
+msgstr ""
+
+#: apps/customer/forms.py:133
+msgid "To"
+msgstr ""
+
+#: apps/customer/forms.py:138
+msgid "Invoice file is too large, ( > 5MB )"
+msgstr ""
+
+#: apps/customer/forms.py:141
+msgid "Merchant Invoice"
+msgstr ""
+
+#: apps/customer/forms.py:142
+msgid "Select the invoice of the order you've delivered to us"
+msgstr ""
+
+#: apps/customer/forms.py:144
+msgid "Damaged Goods Photo"
+msgstr ""
+
+#: apps/customer/forms.py:145
+msgid "Select a photo that shows a clear sign of the damage"
+msgstr ""
+
+#: apps/customer/forms.py:147
+msgid "Another Damaged Goods Photo"
+msgstr ""
+
+#: apps/customer/forms.py:148
+msgid "Select another photo if one is not sufficient"
+msgstr ""
+
+#: apps/customer/forms.py:150
+msgid "USendHome Order Number"
+msgstr ""
+
+#: apps/customer/forms.py:151
+msgid "Enter the order number we've emailed you"
+msgstr ""
+
+#: apps/customer/forms.py:152
+msgid "Nature of the claim"
+msgstr ""
+
+#: apps/customer/forms.py:186
+msgid "The order was not placed by you"
+msgstr ""
+
+#: apps/customer/forms.py:254
+msgid "An error occurred while sending the email"
+msgstr ""
+
+#: apps/customer/mixins.py:132
+msgid "You haven't selected any extra services"
+msgstr ""
+
+#: apps/customer/mixins.py:141
+msgid ""
+"We successfully received your request, we will notify youby email once "
+"the processing completes"
+msgstr ""
+
+#: apps/customer/mixins.py:154
+msgid "Success - your order processing will be expedited"
+msgstr ""
+
+#: apps/customer/mixins.py:165
+msgid "You haven't selected any new extra services"
+msgstr ""
+
+#: apps/customer/mixins.py:192
+msgid "Something went wrong, please contact customer support"
+msgstr ""
+
+#: apps/customer/views.py:56
+msgid "Change Settings"
+msgstr ""
+
+#: apps/customer/views.py:158
+msgid "Private US Address"
+msgstr ""
+
+#: apps/customer/views.py:169
+msgid "Settings"
+msgstr ""
+
+#: apps/customer/views.py:211
+msgid "Incoming Packages"
+msgstr ""
+
+#: apps/customer/views.py:238
+msgid "Package successfully added."
+msgstr ""
+
+#: apps/customer/views.py:242
+msgid "Unsupported action."
+msgstr ""
+
+#: apps/customer/views.py:315
+msgid "You can't consolidate only 1 package, please choose more packages."
+msgstr ""
+
+#: apps/customer/views.py:393
+msgid ""
+"We successfully received your consolidation request, you will be notified"
+" when processing complete."
+msgstr ""
+
+#: apps/customer/views.py:404
+msgid ""
+"We successfully received your request, you will be notified when "
+"processing complete."
+msgstr ""
+
+#: apps/customer/views.py:409
+msgid "Unsupported action"
+msgstr ""
+
+#: apps/customer/views.py:438
+msgid ""
+"Your US mailbox has been created successfully, you can start using it "
+"right away"
+msgstr ""
+
+#: apps/customer/views.py:460
+msgid "Insurance Claim"
+msgstr ""
+
+#: apps/customer/views.py:472
+msgid ""
+"We successfully received your claim, customer support representative will"
+" contact you shortly."
+msgstr ""
+
+#: apps/customer/views.py:521
+msgid ""
+"We've e-mailed you instructions for confirming your email "
+"address.<br/>You should be receiving it shortly."
+msgstr ""
+
+#: apps/customer/views.py:567
+msgid "Your email address has been confirmed"
+msgstr ""
+
+#: apps/customer/views.py:568
+msgid "Everything is set, you may now release your packages"
+msgstr ""
+
+#: apps/customer/alerts/senders.py:186
+msgid "Confirm your email address"
+msgstr ""
+
+#: apps/customer/alerts/senders.py:187
+#, python-format
+msgid ""
+"Before you can release your packages you must <a href='%s'>confirm</a> "
+"your email address.Follow the instructions in the email and proceed to "
+"checkou."
+msgstr ""
+
+#: apps/customer/notifications/views.py:10
+msgid "Notification"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:56 apps/dashboard/catalogue/forms.py:192
+#: apps/dashboard/catalogue/forms.py:336
+msgid "Yes"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:57 apps/dashboard/catalogue/forms.py:193
+#: apps/dashboard/catalogue/forms.py:337
+msgid "No"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:98
+msgid "envelope?"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:122
+msgid ""
+"Max weight of consolidated package must not exceed 44 lbs, please contact"
+" manager before continuing"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:129 apps/dashboard/catalogue/forms.py:149
+msgid "This field is required"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:151
+msgid "Parent products must have a title"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:263
+msgid "Parcel contents type was not filled"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:265
+msgid "You must fill at least 1 customs form item"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:273
+#, python-format
+msgid "Parcel contents value must not exceed $%s"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:353
+msgid ""
+"Please briefly describe what was done for each custom request, this info "
+"will be displayed as written to the customer."
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:371
+msgid "Extra Small Box"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:372
+msgid "Small box"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:373
+msgid "Medium box"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:374
+msgid "Large box"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:377
+msgid "Predefined parcels"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:384 apps/dashboard/catalogue/forms.py:400
+msgid "Owner"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:388
+msgid "Merchant name"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:404
+msgid "Package ID"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:407
+msgid "Parcel Condition"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:421
+msgid "Package does not belong to customer"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:434
+msgid "The Large Envelope is too Rigid, does not bend easily"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:436
+msgid "The Large Envelope is NOT Rectangular or Square"
+msgstr ""
+
+#: apps/dashboard/catalogue/forms.py:438
+msgid ""
+"The Large Envelope contains items that cause more than 1/4 inch variation"
+" in thickness"
+msgstr ""
+
+#: apps/dashboard/catalogue/views.py:87
+msgid "Notification was sent to customer"
+msgstr ""
+
+#: apps/dashboard/catalogue/views.py:95
+msgid "Returned package was successfully readded into the system"
+msgstr ""
+
+#: apps/dashboard/catalogue/views.py:170
+msgid "Package is waiting for consolidation"
+msgstr ""
+
+#: apps/dashboard/catalogue/views.py:173
+#, python-format
+msgid "Package has pending special requests: %s"
+msgstr ""
+
+#: apps/dashboard/catalogue/views.py:176
+#, python-format
+msgid "Package has pending consolidation requests: %s"
+msgstr ""
+
+#: apps/dashboard/catalogue/views.py:303
+#, python-format
+msgid "Create new %s product"
+msgstr ""
+
+#: apps/dashboard/catalogue/views.py:533
+#, python-format
+msgid ""
+"You did not complete all special requests Please complete the following: "
+"%s"
+msgstr ""
+
+#: apps/dashboard/catalogue/views.py:646
+msgid "Overweight Package Surcharge"
+msgstr ""
+
+#: apps/dashboard/catalogue/views.py:657
+msgid "Missing Suite Number Surcharge"
+msgstr ""
+
+#: apps/dashboard/catalogue/views.py:676
+msgid "Your submitted data was not valid - please correct the below errors"
+msgstr ""
+
+#: apps/dashboard/orders/views.py:72
+#, python-format
+msgid "Update batch '%s'"
+msgstr ""
+
+#: apps/dashboard/orders/views.py:76
+msgid "Batch updated successfully"
+msgstr ""
+
+#: apps/dashboard/orders/views.py:94
+msgid "No orders selected"
+msgstr ""
+
+#: apps/dashboard/orders/views.py:136
+msgid ""
+"An error occurred while generating shipping labels, please contact admin "
+"before proceeding."
+msgstr ""
+
+#: apps/dashboard/orders/views.py:145
+msgid ""
+"Shipping labels for the selected orders are being purchased in the "
+"background"
+msgstr ""
+
+#: apps/dashboard/orders/views.py:148
+msgid "No shipment created, please contact admin"
+msgstr ""
+
+#: apps/dashboard/reports/views.py:21
+msgid "You do not have access to this report"
+msgstr ""
+
+#: apps/dashboard/users/forms.py:7
+msgid "UUID"
+msgstr ""
+
+#: apps/dashboard/users/views.py:14
+#, python-format
+msgid " with uuid matching '%s'"
+msgstr ""
+
+#: apps/order/models.py:16
+msgid "Position in order"
+msgstr ""
+
+#: apps/order/models.py:24
+msgid "Shipping insurance"
+msgstr ""
+
+#: apps/order/models.py:27
+msgid "Shipping insurance charge (inc. tax)"
+msgstr ""
+
+#: apps/order/models.py:30
+msgid "Shipping insurance charge (excl. tax)"
+msgstr ""
+
+#: apps/order/models.py:46
+msgid "Batch ID"
+msgstr ""
+
+#: apps/order/models.py:49
+msgid "Orders"
+msgstr ""
+
+#: apps/order/models.py:54
+msgid "Batch shipping label"
+msgstr ""
+
+#: apps/order/models.py:66
+msgid "Shipping Label Batch"
+msgstr ""
+
+#: apps/order/models.py:67
+msgid "Shipping Label Batches"
+msgstr ""
+
+#: apps/order/models.py:71
+msgid "Order"
+msgstr ""
+
+#: apps/order/models.py:72
+msgid "Tracking Number"
+msgstr ""
+
+#: apps/order/models.py:73
+msgid "EasyPost Shipment ID"
+msgstr ""
+
+#: apps/order/models.py:74
+msgid "Selected Carrier"
+msgstr ""
+
+#: apps/order/reports.py:125
+msgid "Orders pending fraud check"
+msgstr ""
+
+#: apps/order/management/commands/shipping_label_generator.py:26
+msgid "Generate shipping labels to paid packages"
+msgstr ""
+
+#: apps/paypal_express/views.py:55
+msgid "No shipping address found, please try again"
+msgstr ""
+
+#: apps/paypal_express/views.py:64
+msgid ""
+"Unverified account, please verify your PayPal account before proceeding "
+"to checkout"
+msgstr ""
+
+#: apps/paypal_express/views.py:74
+msgid ""
+"PayPal email address does not match the email address on site.<br/>Please"
+" contact support to continue with the checkout process."
+msgstr ""
+
+#: apps/paypal_express/views.py:86
+msgid ""
+"PayPal account name does not match the account name on site.<br/>Please "
+"contact support to continue with the checkout process."
+msgstr ""
+
+#: apps/paypal_express/views.py:96
+msgid "A problem occurred communicating with PayPal, please try again later"
+msgstr ""
+
+#: apps/paypal_express/views.py:103
+msgid ""
+"Email address not found on file at PayPal. br/>Make sure you use the same"
+" email address as registered with Paypal."
+msgstr ""
+
+#: apps/paypal_express/views.py:112 apps/paypal_express/views.py:120
+#: apps/paypal_express/views.py:128
+msgid ""
+"The shipping address does not match the address on file at "
+"PayPal.<br/>Make sure the shipping address is correct."
+msgstr ""
+
+#: apps/paypal_express/views.py:180
+msgid "It seems that you've been idle for too long, please re-place your order."
+msgstr ""
+
+#: apps/shipping/tasks.py:60 apps/shipping/tasks.py:125
+#: apps/shipping/tasks.py:241
+msgid ""
+"We could not calculate shipping costs of this product,please try again "
+"later"
+msgstr ""
+
+#: apps/shipping/tasks.py:104
+msgid ""
+"We could not calculate shipping costs of this product, please try again "
+"later"
+msgstr ""
+
+#: apps/shipping/tasks.py:119
+msgid ""
+"Shipping costs calculated based on productproperties and the actual "
+"shipping costs may be higher"
+msgstr ""
+
+#: apps/shipping/tasks.py:152
+msgid "No matching shipping services found, please contact customer support"
+msgstr ""
+
+#: apps/shipping/tasks.py:260
+msgid "Contents value must not exceed $2499.99"
+msgstr ""
+
+#: apps/shipping/tasks.py:300
+msgid "Error retrieving shipping methods, please try again later"
+msgstr ""
+
+#: apps/shipping/tasks.py:314
+msgid "Error retrieving Amazon product details, please try again later"
+msgstr ""
+
+#: apps/shipping_calculator/forms.py:25 apps/shipping_calculator/forms.py:73
+msgid "country"
+msgstr ""
+
+#: apps/shipping_calculator/forms.py:30
+msgid "weight"
+msgstr ""
+
+#: apps/shipping_calculator/forms.py:34
+msgid "length"
+msgstr ""
+
+#: apps/shipping_calculator/forms.py:38
+msgid "height"
+msgstr ""
+
+#: apps/shipping_calculator/forms.py:42
+msgid "width"
+msgstr ""
+
+#: apps/shipping_calculator/forms.py:76
+msgid "amazon product url"
+msgstr ""
+
+#: apps/shipping_calculator/forms.py:91
+msgid "Invalid Amazon US product url, only amazon.com supported"
+msgstr ""
+
+#: apps/shipping_calculator/utils.py:27
+#, python-format
+msgid "Package maximum weight is: %d"
+msgstr ""
+
+#: apps/shipping_calculator/utils.py:39
+#, python-format
+msgid "Minimum content value is $%s"
+msgstr ""
+
+#: apps/shipping_calculator/utils.py:41
+#, python-format
+msgid "Maximum content value is $%s"
+msgstr ""
+
+#: apps/static/forms.py:9
+msgid "Your name"
+msgstr ""
+
+#: apps/static/forms.py:11
+msgid "Email address"
+msgstr ""
+
+#: apps/user/models.py:14
+msgid "Shipment Tracking"
+msgstr ""
+
+#: apps/user/models.py:15
+msgid "Have shipping updates by email as they come in"
+msgstr ""
+
+#: apps/user/models.py:18
+msgid "Have your multiple orders merge into one shipment"
+msgstr ""
+
+#: apps/user/models.py:19
+msgid "email address confirmed?"
+msgstr ""
+
+#: apps/user/reports.py:16
+msgid "Suspended accounts report"
+msgstr ""
+

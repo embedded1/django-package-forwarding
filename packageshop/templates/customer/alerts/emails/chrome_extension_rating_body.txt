@@ -1,0 +1,36 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}
+    {% blocktrans %}Hello {{ full_name }},{% endblocktrans %}
+
+    {% blocktrans %}
+        I'm so thrilled that you have added the Amazon Worldwide shipping tool to Chrome.
+    {% endblocktrans %}
+
+    {% blocktrans %}
+        I really hope the tool saves you both money and time when you shop at Amazon.com
+        We're always looking for ways to improve, so feel free to share your thoughts with us by replying to this email.
+        We promise not to bite :)
+    {% endblocktrans %}
+
+    {% blocktrans %}
+       If you have a few moments, we'd be really grateful if you could post a quick review so that others can
+        benefit from your experience. As a growing business, we know how scarce time can be, so we especially appreciate
+        your time and input.
+    {% endblocktrans %}
+
+
+    {% blocktrans %}
+        Just click on the link below to post the review:
+        https://chrome.google.com/webstore/detail/amazon-worldwide-shipping/cajhcjefikhfeodofkmpcnecklngmeln/reviews
+    {% endblocktrans %}
+
+{% endblock %}
+
+{% block footer %}
+	{% trans "Cheers, " %}
+	{% blocktrans %}
+		Leo Jones | USendHome Co-founder
+	{% endblocktrans %}
+{% endblock %}

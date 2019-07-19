@@ -1,0 +1,70 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load additional_receiver_tags %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row incoming-packages">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+                        <li><a href="{% url 'promotions:home' %}"><i class="fa fa-home"></i>{% trans "Home" %}</a></li>
+                        <li><a href="{% url 'customer:profile-view' %}">{% trans "Control Panel" %}</a></li>
+                        <li class="active">{{ page_title }}</li>
+                    </ol>
+                    <h3 class="heading">{{ page_title }}</h3>
+                    <div class="drop-filter">
+                        <div class="btn-group">
+                          <a href="{% url 'customer:additional-receiver-create' %}" class="btn btn-default" type="button">{% trans "Add Receiver" %}</a>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 40px;">
+                        <div class="col-md-12">
+                            {% if additional_receivers %}
+                                <div class="table-responsive">
+                                    <table class="tabel order-table">
+                                        <thead>
+                                            <tr>
+                                                <td>{% trans "Name" %}</td>
+                                                <td>{% trans "#Received Packages" %}</td>
+                                                <td>{% trans "Status" %}</td>
+                                                <td>{% trans "Action" %}</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for receiver in additional_receivers %}
+                                                <tr>
+                                                    <td>{{ receiver.get_full_name|title }}</td>
+                                                    <td>{{ receiver.receiver_packages.count }}</td>
+                                                    <td>
+                                                        {% render_receiver_status receiver.verification_status %}
+                                                    </td>
+                                                    <td>
+                                                        <div class="receiver-actions">
+                                                            {% if receiver.verification_required %}
+                                                                <a href="{% url 'customer:additional-receiver-verify' pk=receiver.pk %}" class="tooltip-social" data-toggle="tooltip" data-placement="top" title="{% trans "Verify" %}"><span class="label green"><i class="fa fa-gear"></i></span></a>
+                                                            {% endif %}
+                                                            <a class="tooltip-social modalRemoteLoad" data-modal-name="deleteReceiver{{ receiver.pk }}Modal" data-load-url="{% url "customer:additional-receiver-delete" pk=receiver.pk %}" data-toggle="tooltip" data-placement="top" title="{% trans "Delete" %}"><span class="label red"><i class="fa fa-trash"></i></span></a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {% include "partials/pagination.html" with main_site=1 %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    	{# delete receiver modals #}
+		{% for receiver in additional_receivers %}
+			{% include "customer/receivers/additional_receiver_delete_modal.html" with receiver=receiver %}
+		{% endfor %}
+
+    </section>
+{% endblock content %}

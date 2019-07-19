@@ -1,0 +1,451 @@
+{% extends "layout.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+    {% trans "USendHome Terms of Service" %}
+{% endblock %}
+
+{% block description %}
+	{% trans "Review USendHome Terms of Service agreement and get to know what is required from you. " %}
+{% endblock %}
+
+{% block livechat %}
+    {% include "partials/livechatinc_live_chat.html" %}
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="about-us">
+                        <div class="about-us-heading-wrapper">
+                            <h1>{% trans "Terms of Service Agreement" %}</h1>
+                            <h6>{% trans "Last Updated August 14th, 2016" %}</h6>
+                        </div>
+                        <p>
+                            {% blocktrans %}
+                                The following User Agreement stipulates the terms and conditions of your use of the website and Services enabled by the website located at
+                                <a href="{{ site }}">{{ site }}</a> (the "Site") provided to you by USendHome ("Company"). The Service is provided solely for your own use.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "User Agreement" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                By accessing or using the Site, you accept this User Agreement ("Agreement") and any modifications that we may make to this Agreement from time to time. It is your responsibility to review the most recent version of the Agreement frequently and remain informed about any changes to it. By continuing to use the Site, you consent to any updates to this Agreement.
+                                This version of the Agreement supersedes all earlier versions,
+                                and comprises the entire agreement between you and the Company regarding the Site and Services.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                PLEASE READ THE ENTIRE TERMS AND CONDITIONS OF USE CAREFULLY BEFORE YOU USE THE SITE.
+                                IF YOU DO NOT AGREE TO ALL THESE TERMS AND CONDITIONS, YOU MAY NOT USE THE SITE. BY USING THE SITE, YOU ARE DEEMED TO HAVE ACCEPTED THESE TERMS AND CONDITIONS.
+                                TO USE THE SERVICE, YOU MUST BE AT LEAST 13 YEARS OLD.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "General" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                Company offers a service for package forwarding from the US to other countries throughout the world.
+                                Once your account is activated, we will send you a local US address which you can use to receive your packages when, making purchases remotely, through US online stores.
+                                When the Company receives a package addressed to you, we will notify you by email and post the package on your account page.
+                                After you select a shipping address, fill in the applicable customs forms and your preferred shipping method for each package, you may pay through the Payment Processor
+                                after which we will send the package to your address in your home country in accordance with your instructions. Please note the Company shall not be responsible for any customs fees or charges that may apply. The Company also offers various services including but not limited to package consolidation package content photos, extra protection, removal of original invoice, and filling customs paper work. (collectively, the “Services”).
+                                You understand and authorized the Company to open packages in order to provide you with certain Services requiring such action.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Our Privacy Policy" %}</h4>
+                        <p>
+                            {% url 'privacy' as privacy_url %}
+                            {% blocktrans %}
+                                The information that we obtain through your use of any portion of the Site, whether through the registration process or otherwise, is subject to the privacy policy located at
+                                <a href="{{ site }}{{ privacy_url }}">{{ site }}{{ privacy_url }}</a>, which is incorporated within this Agreement by reference.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Member Account" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                The services made available on the Site may require you to create a "Member Account". You must complete the registration process by providing current, complete and accurate information as prompted by the applicable registration form.
+                                To benefit from the Company's full range of Services please confirm your email through the confirmation sent to your email following creation of your Member Account.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                You may not use another Member's account without permission. When creating your account, you must provide accurate and complete information.
+                                You are solely responsible for the activity that occurs on your account, and you must keep your account password secure.
+                                You must notify us immediately of any breach of security or unauthorized use of your account.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                You hereby acknowledge and agree that the local US address provided by the company may be used solely for the purposes of fulfilling
+                                your orders placed through company’s website and may not be used or disseminated by you for any purposes not expressly authorized under this Agreement.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                By providing your email address you consent to giving the Company the right to use the email address to send you Company-related notices, including any notices required for the operation of the service and notices required by law.
+                                We may also use your email address to send you other messages, including changes to features of the Site and special offers. If you do not want to receive or continue to receive such email messages,
+                                you may submit a request to our customer support at <a href="mailto:support@USendHome.com">support@USendHome.com</a>
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "USA Export Regulations" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                All products from the United States must be exported in accordance with all applicable United States export control laws and regulations including, but not limited to,
+                                regulations administered by the US Department of Commerce, US Department of State, and the US Department of Treasury.
+                                Diversion of these commodities contrary to the United States laws is prohibited, and the Company shall not be responsible for any illegal
+                                or unauthorized use of the Services by you. The Company also does not intend to enable you to contravene any of
+                                the above mentioned laws, by using the Services in relation with jurisdictions which are prohibited from receiving such services.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                You herby represent, warrant and agree to ensure that your use of the Site and the Services will comply with all the applicable United States laws, statutes and regulations. You also agree not to export, re-export, or transship these commodities
+                                to any country that the United States has imposed an embargo or trade sanction upon or any destination for
+                                which United States requires an export license without first obtaining such license(s). Any and all export license
+                                requirements are the sole responsibility of the individual and/or entity in contractual agreement with the Company.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Correct Address and Contact Information" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                It is your responsibility to supply the correct address to the Company. If you supply an incorrect or incomplete address, the Company will try to determine whom it belongs to.
+                                If the Company is able to determine the owner of the package, it will be entered into the correct mailbox and we will
+                                charge a correction fee.  If the owner cannot be determined and a claim with tracking information is not provided within 10 days of the package's arrival,
+                                the package will be liquidated. All packages addressed to a person with a name different than the account holder's name will put on hold until the
+                                additional receiver's identity is verified, in any case that we can't verify the additional receiver's identity all packages under additional
+                                receiver's name will be returned back to the sending address.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Storage" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                The Company will store your individual packages in our warehouse free of charge, for a period of up to 10 days as of the date of delivery of the package to the Company warehouse, after which daily fees shall apply while we wait to receive all of
+                                the required fees and customs forms for shipping. Consolidated packages shall be stored at the Company warehouse free of charge, for a period of up to 30 days as of the date of delivery of the first package
+                                to the Company warehouse, after which daily fees shall apply, while we wait to receive all of the required fees and customs forms for shipping, and any additional packages that are to be consolidated. After 90 days, the package will be considered abandoned and the Company will
+                                sell abandoned packages at public auction or private sale or as otherwise permitted by law, without further notice to you.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                You may have multiple packages, either individual or consolidated, simultaneously stored in the Company warehouse.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                Packages showing clear signs of external damage shall be immediately returned to the sending address, Company shall notify you of such action via email.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Oversize Packages" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                Oversize packages are any package over the size or weight limit of shipping methods shown in the Company calculator. Oversize packages will need to be divided, reduced, trashed or returned to the sender.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Photographs of Packages" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                For a small fee, the Company will photograph the contents of a package, which will let you know whether your store has properly filled your order, whether all your items have arrived, and to protect you in case any of your items are lost or damaged in shipping (“Package Content Photos”).
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Consolidation and Repacking" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                Through our package consolidation service, you can either have individual packages sent to you as they arrive to our processing facility, or choose to consolidate several packages into one; once all individual packages to be consolidated together have arrived and have been
+                                re-packaged we will ship the consolidated package to you. Consolidating packages may delay the delivery time but may save you substantial shipping costs. If you choose not to repackage and consolidate
+                                your packages to receive each individual package that is received by the Company will be sent to you in its original packaging (as it is received).
+                                Some online stores will ship a single order using multiple packages.  In such cases, the Company will send each individual package to you and we will charge you for each package. 
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                The Company shall use the appropriate packaging, in its sole discretion, for the consolidation of the packages into the box size it deems applicable.
+                                If packages don't fit in the selected box size, any additional items will be included in an additional box.
+                                The Company is not responsible for items missing from a consolidated package without proof that the missing item was received by us. Accordingly,
+                                we strongly urge you to order the Package Content Photos extra service for the Company to photograph the contents of each package upon arrival and again during consolidation to make sure all items are included.
+                                Stores make mistakes and ordering this extra service is the only way to find out if any items are missing before they are forwarded to you.  Note, however, that these extra services cannot be made for packages that have already been
+                                consolidated. Orders for the Package Content Photos extra service must be made for individual packages before consolidation or through extra services for the Package Content Photos extra service made through the consolidation page.
+                                Unless you request otherwise, we will remove all catalogs during consolidation. Catalogs are heavy, adding to shipping costs, and most customers want them removed.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Payment" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                When you decide to make payments for the Service on the Site, you will pay via your Member Account through a third-party payment processor, e.g. PayPal (the “Payment Processor”).
+                                Please note that in order to complete the payments, you will have to comply with the following conditions: have a Member Account with valid email address,
+                                and a valid account with an approved Payment Processor. The e-mail address, account name and addresses provided by you in your Member Account must be the same as those provided to the Payment Processor.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                The payments will be subject to the terms, conditions and privacy policies of the Payment Processor. We are not responsible for any error by the Payment Processor.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Shipping" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                The Company ships only by the shipping methods offered in the shipping calculator shown on the Site.
+                                All terms and conditions of the selected shipping service (USPS, etc.) apply to you.
+                                You are responsible for assuring that the shipping of your package is not restricted by its contents, size or volume.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                The Company will only accept packages from online US stores with a value less than 2,500.00 USD, excluding shipping costs and fees.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                The Company will not accept any package sent by any individual. Such packages shall be liquidated by the Company without further notice to you.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                You may not use the Service for forwarding of any mail including but not limited to newsletters, magazines or newspapers (“Mail”).
+                                Any Mail shall be disposed by of by the Company in its sole discretion.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Referral Program" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                The USendHome Referral Program permits registered USendHome registered users to earn Shipping Credits by referring friends to USendHome.
+                                USendHome Shipping Credits are points that may be applied as credits toward future USendHome package delivery process.
+                                To participate, USendHome Users must agree to these terms before participating in USendHome Referral Program.
+                            {% endblocktrans %}
+                        </p>
+                        <h5>{% trans "How to Earn Referral Shipping Credits" %}</h5>
+                        <p>
+                            {% blocktrans %}
+                                USendHome registered users can earn Shipping Credits if: (1) a non-registered user clicks on their personal referral link to create a valid
+                                USendHome account that complies with our Terms of Service; and (2) the referee has delivered at least one package with USendHome (excluding Return-to-Merchant deliveries).
+                                The referring USendHome User will be credited with the Shipping Credit amount described in the Referral Program page.
+                            {% endblocktrans %}
+                        </p>
+                        <h5>{% trans "How to redeem Shipping Credits" %}</h5>
+                        <p>
+                            {% blocktrans %}
+                                Shipping Credits will automatically appear in a form of a coupon on the package delivery checkout page, and must be used within one year from the date they are issued.
+                                After one year, all Shipping credits will expire. Shipping Credits may not be combined with additional coupons.
+                                Shipping Credits are for personal use and can't be exchanged for any cash or money.
+                                Shipping Credits may not be earned by creating multiple USendHome Accounts.
+                                Shipping Credits accrued in multiple USendHome accounts may not be combined into one USendHome account.
+                            {% endblocktrans %}
+                        </p>
+                        <h5>{% trans "Sharing Referral Links" %}</h5>
+                        <p>
+                            {% blocktrans %}
+                                Referrals should only be used for personal and non-commercial purposes, and only shared with personal connections that will appreciate receiving these invitations.
+                                Referral links should not be published, traded, or distributed in a mass scale behind reasonable basis for believing that all or most of the recipients are personal friends.
+                            {% endblocktrans %}
+                        </p>
+                        <h5>{% trans "Referred Friends" %}</h5>
+                        <p>
+                            {% blocktrans %}
+                                Referred friends that have signed up using a valid referral link will also receive a Shipping Credit toward their future package delivery with USendHome.
+                            {% endblocktrans %}
+                        </p>
+                        <h5>{% trans "Multiple Referrals" %}</h5>
+                        <p>
+                            {% blocktrans %}
+                                A referred friend may only use one referral link. If a referred friend receives referral links from multiple
+                                USendHome Users, only the corresponding USendHome User of the referral link used by the referred friend will receive Shipping Credit.
+                            {% endblocktrans %}
+                        </p>
+                        <h5>{% trans "Termination and Update" %}</h5>
+                        <p>
+                            {% blocktrans %}
+                                USendHome may suspend or terminate the Referral Program or a user's ability to participate in the Referral Program at any time for any reason.
+                                Requirements and incentives may also change at any time.
+                                Shipping Credits earned as a result of fraudulent activities are cancelled immediately.
+                                USendHome reserves the right to terminate accounts or remove referrals if we notice any activity that we believe is abusive or fraudulent.
+                                We reserve the right to review and investigate all referral activities and to terminate accounts or cancel or modify referrals as we decide . Valid Shipping Credits are not affected by suspension or termination of the Referral Program or a user's participation.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Your Responsibilities" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                               The customer is responsible for determining and following the regulations for their shipments, including all customs requirements of the destination country.
+                               The Company does not guarantee delivery of packages that do not comply with US export regulations or the import regulations of the country to which they are sent.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                You are responsible for the accuracy of all customs declarations and documentation and for all customs duties in the destination country.
+                                Any such duties or charges are in addition to the fees earned by the Company for its package forwarding service.
+                                Any failure comply with any of the above may result in the refusal by customs to release the package or may result in delay or non-delivery of the package.
+                                Company shall not be liable for any delay or non-delivery of a package due to such events.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "No License" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                               Except as expressly provided in this Agreement, nothing contained in this Agreement or on the Site shall be construed as conferring any other license or right, expressly,
+                                by implication, by estoppel or otherwise, with respect to any of  the Company's content or any third party's content. Any rights not expressly granted herein are reserved.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "You agree not to use the Site or the Services to:" %}</h4>
+                        <ul>
+                            <li>{% trans "Harm or threaten to harm  the Company or users in any way;" %}</li>
+                            <li>{% trans "Impersonate any person or entity, or falsely state or otherwise misrepresent your affiliation with a person or entity;" %}</li>
+                            <li>{% trans "Disseminate or transmit any content that infringes or violates any party's copyright, trademark, trade secret, patent or other rights;" %}</li>
+                            <li>{% trans "Violate any law (whether local, state, national, or international), whether or not intentionally;" %}</li>
+                            <li>{% trans "Forge Internet protocol headers or otherwise manipulate identifying information in order to disguise your identity;" %}</li>
+                            <li>{% trans "Provide fraudulent, inaccurate, or incomplete information to  the Company or any shipping service or government agency;" %}</li>
+                            <li>{% trans "Interfere with or disrupt the Services (or attempt to do any of the foregoing), the Site, or servers or networks connected to the Site, or disobey any requirements, procedures, policies, or regulations of networks connected to the Site;" %}</li>
+                            <li>{% trans "Collect or store personal data about other users;" %}</li>
+                            <li>{% trans "Engage in any activities that would violate the personal privacy rights of others, including but not limited to, collecting and distributing information about Internet users without their permission, except as permitted by applicable law;" %}</li>
+                            <li>{% trans "Post or cause to be uploaded to  the Company's computer servers or network any material that contains software viruses or any other computer code, files, or programs designed to interrupt, destroy, or limit the functionality of any computer software or hardware or telecommunications equipment;" %}</li>
+                            <li>{% trans "Launch any automated system, including without limitation, robots, spiders, offline readers, etc. that accesses the Site in a manner that sends more request messages to our servers than a human can reasonably produce in the same period of time by using a conventional on-line web browser;" %}</li>
+                            <li>{% trans "Collect, mine or reproduce any information from the Site;" %}</li>
+                        </ul>
+                        <h4>{% trans "No Automated Queries" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                You may not send automated queries of any sort to the Site without express permission in advance from the Company.
+                                Note that “sending automated queries” includes, among other things:
+                            {% endblocktrans %}
+                        </p>
+                        <ul>
+                            <li>{% trans "using any software that sends queries to the Site to determine how a website or web page “ranks” for various queries;" %}</li>
+                            <li>{% trans "“meta-searching”; and performing “offline” searches on any  the Company web site." %}</li>
+                        </ul>
+                        <h4>{% trans "Company Liability" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                               The Company's responsibility for shipped packages shall not exceed the amount of handling fees (excluding actual shipping fees).
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                Customer shall indemnify and hold the Company harmless from any and all claims, including legal fees incurred in defending against said claims, from third parties arising out of the transmission of the package/mail sent by customer through the Company.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                The Company shall not be responsible for any damage from an error or omission caused by you providing false or incorrect information or for failing to provide all necessary information.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Problems with Delivery" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                               You are responsible for confirming that the package that arrived in our warehouse is the same one that you ordered.  The Company provides photos of the incoming package so you can double check that the correct package is received based on the address and tracking number.  Further, you must immediately notify the Company in case you receive an incorrect package.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                In case of lost or damaged package please use your Member Account to file a claim.
+                                False claims will be charged minimum $5 plus the Company's investigation expenses.
+                                All claims must be reported to the Company within 10 days. Otherwise they will be automatically denied.
+                                Packages are insured by combination of carrier shipping insurance and the Company's private insurance.
+                                Insurance for packages lost in the warehouse or lost during the shipping covers only the value entered in the customs declaration.
+                                You have to support insurance claims for lost or damaged items with a proof that those items were really received at our warehouse and were in good condition.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Delay in locating your package" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                               Sometimes the Company needs more time to locate your package in our warehouse.  The Company cannot offer any additional compensation for the delay or provide free postage if such package is mailed to you later. 
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Termination" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                               The Company, in its sole discretion, may suspend or terminate your access to the Services, including your Member Account.
+                               The Company shall not be liable to you or any third party for the discontinuation or termination of your access to the Services. If the Company detects that you are using the Service for fraudulent or illegal activity the Company may open and confiscate any packages or items in its warehouse with no liability to you.  If the Company terminates your license to access the Services, your obligations under this Agreement, including,
+                               without limitation, your obligation to indemnify will survive such termination.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                               You can cancel your Member Account at any time by contacting Customer Support at <a href="mailto:support@USendHome.com">support@USendHome.com</a>
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Indemnification" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                               You agree to indemnify and hold the Company, its affiliates and their respective directors, officers, employees and agents harmless from any claim or demand, including reasonable attorney's fees, made by any third party due to or arising out of your use of this Site or Services.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Limitation on Liability" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                               YOU AGREE THAT IN NO EVENT SHALL THE COMPANY BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL OR EXEMPLARY DAMAGES,
+                                INCLUDING BUT NOT LIMITED TO, DAMAGES FOR LOSS OF PROFITS, GOODWILL, USE, DATA OR OTHER INTANGIBLE LOSSES (EVEN IF THE COMPANY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES), ARISING OUT OF OR IN CONNECTION WITH OUR SITE OR THIS AGREEMENT OR THE INABILITY TO USE OUR SITE. TO THE EXTENT PERMITTED UNDER APPLICABLE LAW THE SITE'S TOTAL AND COMPLETE LIABILITY TO YOU OR ANY THIRD PARTIES IN ANY CIRCUMSTANCE IS LIMITED TO $1,000 IN THE AGGREGATE.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Disclaimer of Warranties" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                YOUR USE OF THE SITE IS AT YOUR SOLE RISK. THE SITE IS PROVIDED TO YOU "AS IS" AND ON AN "AS AVAILABLE" BASIS.
+                                WE SPECIFICALLY DISCLAIM ALL WARRANTIES AND CONDITIONS OF ANY KIND, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO THE IMPLIED
+                                WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. WE DISCLAIM ANY WARRANTIES REGARDING THE SECURITY,
+                                RELIABILITY, TIMELINESS, AND PERFORMANCE OF OUR SITE. WE DISCLAIM ANY WARRANTIES FOR ANY INFORMATION OR ADVICE OBTAINED THROUGH OUR SITE.
+                                WE DISCLAIM ANY WARRANTIES FOR SERVICES OR GOODS RECEIVED THROUGH OR ADVERTISED ON OUR SITE OR RECEIVED THROUGH ANY LINKS PROVIDED BY OUR SITE,
+                                AS WELL AS FOR ANY INFORMATION OR ADVICE RECEIVED THROUGH ANY LINKS PROVIDED THROUGH OUR SITE. IN ADDITION, NO ADVICE OR INFORMATION (ORAL OR WRITTEN)
+                                OBTAINED BY YOU FROM US SHALL CREATE ANY WARRANTY.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Company Content" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                All content available on  the Site , including site design, text, graphics, trademarks, service marks, logos and inter faces (“Content”) is owned or licensed by the Company, and are subject to copyright and other intellectual property rights under applicable laws.
+                            {% endblocktrans %}
+                        </p>
+                        <p>
+                            {% blocktrans %}
+                                If you believe content on the Site infringes your copyright (or trademark), you should send notice of copyright (or trademark) infringement to the Company's Copyright Agent. Your notice must provide at least the following information:
+                            {% endblocktrans %}
+                        </p>
+                        <ul>
+                            <li>{% trans "An identification of the copyrighted work claimed to have been infringed." %}</li>
+                            <li>{% trans "An identification of the material that you claim is infringing so that we may locate it on the site." %}</li>
+                            <li>{% trans "Your address, telephone number and email address." %}</li>
+                            <li>{% trans "A statement by you that you have a good-faith belief that the disputed use is not authorized by the copyright owner, its agent or the law." %}</li>
+                            <li>{% trans "A statement by you that the above information in your notice is accurate, made under penalty of perjury, and that you are authorized to act on behalf of the owner of the copyright interest involved." %}</li>
+                            <li>{% trans "Your signature." %}</li>
+                        </ul>
+                        <p>
+                            {% blocktrans %}
+                                The notice should be emailed to:
+                                <a href="mailto:legal@usendhome.com">legal@USendHome.com</a>
+                                Upon receipt of notice as described above, the Company will take whatever action, in its sole discretion, it deems appropriate.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Governing Law" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                You agree not take any legal action against us that relates to or arises out of any of our websites without first (a) sending us, via registered mail or
+								national overnight courier service, a detailed written description of the facts and law out of which your claim arises to: 1112 Walnut Ave., Tustin, CA 92780;
+								and (b) negotiating with us, in good faith, for not less than 30 days, toward resolution of the dispute. All correspondence concerning such dispute must be sent to the following address: 1112 Walnut Ave., Tustin, CA 92780, or such other designee as the Company may identify from time to time.
+								This Agreement shall be governed by and construed under the laws of the State of New York without reference to its conflict of law principles. Each party agrees to submit to the exclusive and personal jurisdiction of the courts located New York, NY.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Miscellaneous" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                We shall be excused from performance hereunder to the extent that performance is prevented,
+                                delayed or obstructed by causes beyond our reasonable control or any force majeure event (including, but not limited, the act of any government or legal authority).
+                                If any provision of this Agreement is held to be unenforceable for any reason, such provision shall be reformed to the extent necessary to make it enforceable to the maximum extent permissible
+                                so as to affect the intent of the parties, and the remainder of this Agreement shall continue in full force and effect. Any notices to us must be sent via email to: <a href="mailto:legal@USendHome.com">legal@USendHome.com</a>.
+                                The failure of the Company to exercise or enforce any right or provision of the Agreement shall not constitute a waiver of such right or provision.
+                                You may not assign or otherwise transfer any of your rights hereunder without our prior written consent, and any such attempt is void.
+                                The relationship between us and you is not one of a legal partnership relationship, but is one of independent contractors.
+                                This Agreement shall be binding upon and inure to the benefit of the respective successors and assigns of the parties hereto.
+                            {% endblocktrans %}
+                        </p>
+                        <h4>{% trans "Contact" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                You may contact us at the following address:<br/>
+                                USendHome, 1112 Walnut Ave., Tustin, CA 92780.
+                            {% endblocktrans %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

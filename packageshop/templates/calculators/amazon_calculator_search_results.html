@@ -1,0 +1,21 @@
+{% load i18n %}
+
+{% if methods %}
+    <div role="tabpanel">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#shipping" aria-controls="shipping" role="tab" data-toggle="tab">{% trans "Shipping Methods" %}</a></li>
+            <li role="presentation"><a href="#product" aria-controls="product" role="tab" data-toggle="tab">{% trans "Amazon Product Details" %}</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="shipping">
+                {% include "calculators/partials/shipping_methods_result_calculator.html" %}
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="product">
+                {% include "calculators/partials/amazon_product_details.html" %}
+            </div>
+        </div>
+    </div>
+{% endif %}

@@ -1,0 +1,65 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load url from future %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+					<ol class="breadcrumb">
+						<li><a href="{% url 'promotions:home' %}"><i class="fa fa-home"></i>{% trans "Home" %}</a></li>
+						<li><a href="{% url 'customer:profile-view' %}">{% trans "Control Panel" %}</a></li>
+						<li class="active">{% trans "Shipping Insurance Claim" %}</li>
+					</ol>
+                    <h3 class="heading">{% trans "Shipping Insurance Claim" %}</h3>
+                </div>
+				<div class="col-md-6">
+					<p>
+						{% blocktrans %}
+							Don't worry! you're fully covered against lost packages and/or damaged goods.
+							Just use the form below to provide all details so we could start processing your claim.
+							If your package is lost, simply provide us with your USendHome order number, which you'll find in your control panel under the order history tab,
+							along with the order invoice you received from the merchant.
+							We need snapshots if your claim is for damaged goods, and make sure you keep all damaged goods and their original packing,
+							because you might need you to send them back to us.
+						{% endblocktrans %}
+					</p>
+				</div>
+			</div>
+			<div class="row upload-top">
+                <div class="col-md-6">
+					<div id="progress" class="progress">
+                        <div class="bar progress-bar progress-bar-success"></div>
+                    </div>
+					<div id="files"></div>
+                    <form enctype="multipart/form-data" action="." method="post">
+                        {% include "customer/insurance/insurance_claim_form.html" %}                        
+                    </form>
+                </div>
+			</div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block extrascripts %}
+    {{ block.super }}
+	<script src="{% static "usendhome/assets/jQuery-File-Upload-9.8.1/js/vendor/jquery.ui.widget.js" %}" type="text/javascript" charset="utf-8"></script>
+	<script src="{% static "usendhome/assets/jQuery-File-Upload-9.8.1/js/jquery.iframe-transport.js" %}" type="text/javascript" charset="utf-8"></script>
+	<script src="{% static "usendhome/assets/jQuery-File-Upload-9.8.1/js/jquery.fileupload.js" %}" type="text/javascript" charset="utf-8"></script>
+    <!--[if (gte IE 8)&(lt IE 10)]>
+    <script src="{% static "usendhome/assets/jQuery-File-Upload-9.8.1/js/cors/jquery.xdr-transport.js" %}"></script>
+    <![endif]-->
+{% endblock extrascripts %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "usendhome/assets/jQuery-File-Upload-9.8.1/css/jquery.fileupload.css" %}" type="text/css" />
+{% endblock %}
+
+
+{% block onbodyload %}
+	{{ block.super }}
+	usendhome.fileUpload.init();
+{% endblock %}
