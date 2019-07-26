@@ -1,6 +1,6 @@
 <h2>Package forwarding platform for Django</h2>
 
-USendHome is an advanced cloud based platform for international shipping of parcels from the US anywhere in the world.
+<a href="https://www.usendhome.com" target="_blank">USendHome</a> is an advanced cloud based platform for international shipping of parcels from the US anywhere in the world.
 it enables online shoppers around the world to manage and ship their purchases in a super simple and affordable way.
 
 <strong font-size="14">What was started as a side project to get my hands dirty after self studied the WEB domain became a fully working platform that processed thousands of packages.</strong>
